@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import Logo from './Logo';
 
 const MainNavbar = (props) => (
@@ -7,9 +7,21 @@ const MainNavbar = (props) => (
     elevation={0}
     {...props}
   >
-    <Toolbar sx={{ height: 64 }}>
+    <Toolbar sx={{ height: 64, flexDirection: 'row' }}>
       <RouterLink to="/">
-        <Logo />
+        <div>
+          <div>
+            <Logo />
+          </div>
+          <div>
+            <Typography
+              variant="h2"
+              color="white"
+            >
+              Restaurante Lo de Cacho
+            </Typography>
+          </div>
+        </div>
       </RouterLink>
     </Toolbar>
   </AppBar>

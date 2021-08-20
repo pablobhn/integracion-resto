@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
-const handleChange = (event) =>{
+const handleChange = (event) => {
+  // eslint-disable-next-line no-undef
   setAge(event.target.value);
 };
 
@@ -38,7 +39,10 @@ const CustomerListToolbar = (props) => (
         Eliminar Producto
       </Button>
     </Box>
-    <Box sx={{ mt: 3, flexDirection: 'column', display: 'flex', justifyContent: 'flex-end' }}>
+    <Box sx={{
+      mt: 3, flexDirection: 'column', display: 'flex', justifyContent: 'flex-end'
+    }}
+    >
       <Card>
         <CardContent>
           <Box sx={{ maxWidth: 500 }}>
@@ -61,17 +65,18 @@ const CustomerListToolbar = (props) => (
             />
           </Box>
           <Box>
-           <InputLabel id="prueba-select">
-             Categoria
-           </InputLabel>
-           <Select
-            labelId="prueba-select"
-            id="prueba-select-simple"
-            value="age"
-            onChange={handleChange}>
-            <MenuItem>Prueba</MenuItem>
-           </Select>
-          </Box>          
+            <InputLabel id="prueba-select">
+              Categoria
+            </InputLabel>
+            <Select
+              labelId="prueba-select"
+              id="prueba-select-simple"
+              value="age"
+              onChange={handleChange}
+            >
+              <MenuItem>Prueba</MenuItem>
+            </Select>
+          </Box>
         </CardContent>
       </Card>
     </Box>

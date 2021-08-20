@@ -84,13 +84,13 @@ const CustomerListResults = ({ customers, ...rest }) => {
                   Producto
                 </TableCell>
                 <TableCell>
-                  //Email
+                  Email
                 </TableCell>
                 <TableCell>
-                  //Location
+                  Location
                 </TableCell>
                 <TableCell>
-                  //Phone
+                  Phone
                 </TableCell>
                 <TableCell>
                   Registrado el día
