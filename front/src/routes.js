@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/components/DashboardLayout';
 import MainLayout from 'src/components/MainLayout';

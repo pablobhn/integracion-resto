@@ -15,6 +15,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
+// eslint-disable-next-line import/no-unresolved
 import getInitials from 'src/utils/getInitials';
 
 const CustomerListResults = ({ customers, ...rest }) => {
