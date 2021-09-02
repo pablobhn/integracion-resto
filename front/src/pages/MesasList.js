@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import ProductListToolbar from 'src/components/mesas/ProductListToolbar';
 import ProductCard from 'src/components/mesas/ProductCard';
-import products from 'src/__mocks__/products';
+import products from 'src/__mocks__/mesas';
 
 const ProductList = () => (
   <>

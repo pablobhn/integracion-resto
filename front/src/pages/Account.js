@@ -1,16 +1,13 @@
 import { Helmet } from 'react-helmet';
-import {
-  Box,
-  Container,
-  Grid
-} from '@material-ui/core';
-import AccountProfile from 'src/components/account/AccountProfile';
-import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
+import { Box, Container } from '@material-ui/core';
+import CustomerListResults from 'src/components/productos/CustomerListResults';
+import CustomerListToolbar from 'src/components/productos/CustomerListToolbar';
+import customers from 'src/__mocks__/customers';
 
-const Account = () => (
+const CustomerList = () => (
   <>
     <Helmet>
-      <title>Account | Material Kit</title>
+      <title>Customers | Material Kit</title>
     </Helmet>
     <Box
       sx={{
@@ -19,31 +16,14 @@ const Account = () => (
         py: 3
       }}
     >
-      <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xs={12}
-          >
-            <AccountProfile />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={6}
-            xs={12}
-          >
-            <AccountProfileDetails />
-          </Grid>
-        </Grid>
+      <Container maxWidth={false}>
+        <CustomerListToolbar />
+        <Box sx={{ pt: 3 }}>
+          <CustomerListResults customers={customers} />
+        </Box>
       </Container>
     </Box>
   </>
 );
 
-export default Account;
+export default CustomerList;

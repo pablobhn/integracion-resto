@@ -13,12 +13,12 @@ import {
 import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
+  Home as HomeIcon,
   Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -41,13 +41,13 @@ const items = [
   },
   {
     href: '/app/mesas',
-    icon: UsersIcon,
+    icon: HomeIcon,
     title: 'Mesas'
   },
   {
     href: '/app/account',
     icon: UserIcon,
-    title: 'Cuenta'
+    title: 'Personal'
   },
   {
     href: '/app/settings',
