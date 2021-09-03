@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
@@ -10,9 +11,13 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { login } from '../controllers/users';
 
-const Login = () => {
+const Login = (props) => {
   const navigate = useNavigate();
+  const { setToken } = props;
+  const [loading, setLoading] = React.useState(false);
+  // const [alert, setAlert] = React.useState(false);
 
   return (
     <>
@@ -38,8 +43,23 @@ const Login = () => {
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+            // onSubmit={() => {
+            //   navigate('/app/dashboard', { replace: true });
+            // }}
+            onSubmit={async (values) => {
+              setLoading(true);
+              const res = await login(values);
+              if (res) {
+                setToken('fake-token');
+                setLoading(false);
+                navigate('/app/dashboard', { replace: true });
+              } else {
+                // setLoading(false);
+                // setAlert(true);
+                // setTimeout(() => {
+                //   setAlert(false);
+                // }, 1300);
+              }
             }}
           >
             {({
@@ -116,7 +136,7 @@ const Login = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Iniciar sesión
+                    {loading ? 'Cargando...' : 'Iniciar sesión'}
                   </Button>
                 </Box>
                 <Typography
