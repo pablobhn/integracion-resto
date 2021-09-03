@@ -6,7 +6,7 @@ export default [
     createdAt: '27/03/2019',
     description: '',
     media: '/static/images/products/mesa2.png',
-    title: 'Comida 1',
+    title: 'Mesa 1',
     totalDownloads: '594'
   },
   {

@@ -22,7 +22,8 @@ const CustomerListToolbar = (props) => (
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        direction: 'row'
       }}
     >
       {/* <Button>
@@ -44,7 +45,7 @@ const CustomerListToolbar = (props) => (
     }}
     >
       <Card>
-        <CardContent>
+        <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <Box sx={{ maxWidth: 500 }}>
             <TextField
               fullWidth
@@ -64,8 +65,11 @@ const CustomerListToolbar = (props) => (
               variant="outlined"
             />
           </Box>
-          <Box>
-            <InputLabel id="prueba-select">
+          <Box sx={{
+            alignItems: 'center', flexDirection: 'row', display: 'flex', justifyContent: ''
+          }}
+          >
+            <InputLabel sx={{ alignSelf: 'center' }} id="prueba-select">
               Categoria
             </InputLabel>
             <Select
@@ -74,7 +78,10 @@ const CustomerListToolbar = (props) => (
               value="age"
               onChange={handleChange}
             >
-              <MenuItem>Prueba</MenuItem>
+              <MenuItem>Entrada</MenuItem>
+              <MenuItem>Plato Principal</MenuItem>
+              <MenuItem>Postre</MenuItem>
+              <MenuItem>Bebida</MenuItem>
             </Select>
           </Box>
         </CardContent>

@@ -6,10 +6,11 @@ import {
   CardContent,
   Divider,
   Grid,
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import CloseIcon from '@material-ui/icons/Close';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const ProductCard = ({ product, ...rest }) => (
   <Card
@@ -65,15 +66,8 @@ const ProductCard = ({ product, ...rest }) => (
             display: 'flex'
           }}
         >
-          <AccessTimeIcon color="action" />
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            Updated 2hr ago
-          </Typography>
+          <AddCircleOutlineIcon color="action" />
+          <Button>ABRIR MESA</Button>
         </Grid>
         <Grid
           item
@@ -82,17 +76,8 @@ const ProductCard = ({ product, ...rest }) => (
             display: 'flex'
           }}
         >
-          <GetAppIcon color="action" />
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            {product.totalDownloads}
-            {' '}
-            Downloads
-          </Typography>
+          <CloseIcon color="action" />
+          <Button>CERRAR MESA</Button>
         </Grid>
       </Grid>
     </Box>

@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import CustomerListResults from 'src/components/productos/CustomerListResults';
+import PlatosListResults from 'src/components/productos/PlatosListResults';
 import CustomerListToolbar from 'src/components/productos/CustomerListToolbar';
-import customers from 'src/__mocks__/customers';
+import customers from 'src/__mocks__/comida';
 
 const CustomerList = () => (
   <>
@@ -19,7 +19,7 @@ const CustomerList = () => (
       <Container maxWidth={false}>
         <CustomerListToolbar />
         <Box sx={{ pt: 3 }}>
-          <CustomerListResults customers={customers} />
+          <PlatosListResults customers={customers} />
         </Box>
       </Container>
     </Box>

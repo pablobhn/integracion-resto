@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -18,7 +17,7 @@ import {
 // eslint-disable-next-line import/no-unresolved
 import getInitials from 'src/utils/getInitials';
 
-const CustomerListResults = ({ customers, ...rest }) => {
+const PlatosListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -87,15 +86,6 @@ const CustomerListResults = ({ customers, ...rest }) => {
                 <TableCell>
                   Cantidad
                 </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registrado el día
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -136,15 +126,6 @@ const CustomerListResults = ({ customers, ...rest }) => {
                   <TableCell>
                     {customer.email}
                   </TableCell>
-                  <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -164,8 +145,8 @@ const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+PlatosListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default CustomerListResults;
+export default PlatosListResults;
