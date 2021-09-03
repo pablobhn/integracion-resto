@@ -7,7 +7,7 @@ export default [
     createdAt: 1555016400000,
     name: 'Milanesa Napolitana',
     categoria: 'Plato Principal',
-    cantidad: '10'
+    precio: '$1.000'
   },
   {
     id: uuid(),
@@ -16,7 +16,7 @@ export default [
     email: '',
     name: 'Mailnesa Fugazetta',
     categoria: 'Plato Principal',
-    cantidad: '15'
+    precio: '$1.500'
   },
   {
     id: uuid(),
@@ -25,7 +25,7 @@ export default [
     email: '',
     name: 'Milanesa Cheddar y Bacon',
     categoria: 'Plato Principal',
-    cantidad: '30'
+    precio: '$3.000'
   },
   {
     d: uuid(),
@@ -34,7 +34,7 @@ export default [
     email: '',
     name: 'Milanesa 4 Quesos',
     categoria: 'Plato Principal',
-    cantidad: '17'
+    precio: '$1.700'
   },
   {
     d: uuid(),
@@ -43,7 +43,7 @@ export default [
     email: '',
     name: 'Ravioles con salsa tuco',
     categoria: 'Plato Principal',
-    cantidad: '09'
+    precio: '$900'
   },
   {
     d: uuid(),
@@ -52,7 +52,7 @@ export default [
     email: '',
     name: 'Ravioles con salsa blanca',
     categoria: 'Plato Principal',
-    cantidad: '06'
+    precio: '$700'
   },
   {
     d: uuid(),
@@ -61,7 +61,7 @@ export default [
     email: '',
     name: 'Ravioles a la manteca',
     categoria: 'Plato Principal',
-    cantidad: '20'
+    precio: '$200'
   },
   {
     d: uuid(),
@@ -70,7 +70,7 @@ export default [
     email: '',
     name: 'Fetuccini con salsa de albondigas',
     categoria: 'Plato Principal',
-    cantidad: '20'
+    precio: '$200'
   },
   {
     d: uuid(),
@@ -79,7 +79,7 @@ export default [
     email: '',
     name: 'Fetuccini con pesto',
     categoria: 'Plato Principal',
-    cantidad: '21'
+    precio: '$2.100'
   },
   {
     d: uuid(),
@@ -88,6 +88,6 @@ export default [
     email: '',
     name: 'Fetuccini con salsa de hongos',
     categoria: 'Plato Principal',
-    cantidad: '34'
+    precio: '$3.400'
   }
 ];

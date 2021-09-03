@@ -99,6 +99,9 @@ const VentasListResults = ({ ventas, ...rest }) => {
                   Fecha
                 </TableCell>
                 <TableCell>
+                  Medio de pago
+                </TableCell>
+                <TableCell>
                   Estado
                 </TableCell>
                 <TableCell />
@@ -141,6 +144,9 @@ const VentasListResults = ({ ventas, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {moment(ventas.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    Tarjeta de crédito
                   </TableCell>
                   <TableCell>
                     {ventas.estado}

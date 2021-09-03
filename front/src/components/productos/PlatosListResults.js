@@ -88,7 +88,7 @@ const PlatosListResults = ({ productos, ...rest }) => {
                   Categoria
                 </TableCell>
                 <TableCell>
-                  Cantidad
+                  Precio
                 </TableCell>
                 <TableCell />
               </TableRow>
@@ -132,7 +132,7 @@ const PlatosListResults = ({ productos, ...rest }) => {
                     {customer.categoria}
                   </TableCell>
                   <TableCell>
-                    {customer.cantidad}
+                    {customer.precio}
                   </TableCell>
                   <TableCell>
                     <Button>
