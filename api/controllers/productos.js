@@ -28,9 +28,9 @@ module.exports = {
 		};
 
 		return productos
-		.findOrCreate( {where: where} , {defaults: newItem})
-		.then(productos => res.status(200).send(productos))
-		.catch(error => res.status(400).send(error))
+			.findOrCreate({ where: where , defaults: newItem})
+			.then(productos => res.status(200).send(productos))
+			.catch(error => res.status(400).send(error))
 
 			
 	},

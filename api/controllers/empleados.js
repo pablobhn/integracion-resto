@@ -20,6 +20,7 @@ module.exports = {
 			name: req.body.name,
 			role: req.body.role,
 			address: req.body.address,
+			tel: req.body.tel,
 			status: req.body.status,
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
@@ -29,7 +30,7 @@ module.exports = {
 		};
 
 		return empleados
-		.findOrCreate( {where: where} , {defaults: newItem})
+		.findOrCreate( {where: where , defaults: newItem})
 		.then(productos => res.status(200).send(productos))
 		.catch(error => res.status(400).send(error))
 
@@ -44,6 +45,7 @@ module.exports = {
 			name: req.body.name,
 			role: req.body.role,
 			address: req.body.address,
+			tel: req.body.tel,
 			status: req.body.status,
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
