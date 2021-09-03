@@ -1,8 +1,8 @@
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 
 export default [
   {
-    id: uuid(),
+    id: 1,
     address: {
       country: 'USA',
       state: 'West Virginia',
@@ -11,12 +11,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_3.png',
     createdAt: 1555016400000,
-    email: 'ekaterina.tankova@devias.io',
+    email: 'ekaterina.tankova@uade.edu.ar',
     name: 'Ekaterina Tankova',
-    phone: '304-428-3097'
+    phone: '304-428-3097',
+    cargo: 'Cocinero'
   },
   {
-    id: uuid(),
+    id: 2,
     address: {
       country: 'USA',
       state: 'Bristow',
@@ -25,12 +26,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_4.png',
     createdAt: 1555016400000,
-    email: 'cao.yu@devias.io',
+    email: 'cao.yu@uade.edu.ar',
     name: 'Cao Yu',
-    phone: '712-351-5711'
+    phone: '712-351-5711',
+    cargo: 'Valet Parking'
   },
   {
-    id: uuid(),
+    id: 3,
     address: {
       country: 'USA',
       state: 'Georgia',
@@ -39,12 +41,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_2.png',
     createdAt: 1555016400000,
-    email: 'alexa.richardson@devias.io',
+    email: 'alexa.richardson@uade.edu.ar',
     name: 'Alexa Richardson',
-    phone: '770-635-2682'
+    phone: '770-635-2682',
+    cargo: 'Mozo'
   },
   {
-    id: uuid(),
+    id: 4,
     address: {
       country: 'USA',
       state: 'Ohio',
@@ -53,26 +56,28 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_5.png',
     createdAt: 1554930000000,
-    email: 'anje.keizer@devias.io',
+    email: 'anje.keizer@uade.edu.ar',
     name: 'Anje Keizer',
-    phone: '908-691-3242'
+    phone: '908-691-3242',
+    cargo: 'Mozo'
   },
   {
-    id: uuid(),
+    id: 5,
     address: {
       country: 'USA',
       state: 'Texas',
       city: 'Dallas',
       street: '75247'
     },
-    avatarUrl: '/static/images/avatars/avatar_6.png',
+    avatarUrl: '/static/images/avatars/ID_72404.jpg',
     createdAt: 1554757200000,
-    email: 'clarke.gillebert@devias.io',
-    name: 'Clarke Gillebert',
-    phone: '972-333-4106'
+    email: 'msarasa@uade.edu.ar',
+    name: 'Paula Sarasa',
+    phone: '972-333-4106',
+    cargo: 'Supervisor'
   },
   {
-    id: uuid(),
+    id: 6,
     address: {
       country: 'USA',
       state: 'California',
@@ -81,12 +86,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_1.png',
     createdAt: 1554670800000,
-    email: 'adam.denisov@devias.io',
+    email: 'adam.denisov@uade.edu.ar',
     name: 'Adam Denisov',
-    phone: '858-602-3409'
+    phone: '858-602-3409',
+    cargo: 'Valet Parking'
   },
   {
-    id: uuid(),
+    id: 7,
     address: {
       country: 'USA',
       state: 'California',
@@ -95,12 +101,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_7.png',
     createdAt: 1554325200000,
-    email: 'ava.gregoraci@devias.io',
+    email: 'ava.gregoraci@uade.edu.ar',
     name: 'Ava Gregoraci',
-    phone: '415-907-2647'
+    phone: '415-907-2647',
+    cargo: 'Mozo'
   },
   {
-    id: uuid(),
+    id: 8,
     address: {
       country: 'USA',
       state: 'Nevada',
@@ -109,12 +116,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_8.png',
     createdAt: 1523048400000,
-    email: 'emilee.simchenko@devias.io',
+    email: 'emilee.simchenko@uade.edu.ar',
     name: 'Emilee Simchenko',
-    phone: '702-661-1654'
+    phone: '702-661-1654',
+    cargo: 'Limpieza'
   },
   {
-    id: uuid(),
+    id: 9,
     address: {
       country: 'USA',
       state: 'Michigan',
@@ -123,12 +131,13 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_9.png',
     createdAt: 1554702800000,
-    email: 'kwak.seong.min@devias.io',
+    email: 'kwak.seong.min@uade.edu.ar',
     name: 'Kwak Seong-Min',
-    phone: '313-812-8947'
+    phone: '313-812-8947',
+    cargo: 'Recepcionista'
   },
   {
-    id: uuid(),
+    id: 10,
     address: {
       country: 'USA',
       state: 'Utah',
@@ -137,8 +146,9 @@ export default [
     },
     avatarUrl: '/static/images/avatars/avatar_10.png',
     createdAt: 1522702800000,
-    email: 'merrile.burgett@devias.io',
+    email: 'merrile.burgett@uade.edu.ar',
     name: 'Merrile Burgett',
-    phone: '801-301-7894'
+    phone: '801-301-7894',
+    cargo: 'Administrativo'
   }
 ];

@@ -95,10 +95,10 @@ const Sales = (props) => {
             size="small"
             variant="text"
           >
-            Last 7 days
+            Últimos 7 días
           </Button>
         )}
-        title="Latest Sales"
+        title="Últimas ventas"
       />
       <Divider />
       <CardContent>
@@ -128,7 +128,7 @@ const Sales = (props) => {
           size="small"
           variant="text"
         >
-          Overview
+          REVISAR
         </Button>
       </Box>
     </Card>

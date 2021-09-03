@@ -11,12 +11,12 @@ import Sales from 'src/components/dashboard//Sales';
 import TasksProgress from 'src/components/dashboard//TasksProgress';
 import TotalCustomers from 'src/components/dashboard//TotalCustomers';
 import TotalProfit from 'src/components/dashboard//TotalProfit';
-import TrafficByDevice from 'src/components/dashboard//TrafficByDevice';
+// import TrafficByDevice from 'src/components/dashboard//TrafficByDevice';
 
 const Dashboard = () => (
   <>
     <Helmet>
-      <title>Dashboard | Material Kit</title>
+      <title>Restaurante | Casa Cavia</title>
     </Helmet>
     <Box
       sx={{
@@ -75,7 +75,7 @@ const Dashboard = () => (
           >
             <Sales />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={6}
@@ -83,7 +83,7 @@ const Dashboard = () => (
             xs={12}
           >
             <TrafficByDevice sx={{ height: '100%' }} />
-          </Grid>
+          </Grid> */}
           <Grid
             item
             lg={4}

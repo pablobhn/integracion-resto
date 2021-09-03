@@ -1,8 +1,12 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
+  // Avatar,
   Box,
   Card,
   Checkbox,
@@ -16,43 +20,44 @@ import {
   Button
 } from '@material-ui/core';
 // eslint-disable-next-line import/no-unresolved
-import getInitials from 'src/utils/getInitials';
+// import getInitials from 'src/utils/getInitials';
 
-const PlatosListResults = ({ productos, ...rest }) => {
-  const [selectedProductosIds, setSelectedProductosIds] = useState([]);
+// eslint-disable-next-line react/prop-types
+const VentasListResults = ({ ventas, ...rest }) => {
+  const [selectedVentasIds, setSelectedVentasIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedProductosIds;
+    let newselectedVentasIds;
 
     if (event.target.checked) {
-      newSelectedProductosIds = productos.map((customer) => customer.id);
+      newselectedVentasIds = ventas.map((ventas) => ventas.id);
     } else {
-      newSelectedProductosIds = [];
+      newselectedVentasIds = [];
     }
 
-    setSelectedProductosIds(newSelectedProductosIds);
+    setSelectedVentasIds(newselectedVentasIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedProductosIds.indexOf(id);
-    let newSelectedProductosIds = [];
+    const selectedIndex = selectedVentasIds.indexOf(id);
+    let newselectedVentasIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedProductosIds = newSelectedProductosIds.concat(selectedProductosIds, id);
+      newselectedVentasIds = newselectedVentasIds.concat(selectedVentasIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedProductosIds = newSelectedProductosIds.concat(selectedProductosIds.slice(1));
-    } else if (selectedIndex === selectedProductosIds.length - 1) {
-      newSelectedProductosIds = newSelectedProductosIds.concat(selectedProductosIds.slice(0, -1));
+      newselectedVentasIds = newselectedVentasIds.concat(selectedVentasIds.slice(1));
+    } else if (selectedIndex === selectedVentasIds.length - 1) {
+      newselectedVentasIds = newselectedVentasIds.concat(selectedVentasIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedProductosIds = newSelectedProductosIds.concat(
-        selectedProductosIds.slice(0, selectedIndex),
-        selectedProductosIds.slice(selectedIndex + 1)
+      newselectedVentasIds = newselectedVentasIds.concat(
+        selectedVentasIds.slice(0, selectedIndex),
+        selectedVentasIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedProductosIds(newSelectedProductosIds);
+    setselectedVentasIds(newselectedVentasIds);
   };
 
   const handleLimitChange = (event) => {
@@ -72,74 +77,82 @@ const PlatosListResults = ({ productos, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedProductosIds.length === productos.length}
+                    checked={selectedVentasIds.length === ventas.length}
                     color="primary"
                     indeterminate={
-                      selectedProductosIds.length > 0
-                      && selectedProductosIds.length < productos.length
+                      selectedVentasIds.length > 0
+                      && selectedVentasIds.length < ventas.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
                 <TableCell>
-                  Producto
+                  #Venta
                 </TableCell>
                 <TableCell>
-                  Categoria
+                  Mesa
                 </TableCell>
                 <TableCell>
-                  Cantidad
+                  Importe
+                </TableCell>
+                <TableCell>
+                  Fecha
+                </TableCell>
+                <TableCell>
+                  Estado
                 </TableCell>
                 <TableCell />
               </TableRow>
             </TableHead>
             <TableBody>
-              {productos.slice(0, limit).map((customer) => (
+              {ventas.slice(0, limit).map((ventas) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedProductosIds.indexOf(customer.id) !== -1}
+                  key={ventas.id}
+                  selected={selectedVentasIds.indexOf(ventas.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedProductosIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedVentasIds.indexOf(ventas.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, ventas.id)}
                       value="true"
                     />
                   </TableCell>
-                  <TableCell sx={{ maxWidth: '120px' }}>
+                  <TableCell>
+                    {ventas.id}
+                  </TableCell>
+                  <TableCell>
                     <Box
                       sx={{
                         alignItems: 'center',
                         display: 'flex'
                       }}
                     >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {ventas.mesa}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ maxWidth: '50px' }}>
-                    {customer.categoria}
+                  <TableCell>
+                    {ventas.importe}
                   </TableCell>
                   <TableCell>
-                    {customer.cantidad}
+                    {moment(ventas.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <Button>
+                    {ventas.estado}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                    >
                       Editar
                     </Button>
                   </TableCell>
-
                 </TableRow>
               ))}
             </TableBody>
@@ -148,7 +161,7 @@ const PlatosListResults = ({ productos, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={productos.length}
+        count={ventas.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -159,8 +172,8 @@ const PlatosListResults = ({ productos, ...rest }) => {
   );
 };
 
-PlatosListResults.propTypes = {
-  productos: PropTypes.array.isRequired
+VentasListResults.propTypes = {
+  ventas: PropTypes.array.isRequired
 };
 
-export default PlatosListResults;
+export default VentasListResults;
