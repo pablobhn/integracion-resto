@@ -52,7 +52,7 @@ const Login = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 3 }}>
+                <Box sx={{ mb: 3, paddingTop: '80px' }}>
                   <Typography
                     color="textPrimary"
                     variant="h2"
