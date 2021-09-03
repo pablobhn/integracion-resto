@@ -13,14 +13,14 @@ const MainNavbar = (props) => (
           <div>
             <Logo />
           </div>
-          {/* <div>
+          <div>
             <Typography
               variant="h2"
               color="white"
             >
               Restaurante Casa Cavia
             </Typography>
-          </div> */}
+          </div>
         </div>
       </RouterLink>
     </Toolbar>

@@ -13,9 +13,8 @@ import {
 } from '@material-ui/core';
 import { login } from '../controllers/users';
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
-  const { setToken } = props;
   const [loading, setLoading] = React.useState(false);
   // const [alert, setAlert] = React.useState(false);
 
@@ -50,7 +49,6 @@ const Login = (props) => {
               setLoading(true);
               const res = await login(values);
               if (res) {
-                setToken('fake-token');
                 setLoading(false);
                 navigate('/app/dashboard', { replace: true });
               } else {
