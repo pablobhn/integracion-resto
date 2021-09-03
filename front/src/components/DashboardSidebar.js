@@ -11,19 +11,20 @@ import {
   Typography
 } from '@material-ui/core';
 import {
-  AlertCircle as AlertCircleIcon,
+  // AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
   Home as HomeIcon,
-  Lock as LockIcon,
+  // Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
+  DollarSign as DollarSignIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
+  avatar: '/static/images/avatars/ID_72404.jpg',
   jobTitle: 'Supervisor',
   name: 'Paula Sarasa'
 };
@@ -45,30 +46,35 @@ const items = [
     title: 'Mesas'
   },
   {
-    href: '/app/account',
+    href: '/app/ventas',
+    icon: DollarSignIcon,
+    title: 'Ventas'
+  },
+  {
+    href: '/app/empleados',
     icon: UserIcon,
-    title: 'Personal'
+    title: 'Empleados'
   },
   {
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Configuracion'
   },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
+  // {
+  //   href: '/login',
+  //   icon: LockIcon,
+  //   title: 'Login'
+  // },
   {
     href: '/register',
     icon: UserPlusIcon,
     title: 'Registracion'
   },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
-  }
+  // {
+  //   href: '/404',
+  //   icon: AlertCircleIcon,
+  //   title: 'Error'
+  // }
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {

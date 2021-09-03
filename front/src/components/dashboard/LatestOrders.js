@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -20,81 +20,81 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const orders = [
   {
-    id: uuid(),
+    id: 1001,
     ref: 'CDD1049',
     amount: 30.5,
     customer: {
-      name: 'Ekaterina Tankova'
+      name: 'M1'
     },
     createdAt: 1555016400000,
-    status: 'pending'
+    status: 'pendiente'
   },
   {
-    id: uuid(),
+    id: 1002,
     ref: 'CDD1048',
     amount: 25.1,
     customer: {
-      name: 'Cao Yu'
+      name: 'M2'
     },
     createdAt: 1555016400000,
-    status: 'delivered'
+    status: 'pendiente'
   },
   {
-    id: uuid(),
+    id: 1003,
     ref: 'CDD1047',
     amount: 10.99,
     customer: {
-      name: 'Alexa Richardson'
+      name: 'M3'
     },
     createdAt: 1554930000000,
-    status: 'refunded'
+    status: 'pendiente'
   },
   {
-    id: uuid(),
+    id: 1004,
     ref: 'CDD1046',
     amount: 96.43,
     customer: {
-      name: 'Anje Keizer'
+      name: 'B4'
     },
     createdAt: 1554757200000,
-    status: 'pending'
+    status: 'pagado'
   },
   {
-    id: uuid(),
+    id: 1005,
     ref: 'CDD1045',
     amount: 32.54,
     customer: {
-      name: 'Clarke Gillebert'
+      name: 'M6'
     },
     createdAt: 1554670800000,
-    status: 'delivered'
+    status: 'pendiente'
   },
   {
-    id: uuid(),
+    id: 1006,
     ref: 'CDD1044',
     amount: 16.76,
     customer: {
-      name: 'Adam Denisov'
+      name: 'B1'
     },
     createdAt: 1554670800000,
-    status: 'delivered'
+    status: 'pagado'
   }
 ];
 
 const LatestOrders = (props) => (
   <Card {...props}>
-    <CardHeader title="Latest Orders" />
+    <CardHeader title="Últimos pedidos" />
     <Divider />
     <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
+      <Box sx={{ minWidth: 10 }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                Order Ref
+                #Orden
               </TableCell>
               <TableCell>
-                Customer
+                Mesa
               </TableCell>
               <TableCell sortDirection="desc">
                 <Tooltip
@@ -105,12 +105,12 @@ const LatestOrders = (props) => (
                     active
                     direction="desc"
                   >
-                    Date
+                    Día
                   </TableSortLabel>
                 </Tooltip>
               </TableCell>
               <TableCell>
-                Status
+                Estado
               </TableCell>
             </TableRow>
           </TableHead>
@@ -155,7 +155,7 @@ const LatestOrders = (props) => (
         size="small"
         variant="text"
       >
-        View all
+        VER TODOS
       </Button>
     </Box>
   </Card>

@@ -17,7 +17,7 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>Login | Casa Cavia</title>
       </Helmet>
       <Box
         sx={{
@@ -31,12 +31,12 @@ const Login = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
+              email: 'msarasa@uade.edu.ar',
               password: 'Password123'
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
+              email: Yup.string().email('Debe ser un email válido').max(255).required('Email es requerido'),
+              password: Yup.string().max(255).required('Constraseña es requerida')
             })}
             onSubmit={() => {
               navigate('/app/dashboard', { replace: true });
@@ -123,14 +123,14 @@ const Login = () => {
                   color="textSecondary"
                   variant="body1"
                 >
-                  Don&apos;t have an account?
+                  No tienes una cuenta?
                   {' '}
                   <Link
                     component={RouterLink}
                     to="/register"
                     variant="h6"
                   >
-                    Sign up
+                    Registrarse
                   </Link>
                 </Typography>
               </form>

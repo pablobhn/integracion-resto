@@ -7,7 +7,7 @@ const MainNavbar = (props) => (
     elevation={0}
     {...props}
   >
-    <Toolbar sx={{ height: 80, flexDirection: 'row' }}>
+    <Toolbar sx={{ height: 90, flexDirection: 'row', paddingTop: '10px' }}>
       <RouterLink to="/">
         <div>
           <div>
@@ -18,7 +18,7 @@ const MainNavbar = (props) => (
               variant="h2"
               color="white"
             >
-              Restaurante Lo de Cacho
+              Restaurante Casa Cavia
             </Typography>
           </div>
         </div>

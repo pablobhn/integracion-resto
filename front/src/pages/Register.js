@@ -19,7 +19,7 @@ const Register = () => {
   return (
     <>
       <Helmet>
-        <title>Register | Material Kit</title>
+        <title>Registración | Casa Cavia</title>
       </Helmet>
       <Box
         sx={{
@@ -41,11 +41,11 @@ const Register = () => {
             }}
             validationSchema={
               Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                firstName: Yup.string().max(255).required('First name is required'),
-                lastName: Yup.string().max(255).required('Last name is required'),
-                password: Yup.string().max(255).required('password is required'),
-                policy: Yup.boolean().oneOf([true], 'This field must be checked')
+                email: Yup.string().email('Debe ser un email válido').max(255).required('Email es requerido'),
+                firstName: Yup.string().max(255).required('Nombre es requerido'),
+                lastName: Yup.string().max(255).required('Apellido es requerido'),
+                password: Yup.string().max(255).required('Constraseña es requerida'),
+                policy: Yup.boolean().oneOf([true], 'Este campo debe ser tildado')
               })
             }
             onSubmit={() => {
@@ -62,26 +62,26 @@ const Register = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 3 }}>
+                <Box sx={{ mb: 3, paddingTop: '80px' }}>
                   <Typography
                     color="textPrimary"
                     variant="h2"
                   >
-                    Create new account
+                    Crear nueva cuenta
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Use your email to create new account
+                    Utiliza tu email para crear una nueva cuenta
                   </Typography>
                 </Box>
                 <TextField
                   error={Boolean(touched.firstName && errors.firstName)}
                   fullWidth
                   helperText={touched.firstName && errors.firstName}
-                  label="First name"
+                  label="Nombre"
                   margin="normal"
                   name="firstName"
                   onBlur={handleBlur}
@@ -93,7 +93,7 @@ const Register = () => {
                   error={Boolean(touched.lastName && errors.lastName)}
                   fullWidth
                   helperText={touched.lastName && errors.lastName}
-                  label="Last name"
+                  label="Apellido"
                   margin="normal"
                   name="lastName"
                   onBlur={handleBlur}
@@ -105,7 +105,7 @@ const Register = () => {
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
-                  label="Email Address"
+                  label="Correo electrónico"
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
@@ -118,7 +118,7 @@ const Register = () => {
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
-                  label="Password"
+                  label="Contraseña"
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
@@ -143,7 +143,7 @@ const Register = () => {
                     color="textSecondary"
                     variant="body1"
                   >
-                    I have read the
+                    He leído los
                     {' '}
                     <Link
                       color="primary"
@@ -152,7 +152,7 @@ const Register = () => {
                       underline="always"
                       variant="h6"
                     >
-                      Terms and Conditions
+                      Términos y condiciones
                     </Link>
                   </Typography>
                 </Box>
@@ -170,21 +170,21 @@ const Register = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Sign up now
+                    Registrarse
                   </Button>
                 </Box>
                 <Typography
                   color="textSecondary"
                   variant="body1"
                 >
-                  Have an account?
+                  Tienes una cuenta?
                   {' '}
                   <Link
                     component={RouterLink}
                     to="/login"
                     variant="h6"
                   >
-                    Sign in
+                    Iniciar sesión
                   </Link>
                 </Typography>
               </form>

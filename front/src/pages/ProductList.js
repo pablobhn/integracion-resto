@@ -1,13 +1,14 @@
+/* eslint-disable import/no-unresolved */
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import PlatosListResults from 'src/components/productos/PlatosListResults';
 import CustomerListToolbar from 'src/components/productos/CustomerListToolbar';
-import customers from 'src/__mocks__/comida';
+import productos from 'src/__mocks__/productos';
 
-const CustomerList = () => (
+const ProductList = () => (
   <>
     <Helmet>
-      <title>Customers | Material Kit</title>
+      <title>Productos | Casa Cavia</title>
     </Helmet>
     <Box
       sx={{
@@ -19,11 +20,11 @@ const CustomerList = () => (
       <Container maxWidth={false}>
         <CustomerListToolbar />
         <Box sx={{ pt: 3 }}>
-          <PlatosListResults customers={customers} />
+          <PlatosListResults productos={productos} />
         </Box>
       </Container>
     </Box>
   </>
 );
 
-export default CustomerList;
+export default ProductList;

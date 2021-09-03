@@ -18,32 +18,32 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 const products = [
   {
     id: uuid(),
-    name: 'Dropbox',
-    imageUrl: '/static/images/products/product_1.png',
+    name: 'Milanesa Napolitana',
+    imageUrl: '/static/images/avatars/napo.jpeg',
     updatedAt: moment().subtract(2, 'hours')
   },
   {
     id: uuid(),
-    name: 'Medium Corporation',
-    imageUrl: '/static/images/products/product_2.png',
+    name: 'Milanesa Fugazetta',
+    imageUrl: '/static/images/avatars/fuga.jpeg',
     updatedAt: moment().subtract(2, 'hours')
   },
   {
     id: uuid(),
-    name: 'Slack',
-    imageUrl: '/static/images/products/product_3.png',
+    name: 'Milanesa Cheddar y Bacon',
+    imageUrl: '/static/images/avatars/cheddar.jpeg',
     updatedAt: moment().subtract(3, 'hours')
   },
   {
     id: uuid(),
-    name: 'Lyft',
-    imageUrl: '/static/images/products/product_4.png',
+    name: 'Milanesa 4 Quesos',
+    imageUrl: '/static/images/avatars/4quesos.jpeg',
     updatedAt: moment().subtract(5, 'hours')
   },
   {
     id: uuid(),
-    name: 'GitHub',
-    imageUrl: '/static/images/products/product_5.png',
+    name: 'Ravioles con salsa tuco',
+    imageUrl: '/static/images/avatars/tuco.jpeg',
     updatedAt: moment().subtract(9, 'hours')
   }
 ];
@@ -51,8 +51,8 @@ const products = [
 const LatestProducts = (props) => (
   <Card {...props}>
     <CardHeader
-      subtitle={`${products.length} in total`}
-      title="Latest Products"
+      subtitle={`${products.length} en total`}
+      title="Últimos productos"
     />
     <Divider />
     <List>
@@ -73,7 +73,7 @@ const LatestProducts = (props) => (
           </ListItemAvatar>
           <ListItemText
             primary={product.name}
-            secondary={`Updated ${product.updatedAt.fromNow()}`}
+            secondary={`Actualizado ${product.updatedAt.fromNow()}`}
           />
           <IconButton
             edge="end"
@@ -98,7 +98,7 @@ const LatestProducts = (props) => (
         size="small"
         variant="text"
       >
-        View all
+        VER TODOS
       </Button>
     </Box>
   </Card>
