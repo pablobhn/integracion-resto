@@ -17,7 +17,7 @@ const handleChange = (event) => {
   setAge(event.target.value);
 };
 
-const CustomerListToolbar = (props) => (
+const ProductosListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -90,4 +90,4 @@ const CustomerListToolbar = (props) => (
   </Box>
 );
 
-export default CustomerListToolbar;
+export default ProductosListToolbar;

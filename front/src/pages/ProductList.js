@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import PlatosListResults from 'src/components/productos/PlatosListResults';
-import CustomerListToolbar from 'src/components/productos/CustomerListToolbar';
+import ProductosListResults from 'src/components/productos/ProductosListResults';
+import ProductosListToolbar from 'src/components/productos/ProductosListToolbar';
 import productos from 'src/__mocks__/productos';
 
 const ProductList = () => (
@@ -18,9 +18,9 @@ const ProductList = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <ProductosListToolbar />
         <Box sx={{ pt: 3 }}>
-          <PlatosListResults productos={productos} />
+          <ProductosListResults productos={productos} />
         </Box>
       </Container>
     </Box>

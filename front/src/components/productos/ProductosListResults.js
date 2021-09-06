@@ -18,7 +18,7 @@ import {
 // eslint-disable-next-line import/no-unresolved
 import getInitials from 'src/utils/getInitials';
 
-const PlatosListResults = ({ productos, ...rest }) => {
+const ProductosListResults = ({ productos, ...rest }) => {
   const [selectedProductosIds, setSelectedProductosIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -159,8 +159,8 @@ const PlatosListResults = ({ productos, ...rest }) => {
   );
 };
 
-PlatosListResults.propTypes = {
+ProductosListResults.propTypes = {
   productos: PropTypes.array.isRequired
 };
 
-export default PlatosListResults;
+export default ProductosListResults;
