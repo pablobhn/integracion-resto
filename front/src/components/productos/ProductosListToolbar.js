@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-vars */
 import {
   Box,
@@ -88,7 +89,7 @@ const ProductosListToolbar = (props) => {
           Agregar Producto
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Nuevo Producto</DialogTitle>
+          <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Producto</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Complete los campos
@@ -103,6 +104,7 @@ const ProductosListToolbar = (props) => {
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
+                sx={{ margin: '2px' }}
               />
               <TextField
                 fullWidth
@@ -114,6 +116,7 @@ const ProductosListToolbar = (props) => {
                 onChange={formik.handleChange}
                 error={formik.touched.price && Boolean(formik.errors.price)}
                 helperText={formik.touched.price && formik.errors.price}
+                sx={{ margin: '2px' }}
               />
               {/* <Select
                 id="category"
@@ -130,8 +133,9 @@ const ProductosListToolbar = (props) => {
                 onChange={formik.handleChange}
                 error={formik.touched.description && Boolean(formik.errors.description)}
                 helperText={formik.touched.description && formik.errors.description}
+                sx={{ margin: '2px' }}
               />
-              <h5> Categoría </h5>
+              <h5 style={{ fontFamily: 'sans-serif' }}> Categoría </h5>
               <FormikProvider value={formik}>
                 <Field
                   fullWidth
@@ -142,6 +146,7 @@ const ProductosListToolbar = (props) => {
                   style={{ height: 55, width: '100%' }}
                   label="categoria"
                   placeholder="categoría"
+                  sx={{ margin: '2px' }}
                 >
                   <option value="Entrada">Entrada</option>
                   <option value="Plato Principal">Plato Principal</option>
@@ -149,6 +154,21 @@ const ProductosListToolbar = (props) => {
                   <option value="Bebida">Bebida</option>
                 </Field>
               </FormikProvider>
+              <Box sx={{ marginTop: '2px' }}>
+                <input
+                  style={{ display: 'none' }}
+                  accept="image/*"
+                  // className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                />
+                <label htmlFor="contained-button-file">
+                  <Button variant="contained" color="secondary" component="span">
+                    Subir imagen
+                  </Button>
+                </label>
+              </Box>
 
               <Button sx={{ margin: '3px', marginLeft: '0px' }} color="primary" variant="contained" fullWidth type="submit">
                 Agregar
