@@ -57,7 +57,7 @@ const VentasListResults = ({ ventas, ...rest }) => {
       );
     }
 
-    setselectedVentasIds(newselectedVentasIds);
+    setSelectedVentasIds(newselectedVentasIds);
   };
 
   const handleLimitChange = (event) => {

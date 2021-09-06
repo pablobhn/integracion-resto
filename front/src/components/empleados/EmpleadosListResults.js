@@ -57,7 +57,7 @@ const EmpleadosListResults = ({ empleados, ...rest }) => {
       );
     }
 
-    setselectedEmpleadosIds(newselectedEmpleadosIds);
+    setSelectedEmpleadosIds(newselectedEmpleadosIds);
   };
 
   const handleLimitChange = (event) => {
