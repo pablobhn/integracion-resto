@@ -16,7 +16,6 @@ import { login } from '../controllers/users';
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
-  // const [alert, setAlert] = React.useState(false);
 
   return (
     <>
@@ -35,28 +34,23 @@ const Login = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'msarasa@uade.edu.ar',
-              password: 'Password123'
+              email: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Debe ser un email válido').max(255).required('Email es requerido'),
+              email: Yup.string().max(20).required('El nombre de usuario debe tener menos de 20 caracteres'),
               password: Yup.string().max(255).required('Constraseña es requerida')
             })}
-            // onSubmit={() => {
-            //   navigate('/app/dashboard', { replace: true });
-            // }}
             onSubmit={async (values) => {
               setLoading(true);
               const res = await login(values);
-              if (res) {
+              if (res.token) {
+                localStorage.setItem('auth', res.token);
                 setLoading(false);
                 navigate('/app/dashboard', { replace: true });
               } else {
-                // setLoading(false);
-                // setAlert(true);
-                // setTimeout(() => {
-                //   setAlert(false);
-                // }, 1300);
+                setLoading(false);
+                alert('Los datos de login son incorrectos');
               }
             }}
           >
@@ -65,18 +59,11 @@ const Login = () => {
               handleBlur,
               handleChange,
               handleSubmit,
-              isSubmitting,
               touched,
               values
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box sx={{ mb: 3, paddingTop: '80px' }}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Iniciar sesión
-                  </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
@@ -96,19 +83,18 @@ const Login = () => {
                     color="textSecondary"
                     variant="body1"
                   >
-                    Iniciar sesión con tu correo electrónico
+                    Iniciar sesión con tu usuario
                   </Typography>
                 </Box>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
-                  label="Cuenta de correo electrónico"
+                  label="Nombre de usuario"
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
                   value={values.email}
                   variant="outlined"
                 />
@@ -128,7 +114,7 @@ const Login = () => {
                 <Box sx={{ py: 2 }}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                    disabled={loading}
                     fullWidth
                     size="large"
                     type="submit"

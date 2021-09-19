@@ -50,8 +50,9 @@ module.exports = {
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
 			rate: req.body.rate,
+			horasBase: req.body.horasBase,
 			horasExtra: req.body.horasExtra,
-			faltas: req.body.faltas
+			faltas: []
 		};
 
 		return empleados
@@ -83,7 +84,7 @@ module.exports = {
 
 	list(_, res) {
 		return empleados
-			.findAll({})
+			.findAll({order: [['updatedAt', 'DESC']]})
 			.then(empleados => res.status(200).send(empleados))
 			.catch(error => res.status(400).send(error))
 	},

@@ -15,8 +15,23 @@ module.exports = {
 	create(req, res) {
 		return ventas
 			.create({
+				mesa: req.body.mesa,
+				estado: 0,
+				pago: req.body.pago,
 				detalle: req.body.detalle
 			})
+			.then(ventas => res.status(200).send(ventas))
+			.catch(error => res.status(400).send(error))
+	},
+
+	updateStatus(req,res){
+		return ventas
+			.update(
+				{
+					estado: req.body.nuevoEstado
+				},
+				{ where: { id: req.params.id} }
+			)
 			.then(ventas => res.status(200).send(ventas))
 			.catch(error => res.status(400).send(error))
 	},
@@ -29,8 +44,7 @@ module.exports = {
 	 */
 	list(_, res) {
 		return ventas
-			.findAll({
-			})
+			.findAll({order: [['createdAt', 'DESC']]})
 			.then(ventas => res.status(200).send(ventas))
 			.catch(error => res.status(400).send(error))
 	}

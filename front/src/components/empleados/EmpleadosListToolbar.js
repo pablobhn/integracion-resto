@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import {
   Box,
   Button,
@@ -11,20 +10,12 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  Grid,
+  DialogTitle
 } from '@material-ui/core';
 import { useState } from 'react';
 import { Field, useFormik, FormikProvider } from 'formik';
 import * as yup from 'yup';
 import { Search as SearchIcon } from 'react-feather';
-import {
-  MuiPickersUtilsProvider,
-  // eslint-disable-next-line no-unused-vars
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 
 const EmpleadosListToolbar = (props) => {
   const [open, setOpen] = useState(false);
@@ -208,23 +199,6 @@ const EmpleadosListToolbar = (props) => {
                 helperText={formik.touched.salary && formik.errors.salary}
                 sx={{ margin: '2px' }}
               />
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justifyContent="left">
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="fecha de ingreso"
-                    format="MM/dd/yyyy"
-                    value={formik.values.initialdate}
-                    onChange={formik.handleChange}
-                    error={formik.touched.initialdate && Boolean(formik.errors.initialdate)}
-                    helperText={formik.touched.initialdate && formik.errors.initialdate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
               {/* <TextField
                 fullWidth
                 id="initialdate"
@@ -245,11 +219,11 @@ const EmpleadosListToolbar = (props) => {
                   multiple
                   type="file"
                 />
-                <label htmlFor="contained-button-file">
+                {/* <label htmlFor="contained-button-file">
                   <Button variant="contained" color="secondary" component="span">
                     Subir foto
                   </Button>
-                </label>
+                </label> */}
               </Box>
 
               <Button sx={{ margin: '3px', marginLeft: '0px' }} color="primary" variant="contained" fullWidth type="submit">

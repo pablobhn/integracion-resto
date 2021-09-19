@@ -1,33 +1,61 @@
+/* eslint-disable prefer-template */
+/* eslint-disable space-infix-ops */
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
   Card,
   Checkbox,
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
-  Button
+  Typography
 } from '@material-ui/core';
-// eslint-disable-next-line import/no-unresolved
-import getInitials from 'src/utils/getInitials';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import EditProductModal from './EditProductModal';
+import { borrarProducto } from '../../controllers/productos';
 
-const ProductosListResults = ({ productos, ...rest }) => {
+const ProductosListResults = (props) => {
+  const { productos, handleUpdate } = props;
   const [selectedProductosIds, setSelectedProductosIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [editProd, setEditProd] = useState({});
+
+  const handleClickOpen = (event, newProd) => {
+    setEditProd(newProd);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    handleUpdate();
+  };
+
+  const handleBorrar = async function (e, id) {
+    const res = await borrarProducto(id);
+    if (res) {
+      alert('Producto eliminado exitosamente');
+      handleUpdate();
+      // <Alert severity="success">This is a success alert — check it out!</Alert>
+    } else {
+      alert('Ha habido un error al borrar el producto!');
+    }
+  };
 
   const handleSelectAll = (event) => {
     let newSelectedProductosIds;
 
     if (event.target.checked) {
-      newSelectedProductosIds = productos.map((customer) => customer.id);
+      newSelectedProductosIds = productos.map((prod) => prod.id);
     } else {
       newSelectedProductosIds = [];
     }
@@ -55,112 +83,138 @@ const ProductosListResults = ({ productos, ...rest }) => {
     setSelectedProductosIds(newSelectedProductosIds);
   };
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
 
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+    setPage(0);
+  };
+
   return (
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedProductosIds.length === productos.length}
-                    color="primary"
-                    indeterminate={
-                      selectedProductosIds.length > 0
-                      && selectedProductosIds.length < productos.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>
-                  Producto
-                </TableCell>
-                <TableCell>
-                  Categoria
-                </TableCell>
-                <TableCell>
-                  Precio
-                </TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productos.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={selectedProductosIds.indexOf(customer.id) !== -1}
-                >
+    <>
+      <EditProductModal open={open} handleClose={handleClose} prod={editProd} />
+      <Card>
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 1050 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedProductosIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
-                      value="true"
+                      checked={selectedProductosIds.length === productos.length}
+                      color="primary"
+                      indeterminate={
+                        selectedProductosIds.length > 0
+                        && selectedProductosIds.length < productos.length
+                      }
+                      onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell sx={{ maxWidth: '120px' }}>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell sx={{ maxWidth: '50px' }}>
-                    {customer.categoria}
+                  <TableCell>
+                    Producto
                   </TableCell>
                   <TableCell>
-                    {customer.precio}
+                    Categoria
                   </TableCell>
                   <TableCell>
-                    <Button>
-                      Editar
-                    </Button>
+                    Descripcion
                   </TableCell>
-
+                  <TableCell>
+                    Precio
+                  </TableCell>
+                  <TableCell>
+                    Libre TACC
+                  </TableCell>
+                  <TableCell>
+                    Vegano
+                  </TableCell>
+                  <TableCell />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={productos.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+              </TableHead>
+              <TableBody>
+                {productos.slice((0 + page * limit), ((0 + page * limit) + limit)).map((prod) => (
+                  <TableRow
+                    hover
+                    key={prod.id}
+                    selected={selectedProductosIds.indexOf(prod.id) !== -1}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedProductosIds.indexOf(prod.id) !== -1}
+                        onChange={(event) => handleSelectOne(event, prod.id)}
+                        value="true"
+                      />
+                    </TableCell>
+                    <TableCell sx={{ maxWidth: '120px' }}>
+                      <Box
+                        sx={{
+                          alignItems: 'center',
+                          display: 'flex'
+                        }}
+                      >
+                        <Avatar
+                          src={prod.avatarUrl}
+                          sx={{ mr: 2 }}
+                        />
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                          {prod.title}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      {prod.type}
+                    </TableCell>
+                    <TableCell sx={{ maxWidth: '200px' }}>
+                      {prod.description}
+                    </TableCell>
+                    <TableCell>
+                      {'$'+ prod.price + ',00'}
+                    </TableCell>
+                    <TableCell>
+                      {prod.sinTac ? 'Si' : 'No'}
+                    </TableCell>
+                    <TableCell>
+                      {prod.vegano ? 'Si' : 'No'}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton color="inherit">
+                        <EditIcon
+                          onClick={(e) => handleClickOpen(e, prod)}
+                          color="primary"
+                          variant="dot"
+                        />
+                      </IconButton>
+                      <IconButton color="inherit">
+                        <DeleteIcon
+                          onClick={(e) => handleBorrar(e, prod.id)}
+                          color="primary"
+                          variant="dot"
+                        />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <TablePagination
+          component="div"
+          count={productos.length}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+          page={page}
+          rowsPerPage={limit}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </Card>
+    </>
   );
-};
-
-ProductosListResults.propTypes = {
-  productos: PropTypes.array.isRequired
 };
 
 export default ProductosListResults;

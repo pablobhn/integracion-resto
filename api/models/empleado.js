@@ -22,8 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     fechaNacimiento: DataTypes.DATEONLY,
     fechaIngreso: DataTypes.DATEONLY,
     rate: DataTypes.INTEGER,
+    horasBase: DataTypes.INTEGER,
     horasExtra: DataTypes.ARRAY(DataTypes.JSON),
     faltas: DataTypes.ARRAY(DataTypes.JSON)
+    
   }, {
     sequelize,
     modelName: 'empleado',

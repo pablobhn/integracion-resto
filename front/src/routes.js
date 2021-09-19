@@ -12,7 +12,7 @@ import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
 import Ventas from 'src/pages/Ventas';
 
-const routes = [
+export const routes = [
   {
     path: 'app',
     element: <DashboardLayout />,
@@ -31,12 +31,20 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'login', element: <Login /> },
+      { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
-      { path: '/', element: <Navigate to="/login" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }
 ];
 
-export default routes;
+export const noLogin = [
+  {
+    path: '*',
+    element: <MainLayout />,
+    children: [
+      { path: '*', element: <Login /> }
+    ]
+  }
+];

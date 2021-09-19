@@ -69,7 +69,10 @@ module.exports = {
 					password: req.body.password
 				}
 			})
-			.then(usuarios => res.status(200).send(usuarios))
+			.then(usuarios => {
+				const token = Buffer.from(usuarios.username+'-'+usuarios.name+'-'+usuarios.role).toString('base64');
+				res.status(200).json({token})
+			})
 			.catch(error => res.status(400).send(error))
 	},
 	

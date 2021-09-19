@@ -108,7 +108,7 @@ const VentasListResults = ({ ventas, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {ventas.slice(0, limit).map((ventas) => (
+              {ventas.slice((0 + page * limit), ((0 + page * limit) + limit)).map((ventas) => (
                 <TableRow
                   hover
                   key={ventas.id}

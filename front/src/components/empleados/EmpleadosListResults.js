@@ -112,7 +112,7 @@ const EmpleadosListResults = ({ empleados, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {empleados.slice(0, limit).map((empleados) => (
+              {empleados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((empleados) => (
                 <TableRow
                   hover
                   key={empleados.id}

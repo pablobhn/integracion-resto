@@ -23,12 +23,6 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
-const user = {
-  avatar: '/static/images/avatars/ID_72404.jpg',
-  jobTitle: 'Supervisor',
-  name: 'Paula Sarasa'
-};
-
 const items = [
   {
     href: '/app/dashboard',
@@ -79,6 +73,13 @@ const items = [
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const auth = Buffer.from(localStorage.getItem('auth'), 'base64').toString();
+
+  const user = {
+    avatar: 'https://thumbs.dreamstime.com/b/icono-masculino-de-la-imagen-del-perfil-del-avatar-del-defecto-placeholder-gris-de-la-foto-del-hombre-88414414.jpg',
+    jobTitle: auth.split('-')[1],
+    name: auth.split('-')[2]
+  };
 
   useEffect(() => {
     if (openMobile && onMobileClose) {

@@ -80,7 +80,7 @@ module.exports = {
 
 	list(_, res) {
 		return productos
-			.findAll({})
+			.findAll({order: [['updatedAt', 'DESC']]})
 			.then(productos => res.status(200).send(productos))
 			.catch(error => res.status(400).send(error))
 	},
@@ -93,16 +93,16 @@ module.exports = {
 	 * @param {*} req 
 	 * @param {*} res 
 	 */
-	// find(req, res) {
-	// 	return productos
-	// 		.findOne({
-	// 			where: {
-	// 				username: req.params.username
-	// 			}
-	// 		})
-	// 		.then(productos => res.status(200).send(productos))
-	// 		.catch(error => res.status(400).send(error))
-	// },
+	find(req, res) {
+		return productos
+			.findOne({
+				where: {
+					id: req.params.id
+				}
+			})
+			.then(productos => res.status(200).send(productos))
+			.catch(error => res.status(400).send(error))
+	},
 
 	delete(req, res) {
 		return productos

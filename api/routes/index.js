@@ -22,13 +22,16 @@ module.exports = (app) => {
 	// Productos
 	app.post('/api/productos/create', productosController.create);
 	app.get('/api/productos/list', productosController.list);
+	app.get('/api/productos/list/id/:id', productosController.find);
 	// app.get('/api/productos/find/id/:id', productosController.find);
 	app.post('/api/productos/edit/id/:id', productosController.edit);
 	app.post('/api/productos/delete/id/:id', productosController.delete);
 
 	// Ventas
 	app.post('/api/ventas/create', ventasController.create);
+	app.post('/api/ventas/updateStatus/id/:id', ventasController.updateStatus);
 	app.get('/api/ventas/list', ventasController.list);
+	
 
 	// Productos
 	app.post('/api/empleados/create', empleadosController.create);

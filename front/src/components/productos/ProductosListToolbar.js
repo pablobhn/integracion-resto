@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-vars */
 import {
@@ -16,19 +17,20 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Typography
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import { useState } from 'react';
 import { Field, useFormik, FormikProvider } from 'formik';
 import * as yup from 'yup';
-// import Select from 'react-select';
+import NewProductModal from './NewProductModal';
 
 const ProductosListToolbar = (props) => {
+  const { handleUpdate } = props;
   const handleChange = (event) => {
     // eslint-disable-next-line no-undef
     setAge(event.target.value);
   };
-
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -37,6 +39,7 @@ const ProductosListToolbar = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    handleUpdate();
   };
 
   const validationSchema = yup.object({
@@ -59,6 +62,9 @@ const ProductosListToolbar = (props) => {
       name: '',
       price: '',
       description: '',
+      type: '',
+      sinTac: false,
+      vegano: false
     },
     validationSchema,
     onSubmit: (values) => {
@@ -70,134 +76,6 @@ const ProductosListToolbar = (props) => {
 
   return (
     <Box {...props}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          direction: 'row'
-        }}
-      >
-        {/* <Button>
-          Import
-        </Button> */}
-
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleClickOpen}
-        >
-          Agregar Producto
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Producto</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Complete los campos
-            </DialogContentText>
-            <form onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                id="name"
-                name="name"
-                label="nombre"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-                sx={{ margin: '2px' }}
-              />
-              <TextField
-                fullWidth
-                id="price"
-                name="price"
-                label="precio"
-                type="number"
-                value={formik.values.price}
-                onChange={formik.handleChange}
-                error={formik.touched.price && Boolean(formik.errors.price)}
-                helperText={formik.touched.price && formik.errors.price}
-                sx={{ margin: '2px' }}
-              />
-              {/* <Select
-                id="category"
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                options={options}
-              /> */}
-              <TextField
-                fullWidth
-                id="description"
-                name="description"
-                label="descripción"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                error={formik.touched.description && Boolean(formik.errors.description)}
-                helperText={formik.touched.description && formik.errors.description}
-                sx={{ margin: '2px' }}
-              />
-              <h5 style={{ fontFamily: 'sans-serif' }}> Categoría </h5>
-              <FormikProvider value={formik}>
-                <Field
-                  fullWidth
-                  margin="normal"
-                  name="category"
-                  component="select"
-                  id="category"
-                  style={{ height: 55, width: '100%' }}
-                  label="categoria"
-                  placeholder="categoría"
-                  sx={{ margin: '2px' }}
-                >
-                  <option value="Entrada">Entrada</option>
-                  <option value="Plato Principal">Plato Principal</option>
-                  <option value="Postre">Postre</option>
-                  <option value="Bebida">Bebida</option>
-                </Field>
-              </FormikProvider>
-              <Box sx={{ marginTop: '2px' }}>
-                <input
-                  style={{ display: 'none' }}
-                  accept="image/*"
-                  // className={classes.input}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" color="secondary" component="span">
-                    Subir imagen
-                  </Button>
-                </label>
-              </Box>
-
-              <Button sx={{ margin: '3px', marginLeft: '0px' }} color="primary" variant="contained" fullWidth type="submit">
-                Agregar
-              </Button>
-
-            </form>
-
-            {/* <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            /> */}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            {/* <Button onClick={handleClose} color="primary">
-              Subscribe
-            </Button> */}
-          </DialogActions>
-        </Dialog>
-        <Button sx={{ mx: 1 }}>
-          Eliminar Producto
-        </Button>
-      </Box>
       <Box sx={{
         mt: 3, flexDirection: 'column', display: 'flex', justifyContent: 'flex-end'
       }}
@@ -227,21 +105,34 @@ const ProductosListToolbar = (props) => {
               alignItems: 'center', flexDirection: 'row', display: 'flex', justifyContent: ''
             }}
             >
-              <InputLabel sx={{ alignSelf: 'center' }} id="prueba-select">
-                Categoria
-              </InputLabel>
-              <Select
-                labelId="prueba-select"
-                id="prueba-select-simple"
-                value="age"
-                onChange={handleChange}
-              >
-                <MenuItem>Entrada</MenuItem>
-                <MenuItem>Plato Principal</MenuItem>
-                <MenuItem>Postre</MenuItem>
-                <MenuItem>Bebida</MenuItem>
-              </Select>
+              <Box>
+                <InputLabel sx={{ alignSelf: 'center' }} id="prueba-select">
+                  Categoria
+                </InputLabel>
+              </Box>
+              <Box>
+                <Select
+                  labelId="prueba-select"
+                  placeholder="Seleccione una categoría"
+                  id="prueba-select-simple"
+                  value="age"
+                  // onChange={handleChange}
+                >
+                  <MenuItem>Entrada</MenuItem>
+                  <MenuItem>Plato Principal</MenuItem>
+                  <MenuItem>Postre</MenuItem>
+                  <MenuItem>Bebida</MenuItem>
+                </Select>
+              </Box>
             </Box>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleClickOpen}
+            >
+              Agregar Producto
+            </Button>
+            <NewProductModal open={open} handleClose={handleClose} />
           </CardContent>
         </Card>
       </Box>

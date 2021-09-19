@@ -6,47 +6,41 @@ export default [
     createdAt: '27/03/2019',
     description: '',
     media: '/static/images/products/mesa2.png',
-    title: 'Mesa 1',
-    totalDownloads: '594'
+    title: 'Mesa 1'
   },
   {
     id: uuid(),
     createdAt: '31/03/2019',
     description: '',
     media: '/static/images/products/mesa2.png',
-    title: 'Mesa 2',
-    totalDownloads: '625'
+    title: 'Mesa 2'
   },
   {
     id: uuid(),
     createdAt: '03/04/2019',
     description: '',
     media: '/static/images/products/mesa2.png',
-    title: 'Mesa 3',
-    totalDownloads: '857'
+    title: 'Mesa 3'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
     description: '',
     media: '/static/images/products/barra.png',
-    title: 'Barra 1',
-    totalDownloads: '406'
+    title: 'Barra 1'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
     description: '',
     media: '/static/images/products/barra.png',
-    title: 'Barra 2',
-    totalDownloads: '835'
+    title: 'Barra 2'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
     description: '',
     media: '/static/images/products/barra.png',
-    title: 'Barra 3',
-    totalDownloads: '835'
+    title: 'Barra 3'
   }
 ];

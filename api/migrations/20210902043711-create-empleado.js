@@ -37,12 +37,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      horasBase:{
+        type:Sequelize.INTEGER
+      },
       horasExtra: {
-        allowNull: false,
         type: Sequelize.ARRAY(Sequelize.JSON)
       },
       faltas: {
-        allowNull: false,
         type: Sequelize.ARRAY(Sequelize.JSON)
       },
       createdAt: {

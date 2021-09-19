@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { Link as RouterLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core';
 import Logo from './Logo';
 
 const MainNavbar = (props) => (
@@ -12,14 +13,6 @@ const MainNavbar = (props) => (
         <div>
           <div>
             <Logo />
-          </div>
-          <div>
-            <Typography
-              variant="h2"
-              color="white"
-            >
-              Restaurante Casa Cavia
-            </Typography>
           </div>
         </div>
       </RouterLink>

@@ -7,6 +7,18 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER
       },
+      mesa: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      estado: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      pago: {
+        allowNull: false,
+        type: Sequelize.JSON
+      },
       detalle: {
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.JSON)

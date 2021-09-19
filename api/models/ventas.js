@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   ventas.init({
-    detalle: DataTypes.ARRAY(DataTypes.JSON)
+    mesa: DataTypes.STRING,
+    estado: DataTypes.INTEGER,
+    detalle: DataTypes.ARRAY(DataTypes.JSON),
+    pago: DataTypes.JSON
   }, {
     sequelize,
     modelName: 'ventas',
