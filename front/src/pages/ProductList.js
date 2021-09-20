@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, CircularProgress } from '@material-ui/core';
 import ProductosListResults from 'src/components/productos/ProductosListResults';
-import ProductosListToolbar from 'src/components/productos/ProductosListToolbar';
 import { listarProductos } from 'src/controllers/productos';
 
 const ProductList = () => {
@@ -45,7 +44,6 @@ const ProductList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <ProductosListToolbar handleUpdate={handleUpdate} />
           <Box sx={{ pt: 3 }}>
             { loading ? (
               <CircularProgress />

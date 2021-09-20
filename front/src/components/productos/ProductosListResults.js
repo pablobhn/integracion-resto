@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
 /* eslint-disable react/prop-types */
@@ -6,21 +7,32 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
+  Button,
   Card,
+  CardContent,
   Checkbox,
+  FormControl,
   IconButton,
+  InputLabel,
+  InputAdornment,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Typography
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
 import EditProductModal from './EditProductModal';
 import { borrarProducto } from '../../controllers/productos';
+import NewProductModal from './NewProductModal';
+import categorias from '../../__mocks__/categorias';
 
 const ProductosListResults = (props) => {
   const { productos, handleUpdate } = props;
@@ -29,6 +41,16 @@ const ProductosListResults = (props) => {
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [editProd, setEditProd] = useState({});
+  const [newProductModalOpen, setNewProductModalOpen] = useState(false);
+
+  const handleNewProductModalOpenClickOpen = () => {
+    setNewProductModalOpen(true);
+  };
+
+  const handleNewProductModalOpenClose = () => {
+    setNewProductModalOpen(false);
+    handleUpdate();
+  };
 
   const handleClickOpen = (event, newProd) => {
     setEditProd(newProd);
@@ -94,6 +116,60 @@ const ProductosListResults = (props) => {
 
   return (
     <>
+      <Box>
+        <Box sx={{
+          mt: 1, flexDirection: 'column', display: 'flex', justifyContent: 'flex-end'
+        }}
+        >
+          <Card>
+            <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Box>
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon
+                          fontSize="small"
+                          color="action"
+                        />
+                      </InputAdornment>
+                    )
+                  }}
+                  placeholder="Buscar producto"
+                  variant="outlined"
+                />
+              </Box>
+              <Box>
+                <FormControl>
+                  <InputLabel id="categoria">Categoria</InputLabel>
+                  <Select
+                    sx={{ width: 250 }}
+                    labelId="prueba-select"
+                    label="Seleccione una categoría"
+                    id="prueba-select-simple"
+                    value="categoria"
+                  >
+                    {categorias.map((categoria) => (
+                      <MenuItem value={categoria}>
+                        {categoria}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleNewProductModalOpenClickOpen}
+              >
+                Agregar Producto
+              </Button>
+              <NewProductModal open={newProductModalOpen} handleClose={handleNewProductModalOpenClose} />
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
       <EditProductModal open={open} handleClose={handleClose} prod={editProd} />
       <Card>
         <PerfectScrollbar>

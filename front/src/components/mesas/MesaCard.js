@@ -195,7 +195,7 @@ const MesaCard = ({ mesa, ...rest }) => {
               </Grid>
               <Grid item xs={6}>
                 <Typography>
-                  {`${item.title}`}
+                  {`${item.qty} x ${item.title}`}
                 </Typography>
               </Grid>
               <Grid item xs={2}>
@@ -211,7 +211,7 @@ const MesaCard = ({ mesa, ...rest }) => {
               <Container>
                 <hr />
                 <Container>
-                  <Typography>
+                  <Typography align="right">
                     <strong>
                       Total $
                       {itemsPrice.toFixed(2)}
