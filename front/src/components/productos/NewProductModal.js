@@ -17,6 +17,7 @@ import { Field, useFormik, FormikProvider } from 'formik';
 import * as yup from 'yup';
 import uploadImage from '../../controllers/images';
 import { crearProducto } from '../../controllers/productos';
+import categorias from '../../__mocks__/categorias';
 
 const NewProductModal = (props) => {
   const {
@@ -128,10 +129,11 @@ const NewProductModal = (props) => {
                 }}
                 value={formik.values.type}
               >
-                <option value="Entrada">Entrada</option>
-                <option value="Plato Principal">Plato Principal</option>
-                <option value="Postre">Postre</option>
-                <option value="Bebida">Bebida</option>
+                {categorias.map((categoria) => (
+                  <option value={categoria}>
+                    {categoria}
+                  </option>
+                ))}
               </Field>
             </label>
             <div>

@@ -11,10 +11,13 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   Typography,
   Button
 } from '@material-ui/core';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import CloseIcon from '@material-ui/icons/Close';
+import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ModalSeleccionProductos from './ModalSeleccionProductos';
 import { useStickyState } from '../../utils/useStickyState';
@@ -77,12 +80,12 @@ const MesaCard = ({ mesa, ...rest }) => {
           height: '100%'
         }}
       >
-        <CardContent>
+        <CardContent sx={{ pb: 0.75 }}>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              pb: 3
+              pb: 1
             }}
           >
             <Avatar
@@ -99,10 +102,11 @@ const MesaCard = ({ mesa, ...rest }) => {
           >
             {mesa.title}
           </Typography>
+          <Divider />
         </CardContent>
         <Box sx={{ flexGrow: 1 }} />
-        <Divider />
-        <Box sx={{ p: 2 }}>
+        <Divider sx={{ p: 0.5 }} />
+        <Box sx={{ p: 1 }}>
           <Grid
             container
             spacing={2}
@@ -137,12 +141,12 @@ const MesaCard = ({ mesa, ...rest }) => {
         height: '100%'
       }}
     >
-      <CardContent>
+      <CardContent sx={{ pb: 0.75 }}>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            pb: 3
+            pb: 1
           }}
         >
           <Avatar
@@ -159,11 +163,10 @@ const MesaCard = ({ mesa, ...rest }) => {
         >
           {mesa.title}
         </Typography>
+        <Divider />
         <ModalSeleccionProductos productos={mesa.productos} open={open} handleClose={handleClose} onAdd={onAdd} />
       </CardContent>
-      <Box sx={{ flexGrow: 1 }} />
-      <Divider />
-      <div>
+      <Box sx={{ p: 1 }}>
         {productos.length === 0 && (
           <Typography
             align="center"
@@ -176,54 +179,52 @@ const MesaCard = ({ mesa, ...rest }) => {
         <Grid container sx={{ flexGrow: 1 }}>
           {productos.map((item) => (
             <Grid container xs={12}>
-              <Grid item xs={2}>
-                <Avatar src={item.avatarUrl} variant="square" sx={{ p: 1 }} />
+              <Grid item xs={1.5} sx={{ p: 0.25 }}>
+                <Avatar src={item.avatarUrl} variant="square" />
               </Grid>
               <Grid item xs={1}>
-                <button
-                  onClick={() => onRemove(item.id)}
-                  className="remove"
-                  padding="15"
-                >
-                  -
-                </button>
+                <IconButton fontSize="small">
+                  <RemoveCircleRoundedIcon
+                    fontSize="small"
+                    onClick={() => onRemove(item.id)}
+                  />
+                </IconButton>
               </Grid>
               <Grid item xs={1}>
-                <button onClick={() => onAdd(item.id)} className="add">
-                  +
-                </button>
+                <IconButton>
+                  <AddCircleRoundedIcon
+                    fontSize="small"
+                    onClick={() => onAdd(item.id)}
+                  />
+                </IconButton>
               </Grid>
-              <Grid item xs={6}>
-                <Typography>
-                  {`${item.qty} x ${item.title}`}
+              <Grid item xs={6} sx={{ p: 1 }}>
+                <Typography fontSize="small">
+                  {`${item.qty} x ${item.title.length > 20 ? (`${item.title.substring(0, 19)}...`) : item.title}`}
                 </Typography>
               </Grid>
-              <Grid item xs={2}>
-                <Typography>
+              <Grid item xs={1.5} sx={{ p: 1 }}>
+                <Typography fontSize="small">
                   {`$${item.price.toFixed(2)}`}
                 </Typography>
               </Grid>
             </Grid>
           ))}
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ p: 1 }}>
             {productos.length !== 0 && (
-            <>
-              <Container>
-                <hr />
-                <Container>
-                  <Typography align="right">
-                    <strong>
-                      Total $
-                      {itemsPrice.toFixed(2)}
-                    </strong>
-                  </Typography>
-                </Container>
-              </Container>
-            </>
+            <Container>
+              <Divider sx={{ my: 0, mb: 2 }} />
+              <Typography align="right">
+                <strong>
+                  Total: $
+                  {itemsPrice.toFixed(2)}
+                </strong>
+              </Typography>
+            </Container>
             )}
           </Grid>
         </Grid>
-      </div>
+      </Box>
       <Button
         onClick={handleClickOpen}
       >
@@ -235,8 +236,9 @@ const MesaCard = ({ mesa, ...rest }) => {
           Agregar producto
         </Typography>
       </Button>
-      <Divider />
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ flexGrow: 1 }} />
+      <Divider sx={{ p: 0.5 }} />
+      <Box sx={{ p: 1 }}>
         <Grid
           container
           spacing={2}
