@@ -18,7 +18,8 @@ module.exports = {
 				mesa: req.body.mesa,
 				estado: 0,
 				pago: req.body.pago,
-				detalle: req.body.detalle
+				detalle: req.body.detalle,
+				total: req.body.total
 			})
 			.then(ventas => res.status(200).send(ventas))
 			.catch(error => res.status(400).send(error))

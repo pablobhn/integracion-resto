@@ -61,6 +61,11 @@ const MesaCard = ({ mesa, ...rest }) => {
     }
   };
 
+  const handleSetMesaOpen = () => {
+    setProductos([]);
+    setMesaOpen(false);
+  };
+
   const onAdd = async function (productId) {
     const res = await listarProductos(productId);
     const product = res.data;
@@ -180,7 +185,7 @@ const MesaCard = ({ mesa, ...rest }) => {
         </Typography>
         <Divider />
         <ModalSeleccionProductos open={open} handleClose={handleClose} onAdd={onAdd} />
-        <ModalCrearVenta open={openModalVenta} handleClose={handleCloseModalVenta} setMesaOpen={setMesaOpen} productos={productos} mesa={mesa} />
+        <ModalCrearVenta open={openModalVenta} handleClose={handleCloseModalVenta} setMesaOpen={handleSetMesaOpen} productos={productos} mesaId={mesa.id} />
       </CardContent>
       <Box sx={{ p: 1 }}>
         {productos.length === 0 && (

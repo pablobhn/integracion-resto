@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   ventas.init({
     mesa: DataTypes.STRING,
     estado: DataTypes.INTEGER,
+    total: DataTypes.INTEGER,
     detalle: DataTypes.ARRAY(DataTypes.JSON),
     pago: DataTypes.JSON
   }, {

@@ -15,6 +15,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      total: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       pago: {
         allowNull: false,
         type: Sequelize.JSON

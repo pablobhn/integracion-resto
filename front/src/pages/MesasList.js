@@ -2,8 +2,7 @@ import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
-  Grid,
-  Pagination
+  Grid
 } from '@material-ui/core';
 import MesaListToolbar from 'src/components/mesas/MesaListToolbar';
 import MesaCard from 'src/components/mesas/MesaCard';
@@ -68,11 +67,11 @@ const MesaList = () => {
               pt: 3
             }}
           >
-            <Pagination
+            {/* <Pagination
               color="primary"
               count={3}
               size="small"
-            />
+            /> */}
           </Box>
         </Container>
       </Box>
