@@ -20,13 +20,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ModalSeleccionProductos from './ModalSeleccionProductos';
+import ModalCrearVenta from './ModalCrearVenta';
 import { useStickyState } from '../../utils/useStickyState';
 import { listarProductos } from '../../controllers/productos';
 
 const MesaCard = ({ mesa, ...rest }) => {
   const [mesaOpen, setMesaOpen] = useStickyState(false, `open${mesa.id}`);
   const [open, setOpen] = useState(false);
+  const [openModalVenta, setOpenModalVenta] = useState(false);
   const [productos, setProductos] = useStickyState([], `productos${mesa.id}`);
+  const [pago, setPago] = useState({});
 
   const itemsPrice = productos.reduce((a, c) => a + c.qty * c.price, 0);
 
@@ -38,12 +41,24 @@ const MesaCard = ({ mesa, ...rest }) => {
     setOpen(false);
   };
 
+  const handleClickOpenModalVenta = () => {
+    setOpenModalVenta(true);
+  };
+
+  const handleCloseModalVenta = () => {
+    setOpenModalVenta(false);
+  };
+
   const handleMesaOpen = () => {
     setMesaOpen(true);
   };
 
   const handleMesaClose = () => {
-    setMesaOpen(false);
+    if (productos.length > 0) {
+      setOpenModalVenta(true);
+    } else {
+      setMesaOpen(false);
+    }
   };
 
   const onAdd = async function (productId) {
@@ -164,7 +179,8 @@ const MesaCard = ({ mesa, ...rest }) => {
           {mesa.title}
         </Typography>
         <Divider />
-        <ModalSeleccionProductos productos={mesa.productos} open={open} handleClose={handleClose} onAdd={onAdd} />
+        <ModalSeleccionProductos open={open} handleClose={handleClose} onAdd={onAdd} />
+        <ModalCrearVenta open={openModalVenta} handleClose={handleCloseModalVenta} setMesaOpen={setMesaOpen} productos={productos} mesa={mesa} />
       </CardContent>
       <Box sx={{ p: 1 }}>
         {productos.length === 0 && (
@@ -211,9 +227,9 @@ const MesaCard = ({ mesa, ...rest }) => {
             </Grid>
           ))}
           <Grid item xs={12} sx={{ p: 1 }}>
+            <Divider sx={{ my: 0, mb: 2 }} />
             {productos.length !== 0 && (
             <Container>
-              <Divider sx={{ my: 0, mb: 2 }} />
               <Typography align="right">
                 <strong>
                   Total: $

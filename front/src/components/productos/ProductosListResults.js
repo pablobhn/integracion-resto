@@ -223,7 +223,7 @@ const ProductosListResults = (props) => {
                         value="true"
                       />
                     </TableCell>
-                    <TableCell sx={{ maxWidth: '120px' }}>
+                    <TableCell sx={{ maxWidth: '250px' }}>
                       <Box
                         sx={{
                           alignItems: 'center',
@@ -232,29 +232,26 @@ const ProductosListResults = (props) => {
                       >
                         <Avatar
                           src={prod.avatarUrl}
-                          sx={{ mr: 2 }}
+                          sx={{ mr: 1.25 }}
                         />
-                        <Typography
-                          color="textPrimary"
-                          variant="body1"
-                        >
+                        <Typography>
                           {prod.title}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '50px' }}>
                       {prod.type}
                     </TableCell>
-                    <TableCell sx={{ maxWidth: '200px' }}>
+                    <TableCell sx={{ maxWidth: '250px' }}>
                       {prod.description}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '40px' }}>
                       {'$'+ prod.price + ',00'}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '30px' }}>
                       {prod.sinTac ? 'Si' : 'No'}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '30px' }}>
                       {prod.vegano ? 'Si' : 'No'}
                     </TableCell>
                     <TableCell>
