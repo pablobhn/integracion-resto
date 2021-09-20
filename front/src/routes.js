@@ -11,6 +11,8 @@ import MesasList from 'src/pages/MesasList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
 import Ventas from 'src/pages/Ventas';
+import Liquidaciones from 'src/pages/Liquidaciones';
+import Registracion from 'src/pages/Registracion';
 
 export const routes = [
   {
@@ -23,7 +25,9 @@ export const routes = [
       { path: 'mesas', element: <MesasList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> },
-      { path: 'ventas', element: <Ventas /> }
+      { path: 'ventas', element: <Ventas /> },
+      { path: 'liquidaciones', element: <Liquidaciones /> },
+      { path: 'registracion', element: <Registracion /> }
     ]
   },
   {
@@ -44,7 +48,8 @@ export const noLogin = [
     path: '*',
     element: <MainLayout />,
     children: [
-      { path: '*', element: <Login /> }
+      { path: '*', element: <Login /> },
+      { path: 'register', element: <Register /> }
     ]
   }
 ];

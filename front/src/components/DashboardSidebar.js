@@ -19,7 +19,8 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  DollarSign as DollarSignIcon
+  DollarSign as DollarSignIcon,
+  List as ListIcon,
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -50,6 +51,11 @@ const items = [
     title: 'Empleados'
   },
   {
+    href: '/app/liquidaciones',
+    icon: ListIcon,
+    title: 'Liquidaciones'
+  },
+  {
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Configuracion'
@@ -60,7 +66,7 @@ const items = [
   //   title: 'Login'
   // },
   {
-    href: '/register',
+    href: '/app/registracion',
     icon: UserPlusIcon,
     title: 'Registracion'
   },
@@ -111,7 +117,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             width: 64,
             height: 64
           }}
-          to="/app/account"
+          to="/app/settings"
         />
         <Typography
           color="textPrimary"
