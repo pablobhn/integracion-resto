@@ -25,6 +25,7 @@ module.exports = {
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
 			rate: req.body.rate,
+			horasBase: req.body.horasBase,
 			horasExtra: [],
 			faltas: []
 		};
@@ -75,15 +76,42 @@ module.exports = {
 		const where = {
 			id: req.params.id
 		};
-		const data = req.body;
-		return empleados
-			.findOne({where: where}).then( function (foundItem) {
-				empleados .update({'horasExtra': { ... foundItem.horasExtra, data }}, {where: where})
-					.then(empleados => res.status(200).send(empleados))
-					.catch(error => res.status(400).send(error))
-	
-		});
 
+		const data = {
+			fecha: req.body.fecha,
+			horas: req.body.horas
+		};
+
+		return empleados
+		.findOne({where: where}).then(function (foundItem) {
+			var updatedArray = foundItem.horasExtra;
+			updatedArray.push(data);
+			empleados
+				.update({'horasExtra': updatedArray}, {where: where})
+				.then(empleados => res.status(200).send(empleados))
+				.catch(error => res.status(400).send(error))
+		})
+	},
+
+	faltas(req, res) {
+		const where = {
+			id: req.params.id
+		};
+
+		const data = {
+			fecha: req.body.fecha,
+			horas: req.body.horas
+		};
+
+		return empleados
+		.findOne({where: where}).then(function (foundItem) {
+			var updatedArray = foundItem.faltas;
+			updatedArray.push(data);
+			empleados
+				.update({'faltas': updatedArray}, {where: where})
+				.then(empleados => res.status(200).send(empleados))
+				.catch(error => res.status(400).send(error))
+		})
 	},
 
 	/**

@@ -206,6 +206,7 @@ const ProductosListResults = (props) => {
         </Box>
       </Box>
       <EditProductModal open={open} handleClose={handleClose} prod={editProd} />
+      <NewProductModal open={newProductModalOpen} handleClose={handleNewProductModalOpenClose} />
       <Card>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>

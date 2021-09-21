@@ -28,9 +28,11 @@ import {
   Tooltip,
   Typography
 } from '@material-ui/core';
+import AlarmIcon from '@material-ui/icons/Alarm';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
-import CancelIcon from '@material-ui/icons/Cancel';
-import CheckIcon from '@material-ui/icons/Check';
+import ModalHoras from './ModalHoras';
 
 // eslint-disable-next-line react/prop-types
 const EmpleadosListResults = (props) => {
@@ -39,6 +41,8 @@ const EmpleadosListResults = (props) => {
   const [selectedEmpleadosIds, setSelectedEmpleadosIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [modalHorasOpen, setModalHorasOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(-1);
 
   const handleSelectAll = (event) => {
     let newselectedEmpleadosIds;
@@ -104,6 +108,23 @@ const EmpleadosListResults = (props) => {
     }
   };
 
+  const handleOpenModalHoras = async function (e, id) {
+    setSelectedId(id);
+    setModalHorasOpen(true);
+  };
+
+  const handleCloseModalHoras = () => {
+    setModalHorasOpen(false);
+  };
+
+  const isCurrentMonth = (fecha) => {
+    const currentdate = new Date();
+    const month = currentdate.getMonth() + 1;
+    const year = currentdate.getFullYear();
+
+    return ((parseInt(moment(fecha).format('YYYY'), 10) === year) && (parseInt(moment(fecha).format('MM'), 10) === month));
+  };
+
   return (
     <>
       <Box>
@@ -120,6 +141,7 @@ const EmpleadosListResults = (props) => {
             <CircularProgress color="secondary" />
           </DialogContent>
         </Dialog>
+        <ModalHoras open={modalHorasOpen} handleClose={handleCloseModalHoras} id={selectedId} handleUpdate={handleUpdate} />
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -164,15 +186,12 @@ const EmpleadosListResults = (props) => {
                   p: 3
                 }}
               >
-                <Button sx={{ mx: 2 }}>
-                  Anular
-                </Button>
                 <Button
                   color="primary"
                   variant="contained"
                   sx={{ mx: 2 }}
                 >
-                  Pagado
+                  Liquidar sueldos
                 </Button>
               </Grid>
             </Grid>
@@ -201,19 +220,22 @@ const EmpleadosListResults = (props) => {
                     Nombre
                   </TableCell>
                   <TableCell>
-                    Importe
+                    Tel
                   </TableCell>
                   <TableCell>
-                    Fecha
+                    Dirección
                   </TableCell>
                   <TableCell>
-                    Hora
+                    Fecha de nacimiento
                   </TableCell>
                   <TableCell>
-                    Medio de pago
+                    Fecha de ingreso
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: 160 }}>
+                    Hs Extra / Faltas (mes en curso)
                   </TableCell>
                   <TableCell>
-                    Estado
+                    Regimen
                   </TableCell>
                   <TableCell />
                 </TableRow>
@@ -237,31 +259,25 @@ const EmpleadosListResults = (props) => {
                         {empleado.id}
                       </TableCell>
                       <TableCell>
-                        <Box
-                          sx={{
-                            alignItems: 'center',
-                            display: 'flex'
-                          }}
-                        >
-                          <Typography
-                            color="textPrimary"
-                            variant="body1"
-                          >
-                            {empleado.mesa}
-                          </Typography>
-                        </Box>
+                        {empleado.name}
                       </TableCell>
                       <TableCell>
-                        {`$ ${empleado.total},00`}
+                        {empleado.tel}
                       </TableCell>
                       <TableCell>
-                        {moment(empleado.createdAt).format('DD/MM/YYYY')}
+                        {empleado.address}
                       </TableCell>
                       <TableCell>
-                        {moment(empleado.createdAt).format('hh:mm')}
+                        {moment(empleado.fechaNacimiento).format('DD/MM/YYYY')}
                       </TableCell>
                       <TableCell>
-                        {(empleado.pago.medio === 'tarjeta') ? `Tarjeta ${empleado.pago.tipo} ${empleado.pago.digitos}` : 'Efectivo'}
+                        {moment(empleado.fechaIngreso).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {`${empleado.horasExtra.reduce((a, c) => a + (isCurrentMonth(c.fecha) ? c.horas : 0), 0)} / ${empleado.faltas.reduce((a, c) => a + (isCurrentMonth(c.fecha) ? c.horas : 0), 0)}`}
+                      </TableCell>
+                      <TableCell>
+                        {(empleado.horasBase === 160) ? 'Fulltime' : `${empleado.horasBase} hs`}
                       </TableCell>
                       <TableCell>
                         {
@@ -272,37 +288,43 @@ const EmpleadosListResults = (props) => {
                           }[empleado.estado]
                         }
                       </TableCell>
-                      <TableCell>
-                        {(empleado.estado === 0) ? (
-                          <>
-                            <Tooltip title="Pagada">
-                              <IconButton
-                                color="inherit"
-                              >
-                                <CheckIcon
-                                  onClick={(e) => handleEditar(e, empleado.id)}
-                                  color="primary"
-                                  tooltip="pagada"
-                                  variant="dot"
-                                />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Anular">
-                              <IconButton
-                                color="inherit"
-                              >
-                                <CancelIcon
-                                  onClick={(e) => handleBorrar(e, empleado.id)}
-                                  color="primary"
-                                  tooltip="anular"
-                                  variant="dot"
-                                />
-                              </IconButton>
-                            </Tooltip>
-                          </>
-                        ) : (
-                          <></>
-                        )}
+                      <TableCell sx={{ minWidth: 155 }}>
+                        <Tooltip title="Registrar faltas/hs extra">
+                          <IconButton
+                            color="inherit"
+                          >
+                            <AlarmIcon
+                              onClick={(e) => handleOpenModalHoras(e, empleado.id)}
+                              color="primary"
+                              tooltip="pagada"
+                              variant="dot"
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Editar">
+                          <IconButton
+                            color="inherit"
+                          >
+                            <EditIcon
+                              onClick={(e) => handleEditar(e, empleado.id)}
+                              color="primary"
+                              tooltip="pagada"
+                              variant="dot"
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Borrar">
+                          <IconButton
+                            color="inherit"
+                          >
+                            <DeleteIcon
+                              onClick={(e) => handleBorrar(e, empleado.id)}
+                              color="primary"
+                              tooltip="anular"
+                              variant="dot"
+                            />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}

@@ -9,6 +9,8 @@ const urlWebServices = {
   crearVenta: `${urlApi}api/ventas/create`,
   listarVentas: `${urlApi}api/ventas/list`,
   listarEmpleados: `${urlApi}api/empleados/list`,
+  empleadosHorasExtra: `${urlApi}api/empleados/horasExtra`,
+  empleadosFaltas: `${urlApi}api/empleados/faltas`,
   actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`
 
 // register: urlApi + "api/usuarios/create",
