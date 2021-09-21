@@ -9,6 +9,9 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
+  Dialog,
+  DialogContent,
   Grid,
   Checkbox,
   IconButton,
@@ -32,6 +35,7 @@ import { actualizarEstado } from '../../controllers/ventas';
 // eslint-disable-next-line react/prop-types
 const VentasListResults = (props) => {
   const { ventas, handleUpdate } = props;
+  const [loading, setLoading] = useState(false);
   const [selectedVentasIds, setSelectedVentasIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -77,19 +81,25 @@ const VentasListResults = (props) => {
   };
 
   const handlePagar = async function (e, id) {
+    setLoading(true);
     const res = await actualizarEstado(id, 1);
     if (res) {
+      setLoading(false);
       handleUpdate();
     } else {
+      setLoading(false);
       alert('Ha habido un error al actualizar el estado');
     }
   };
 
   const handleAnular = async function (e, id) {
+    setLoading(true);
     const res = await actualizarEstado(id, 2);
     if (res) {
+      setLoading(false);
       handleUpdate();
     } else {
+      setLoading(false);
       alert('Ha habido un error al actualizar el estado');
     }
   };
@@ -97,6 +107,19 @@ const VentasListResults = (props) => {
   return (
     <>
       <Box>
+        <Dialog
+          open={loading}
+          PaperProps={{
+            style: {
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            },
+          }}
+        >
+          <DialogContent style={{ overflow: 'hidden' }}>
+            <CircularProgress color="secondary" />
+          </DialogContent>
+        </Dialog>
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -184,6 +207,9 @@ const VentasListResults = (props) => {
                     Fecha
                   </TableCell>
                   <TableCell>
+                    Hora
+                  </TableCell>
+                  <TableCell>
                     Medio de pago
                   </TableCell>
                   <TableCell>
@@ -229,6 +255,9 @@ const VentasListResults = (props) => {
                     </TableCell>
                     <TableCell>
                       {moment(venta.createdAt).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      {moment(venta.createdAt).format('hh:mm')}
                     </TableCell>
                     <TableCell>
                       {(venta.pago.medio === 'tarjeta') ? `Tarjeta ${venta.pago.tipo} ${venta.pago.digitos}` : 'Efectivo'}

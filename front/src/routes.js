@@ -2,7 +2,7 @@
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/components/DashboardLayout';
 import MainLayout from 'src/components/MainLayout';
-import Empleados from 'src/pages/Empleados';
+import EmpleadosList from 'src/pages/EmpleadosList';
 import ProductList from 'src/pages/ProductList';
 import Dashboard from 'src/pages/Dashboard';
 import Login from 'src/pages/Login';
@@ -10,8 +10,8 @@ import NotFound from 'src/pages/NotFound';
 import MesasList from 'src/pages/MesasList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
-import Ventas from 'src/pages/Ventas';
-import Liquidaciones from 'src/pages/Liquidaciones';
+import VentasList from 'src/pages/VentasList';
+import LiquidacionesList from 'src/pages/LiquidacionesList';
 import Registracion from 'src/pages/Registracion';
 
 export const routes = [
@@ -19,14 +19,14 @@ export const routes = [
     path: 'app',
     element: <DashboardLayout />,
     children: [
-      { path: 'empleados', element: <Empleados /> },
+      { path: 'empleados', element: <EmpleadosList /> },
       { path: 'productos', element: <ProductList /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'mesas', element: <MesasList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> },
-      { path: 'ventas', element: <Ventas /> },
-      { path: 'liquidaciones', element: <Liquidaciones /> },
+      { path: 'ventas', element: <VentasList /> },
+      { path: 'liquidaciones', element: <LiquidacionesList /> },
       { path: 'registracion', element: <Registracion /> }
     ]
   },

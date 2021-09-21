@@ -12,11 +12,13 @@ import {
   CardContent,
   Checkbox,
   FormControl,
+  Grid,
   IconButton,
   InputLabel,
   InputAdornment,
   MenuItem,
   Select,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -122,25 +124,45 @@ const ProductosListResults = (props) => {
         }}
         >
           <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Box>
+            <Grid container>
+              <Grid
+                item
+                xs={4}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  direction: 'row',
+                  p: 2
+                }}
+              >
                 <TextField
                   fullWidth
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon
+                        <SvgIcon
                           fontSize="small"
                           color="action"
-                        />
+                        >
+                          <SearchIcon />
+                        </SvgIcon>
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar producto"
+                  placeholder="Buscar venta"
                   variant="outlined"
                 />
-              </Box>
-              <Box>
+              </Grid>
+              <Grid
+                item
+                xs={4}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  direction: 'row',
+                  p: 2
+                }}
+              >
                 <FormControl>
                   <InputLabel id="categoria">Categoria</InputLabel>
                   <Select
@@ -159,16 +181,27 @@ const ProductosListResults = (props) => {
                     ))}
                   </Select>
                 </FormControl>
-              </Box>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={handleNewProductModalOpenClickOpen}
+              </Grid>
+              <Grid
+                item
+                xs={4}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  direction: 'row',
+                  p: 3
+                }}
               >
-                Agregar Producto
-              </Button>
-              <NewProductModal open={newProductModalOpen} handleClose={handleNewProductModalOpenClose} />
-            </CardContent>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  sx={{ mx: 2 }}
+                  onClick={handleNewProductModalOpenClickOpen}
+                >
+                  Agregar Producto
+                </Button>
+              </Grid>
+            </Grid>
           </Card>
         </Box>
       </Box>

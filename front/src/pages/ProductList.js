@@ -1,7 +1,13 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container, CircularProgress } from '@material-ui/core';
+import {
+  Box,
+  Container,
+  CircularProgress,
+  Dialog,
+  DialogContent
+} from '@material-ui/core';
 import ProductosListResults from 'src/components/productos/ProductosListResults';
 import { listarProductos } from 'src/controllers/productos';
 
@@ -40,13 +46,25 @@ const ProductList = () => {
         sx={{
           backgroundColor: 'background.default',
           minHeight: '100%',
-          py: 3
+          py: 2
         }}
       >
         <Container maxWidth={false}>
-          <Box sx={{ pt: 3 }}>
+          <Box>
             { loading ? (
-              <CircularProgress />
+              <Dialog
+                open={loading}
+                PaperProps={{
+                  style: {
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                  },
+                }}
+              >
+                <DialogContent style={{ overflow: 'hidden' }}>
+                  <CircularProgress color="secondary" />
+                </DialogContent>
+              </Dialog>
             ) : (
               <ProductosListResults productos={productos} handleUpdate={handleUpdate} />
             )}
