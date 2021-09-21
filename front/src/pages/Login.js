@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Container,
-  Link,
   TextField,
   Typography
 } from '@material-ui/core';
@@ -63,11 +62,14 @@ const Login = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 3, paddingTop: '80px' }}>
+                <Box sx={{
+                  mb: 3, paddingTop: '80px', justifyContent: 'center', display: 'flex'
+                }}
+                >
                   <Typography
-                    color="textSecondary"
+                    color="textPrimary"
                     gutterBottom
-                    variant="body2"
+                    variant="h2"
                   >
                     Iniciar sesion en la plataforma
                   </Typography>
@@ -123,20 +125,6 @@ const Login = () => {
                     {loading ? 'Cargando...' : 'Iniciar sesión'}
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  No tienes una cuenta?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
-                    Registrarse
-                  </Link>
-                </Typography>
               </form>
             )}
           </Formik>

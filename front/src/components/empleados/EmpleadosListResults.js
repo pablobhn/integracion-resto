@@ -17,10 +17,11 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button
+  IconButton,
 } from '@material-ui/core';
 // eslint-disable-next-line import/no-unresolved
 import getInitials from 'src/utils/getInitials';
+import EditIcon from '@material-ui/icons/Edit';
 
 // eslint-disable-next-line react/prop-types
 const EmpleadosListResults = ({ empleados, ...rest }) => {
@@ -165,12 +166,14 @@ const EmpleadosListResults = ({ empleados, ...rest }) => {
                     {moment(empleados.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <Button
-                      color="primary"
-                      variant="contained"
+                    <IconButton
+                      color="inherit"
                     >
-                      Editar
-                    </Button>
+                      <EditIcon
+                        color="primary"
+                        variant="dot"
+                      />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

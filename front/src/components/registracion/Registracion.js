@@ -13,9 +13,9 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import roles from '../__mocks__/roles';
+import roles from '../../__mocks__/roles';
 
-const Register = () => {
+const Registracion = () => {
   const navigate = useNavigate();
 
   return (
@@ -70,14 +70,14 @@ const Register = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Crear nueva cuenta
+                    Crear un nuevo usuario
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Utiliza tu email para crear una nueva cuenta
+                    Utiliza un email para crear una nueva cuenta
                   </Typography>
                 </Box>
                 <TextField
@@ -148,35 +148,6 @@ const Register = () => {
                     </option>
                   ))}
                 </Field>
-                <Box
-                  sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    ml: -1
-                  }}
-                >
-                  <Checkbox
-                    checked={values.policy}
-                    name="policy"
-                    onChange={handleChange}
-                  />
-                  <Typography
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    He leído los
-                    {' '}
-                    <Link
-                      color="primary"
-                      component={RouterLink}
-                      to="#"
-                      underline="always"
-                      variant="h6"
-                    >
-                      Términos y condiciones
-                    </Link>
-                  </Typography>
-                </Box>
                 {Boolean(touched.policy && errors.policy) && (
                   <FormHelperText error>
                     {errors.policy}
@@ -191,23 +162,9 @@ const Register = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Registrarse
+                    Registrar
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Tienes una cuenta?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/login"
-                    variant="h6"
-                  >
-                    Iniciar sesión
-                  </Link>
-                </Typography>
               </form>
             )}
           </Formik>
@@ -217,4 +174,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Registracion;

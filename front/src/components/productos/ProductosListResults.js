@@ -2,7 +2,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useState, React } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -148,7 +148,9 @@ const ProductosListResults = (props) => {
                     labelId="prueba-select"
                     label="Seleccione una categoría"
                     id="prueba-select-simple"
-                    value="categoria"
+                    value={categorias.categoria}
+                    onChange={(event) => handleSelectOne(event, categorias.categoria)}
+                    defaultValue="categoria"
                   >
                     {categorias.map((categoria) => (
                       <MenuItem value={categoria}>
