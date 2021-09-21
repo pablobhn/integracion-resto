@@ -10,12 +10,11 @@ const VentasList = () => (
     <Box
       sx={{
         backgroundColor: 'background.default',
-        minHeight: '100%',
-        py: 3
+        minHeight: '100%'
       }}
     >
       <Container maxWidth={false}>
-        <Box sx={{ pt: 3 }}>
+        <Box>
           <Registracion />
         </Box>
       </Container>

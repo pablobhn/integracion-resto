@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -6,25 +7,35 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
   Box,
+  Button,
   Card,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Grid,
   Checkbox,
+  IconButton,
+  InputAdornment,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
-  IconButton,
+  TextField,
+  Tooltip,
+  Typography
 } from '@material-ui/core';
-// eslint-disable-next-line import/no-unresolved
-import getInitials from 'src/utils/getInitials';
-import EditIcon from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckIcon from '@material-ui/icons/Check';
 
 // eslint-disable-next-line react/prop-types
-const EmpleadosListResults = ({ empleados, ...rest }) => {
+const EmpleadosListResults = (props) => {
+  const { empleados, handleUpdate } = props;
+  const [loading, setLoading] = useState(false);
   const [selectedEmpleadosIds, setSelectedEmpleadosIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -33,7 +44,7 @@ const EmpleadosListResults = ({ empleados, ...rest }) => {
     let newselectedEmpleadosIds;
 
     if (event.target.checked) {
-      newselectedEmpleadosIds = empleados.map((empleados) => empleados.id);
+      newselectedEmpleadosIds = empleados.map((empleado) => empleado.id);
     } else {
       newselectedEmpleadosIds = [];
     }
@@ -69,128 +80,248 @@ const EmpleadosListResults = ({ empleados, ...rest }) => {
     setPage(newPage);
   };
 
-  return (
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedEmpleadosIds.length === empleados.length}
-                    color="primary"
-                    indeterminate={
-                      selectedEmpleadosIds.length > 0
-                      && selectedEmpleadosIds.length < empleados.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>
-                  Legajo
-                </TableCell>
-                <TableCell>
-                  Nombre Apellido
-                </TableCell>
-                <TableCell>
-                  Cargo
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Dirección
-                </TableCell>
-                <TableCell>
-                  Telefono
-                </TableCell>
-                <TableCell>
-                  Fecha de ingreso
-                </TableCell>
-                <TableCell />
+  const handleEditar = async function (e, id) {
+    setLoading(true);
+    // const res = await actualizarEstado(id, 1);
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
 
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {empleados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((empleados) => (
-                <TableRow
-                  hover
-                  key={empleados.id}
-                  selected={selectedEmpleadosIds.indexOf(empleados.id) !== -1}
+  const handleBorrar = async function (e, id) {
+    setLoading(true);
+    // onst res = await actualizarEstado(id, 2);
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  return (
+    <>
+      <Box>
+        <Dialog
+          open={loading}
+          PaperProps={{
+            style: {
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            },
+          }}
+        >
+          <DialogContent style={{ overflow: 'hidden' }}>
+            <CircularProgress color="secondary" />
+          </DialogContent>
+        </Dialog>
+        <Box sx={{
+          mt: 3, flexDirection: 'column', display: 'flex'
+        }}
+        >
+          <Card>
+            <Grid container>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  direction: 'row',
+                  p: 2
+                }}
+              >
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SvgIcon
+                          fontSize="small"
+                          color="action"
+                        >
+                          <SearchIcon />
+                        </SvgIcon>
+                      </InputAdornment>
+                    )
+                  }}
+                  placeholder="Buscar empleado"
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  direction: 'row',
+                  p: 3
+                }}
+              >
+                <Button sx={{ mx: 2 }}>
+                  Anular
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  sx={{ mx: 2 }}
                 >
+                  Pagado
+                </Button>
+              </Grid>
+            </Grid>
+          </Card>
+        </Box>
+      </Box>
+      <Card>
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 1050 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedEmpleadosIds.indexOf(empleados.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, empleados.id)}
-                      value="true"
+                      checked={selectedEmpleadosIds.length === empleados.length}
+                      color="primary"
+                      indeterminate={selectedEmpleadosIds.length > 0
+                        && selectedEmpleadosIds.length < empleados.length}
+                      onChange={handleSelectAll}
                     />
                   </TableCell>
                   <TableCell>
-                    {empleados.id}
+                    Legajo
                   </TableCell>
                   <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Avatar
-                        src={empleados.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(empleados.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {empleados.name}
-                      </Typography>
-                    </Box>
+                    Nombre
                   </TableCell>
                   <TableCell>
-                    {empleados.cargo}
+                    Importe
                   </TableCell>
                   <TableCell>
-                    {empleados.email}
+                    Fecha
                   </TableCell>
                   <TableCell>
-                    {`${empleados.address.city}, ${empleados.address.state}, ${empleados.address.country}`}
+                    Hora
                   </TableCell>
                   <TableCell>
-                    {empleados.phone}
+                    Medio de pago
                   </TableCell>
                   <TableCell>
-                    {moment(empleados.createdAt).format('DD/MM/YYYY')}
+                    Estado
                   </TableCell>
-                  <TableCell>
-                    <IconButton
-                      color="inherit"
-                    >
-                      <EditIcon
-                        color="primary"
-                        variant="dot"
-                      />
-                    </IconButton>
-                  </TableCell>
+                  <TableCell />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={empleados.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+              </TableHead>
+              { (empleados.length > 0) ? (
+                <TableBody>
+                  {empleados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((empleado) => (
+                    <TableRow
+                      hover
+                      key={empleado.id}
+                      selected={selectedEmpleadosIds.indexOf(empleado.id) !== -1}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedEmpleadosIds.indexOf(empleado.id) !== -1}
+                          onChange={(event) => handleSelectOne(event, empleado.id)}
+                          value="true"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {empleado.id}
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                          }}
+                        >
+                          <Typography
+                            color="textPrimary"
+                            variant="body1"
+                          >
+                            {empleado.mesa}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        {`$ ${empleado.total},00`}
+                      </TableCell>
+                      <TableCell>
+                        {moment(empleado.createdAt).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {moment(empleado.createdAt).format('hh:mm')}
+                      </TableCell>
+                      <TableCell>
+                        {(empleado.pago.medio === 'tarjeta') ? `Tarjeta ${empleado.pago.tipo} ${empleado.pago.digitos}` : 'Efectivo'}
+                      </TableCell>
+                      <TableCell>
+                        {
+                          {
+                            0: 'Pendiente',
+                            1: 'Pagada',
+                            2: 'Anulada'
+                          }[empleado.estado]
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {(empleado.estado === 0) ? (
+                          <>
+                            <Tooltip title="Pagada">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CheckIcon
+                                  onClick={(e) => handleEditar(e, empleado.id)}
+                                  color="primary"
+                                  tooltip="pagada"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Anular">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CancelIcon
+                                  onClick={(e) => handleBorrar(e, empleado.id)}
+                                  color="primary"
+                                  tooltip="anular"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (<></>)}
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <TablePagination
+          component="div"
+          count={empleados.length}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+          page={page}
+          rowsPerPage={limit}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </Card>
+    </>
   );
 };
 

@@ -244,70 +244,72 @@ const ProductosListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {productos.slice((0 + page * limit), ((0 + page * limit) + limit)).map((prod) => (
-                  <TableRow
-                    hover
-                    key={prod.id}
-                    selected={selectedProductosIds.indexOf(prod.id) !== -1}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedProductosIds.indexOf(prod.id) !== -1}
-                        onChange={(event) => handleSelectOne(event, prod.id)}
-                        value="true"
-                      />
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '250px' }}>
-                      <Box
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex'
-                        }}
-                      >
-                        <Avatar
-                          src={prod.avatarUrl}
-                          sx={{ mr: 1.25 }}
+              { (productos.length > 0) ? (
+                <TableBody>
+                  {productos.slice((0 + page * limit), ((0 + page * limit) + limit)).map((prod) => (
+                    <TableRow
+                      hover
+                      key={prod.id}
+                      selected={selectedProductosIds.indexOf(prod.id) !== -1}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedProductosIds.indexOf(prod.id) !== -1}
+                          onChange={(event) => handleSelectOne(event, prod.id)}
+                          value="true"
                         />
-                        <Typography>
-                          {prod.title}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '50px' }}>
-                      {prod.type}
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '250px' }}>
-                      {prod.description}
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '40px' }}>
-                      {'$'+ prod.price + ',00'}
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '30px' }}>
-                      {prod.sinTac ? 'Si' : 'No'}
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '30px' }}>
-                      {prod.vegano ? 'Si' : 'No'}
-                    </TableCell>
-                    <TableCell>
-                      <IconButton color="inherit">
-                        <EditIcon
-                          onClick={(e) => handleClickOpen(e, prod)}
-                          color="primary"
-                          variant="dot"
-                        />
-                      </IconButton>
-                      <IconButton color="inherit">
-                        <DeleteIcon
-                          onClick={(e) => handleBorrar(e, prod.id)}
-                          color="primary"
-                          variant="dot"
-                        />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '250px' }}>
+                        <Box
+                          sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                          }}
+                        >
+                          <Avatar
+                            src={prod.avatarUrl}
+                            sx={{ mr: 1.25 }}
+                          />
+                          <Typography>
+                            {prod.title}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '50px' }}>
+                        {prod.type}
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '250px' }}>
+                        {prod.description}
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '40px' }}>
+                        {'$'+ prod.price + ',00'}
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '30px' }}>
+                        {prod.sinTac ? 'Si' : 'No'}
+                      </TableCell>
+                      <TableCell sx={{ maxWidth: '30px' }}>
+                        {prod.vegano ? 'Si' : 'No'}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton color="inherit">
+                          <EditIcon
+                            onClick={(e) => handleClickOpen(e, prod)}
+                            color="primary"
+                            variant="dot"
+                          />
+                        </IconButton>
+                        <IconButton color="inherit">
+                          <DeleteIcon
+                            onClick={(e) => handleBorrar(e, prod.id)}
+                            color="primary"
+                            variant="dot"
+                          />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (<></>)}
             </Table>
           </Box>
         </PerfectScrollbar>

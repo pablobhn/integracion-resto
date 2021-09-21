@@ -218,94 +218,96 @@ const VentasListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {ventas.slice((0 + page * limit), ((0 + page * limit) + limit)).map((venta) => (
-                  <TableRow
-                    hover
-                    key={venta.id}
-                    selected={selectedVentasIds.indexOf(venta.id) !== -1}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedVentasIds.indexOf(venta.id) !== -1}
-                        onChange={(event) => handleSelectOne(event, venta.id)}
-                        value="true"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      {venta.id}
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex'
-                        }}
-                      >
-                        <Typography
-                          color="textPrimary"
-                          variant="body1"
+              { (ventas.length > 0) ? (
+                <TableBody>
+                  {ventas.slice((0 + page * limit), ((0 + page * limit) + limit)).map((venta) => (
+                    <TableRow
+                      hover
+                      key={venta.id}
+                      selected={selectedVentasIds.indexOf(venta.id) !== -1}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedVentasIds.indexOf(venta.id) !== -1}
+                          onChange={(event) => handleSelectOne(event, venta.id)}
+                          value="true"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {venta.id}
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                          }}
                         >
-                          {venta.mesa}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      {`$ ${venta.total},00`}
-                    </TableCell>
-                    <TableCell>
-                      {moment(venta.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      {moment(venta.createdAt).format('hh:mm')}
-                    </TableCell>
-                    <TableCell>
-                      {(venta.pago.medio === 'tarjeta') ? `Tarjeta ${venta.pago.tipo} ${venta.pago.digitos}` : 'Efectivo'}
-                    </TableCell>
-                    <TableCell>
-                      {
+                          <Typography
+                            color="textPrimary"
+                            variant="body1"
+                          >
+                            {venta.mesa}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        {`$ ${venta.total},00`}
+                      </TableCell>
+                      <TableCell>
+                        {moment(venta.createdAt).format('DD/MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {moment(venta.createdAt).format('hh:mm')}
+                      </TableCell>
+                      <TableCell>
+                        {(venta.pago.medio === 'tarjeta') ? `Tarjeta ${venta.pago.tipo} ${venta.pago.digitos}` : 'Efectivo'}
+                      </TableCell>
+                      <TableCell>
+                        {
                         {
                           0: 'Pendiente',
                           1: 'Pagada',
                           2: 'Anulada'
                         }[venta.estado]
                       }
-                    </TableCell>
-                    <TableCell>
-                      {(venta.estado === 0) ? (
-                        <>
-                          <Tooltip title="Pagada">
-                            <IconButton
-                              color="inherit"
-                            >
-                              <CheckIcon
-                                onClick={(e) => handlePagar(e, venta.id)}
-                                color="primary"
-                                tooltip="pagada"
-                                variant="dot"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Anular">
-                            <IconButton
-                              color="inherit"
-                            >
-                              <CancelIcon
-                                onClick={(e) => handleAnular(e, venta.id)}
-                                color="primary"
-                                tooltip="anular"
-                                variant="dot"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+                      </TableCell>
+                      <TableCell>
+                        {(venta.estado === 0) ? (
+                          <>
+                            <Tooltip title="Pagada">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CheckIcon
+                                  onClick={(e) => handlePagar(e, venta.id)}
+                                  color="primary"
+                                  tooltip="pagada"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Anular">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CancelIcon
+                                  onClick={(e) => handleAnular(e, venta.id)}
+                                  color="primary"
+                                  tooltip="anular"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (<></>)}
             </Table>
           </Box>
         </PerfectScrollbar>

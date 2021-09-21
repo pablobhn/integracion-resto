@@ -25,8 +25,8 @@ module.exports = {
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
 			rate: req.body.rate,
-			horasExtra: req.body.horasExtra,
-			faltas: req.body.faltas
+			horasExtra: [],
+			faltas: []
 		};
 
 		return empleados
@@ -50,9 +50,7 @@ module.exports = {
 			fechaNacimiento: req.body.fechaNacimiento,
 			fechaIngreso: req.body.fechaIngreso,
 			rate: req.body.rate,
-			horasBase: req.body.horasBase,
-			horasExtra: req.body.horasExtra,
-			faltas: []
+			horasBase: req.body.horasBase
 		};
 
 		return empleados
@@ -70,6 +68,21 @@ module.exports = {
 				;
 			}
 		})
+
+	},
+
+	horasExtra(req, res) {
+		const where = {
+			id: req.params.id
+		};
+		const data = req.body;
+		return empleados
+			.findOne({where: where}).then( function (foundItem) {
+				empleados .update({'horasExtra': { ... foundItem.horasExtra, data }}, {where: where})
+					.then(empleados => res.status(200).send(empleados))
+					.catch(error => res.status(400).send(error))
+	
+		});
 
 	},
 

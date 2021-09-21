@@ -251,10 +251,9 @@ const MesaCard = ({ mesa, ...rest }) => {
       >
         <Typography
           align="center"
-          color="textPrimary"
-          variant="body2"
+          color="primary"
         >
-          Agregar producto
+          Agregar productos
         </Typography>
       </Button>
       <Box sx={{ flexGrow: 1 }} />

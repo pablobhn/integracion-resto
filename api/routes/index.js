@@ -38,5 +38,6 @@ module.exports = (app) => {
 	app.get('/api/empleados/list', empleadosController.list);
 	app.post('/api/empleados/edit/id/:id', empleadosController.edit);
 	app.post('/api/empleados/delete/id/:id', empleadosController.delete);
+	app.post('/api/empleados/horasExtra/id/:id', empleadosController.horasExtra);
 
 };

@@ -8,6 +8,7 @@ const urlWebServices = {
   borrarProducto: `${urlApi}api/productos/delete/id/`,
   crearVenta: `${urlApi}api/ventas/create`,
   listarVentas: `${urlApi}api/ventas/list`,
+  listarEmpleados: `${urlApi}api/empleados/list`,
   actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`
 
 // register: urlApi + "api/usuarios/create",
