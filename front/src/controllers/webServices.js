@@ -6,7 +6,9 @@ const urlWebServices = {
   listarProductos: `${urlApi}api/productos/list`,
   editarProducto: `${urlApi}api/productos/edit/id/`,
   borrarProducto: `${urlApi}api/productos/delete/id/`,
-  crearVenta: `${urlApi}api/ventas/create`
+  crearVenta: `${urlApi}api/ventas/create`,
+  listarVentas: `${urlApi}api/ventas/list`,
+  actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`
 
 // register: urlApi + "api/usuarios/create",
 // findUser: urlApi + "api/usuarios/find/username/",
