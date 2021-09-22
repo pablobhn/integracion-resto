@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const empleados = require('../models').empleado;
+const liquidaciones = require('../models').liquidaciones;
+var moment = require('moment'); // require
 
 module.exports = {
 
@@ -114,6 +116,95 @@ module.exports = {
 		})
 	},
 
+	liquidarSueldo(req, res) {
+		const where = {
+			id: req.params.id
+		};
+
+		return empleados
+		.findOne({where: where}).then(function (empleado) {
+			const month = parseInt(req.params.month);
+			const year = parseInt(req.params.year);
+			const basico = empleado.rate;
+			const fechaActual = new Date();
+			const antiguedadDif = fechaActual - moment(empleado.fechaIngreso)
+			const antiguedadDate = new Date(antiguedadDif);
+			const antiguedad = (Math.abs(antiguedadDate.getUTCFullYear() - 1970)) * 0.02;
+			const jubilacion = 0.11;
+			const obraSocial = 0.03;
+			const ley19032 = 0.03;
+			const sindicato = 0.025;
+
+			const isSamePeriod = (fecha) => {			
+				return ((parseInt(moment(fecha).format('YYYY'), 10) === year) && (parseInt(moment(fecha).format('MM'), 10) === month));
+			};
+
+			const faltasMes = empleado.horasExtra.reduce((a, c) => a + (isSamePeriod(c.fecha) ? c.horas : 0), 0);
+			const extrasMes = empleado.faltas.reduce((a, c) => a + (isSamePeriod(c.fecha) ? c.horas : 0), 0);
+			
+			const bruto = basico - (faltasMes * (empleado.rate/160)) + (antiguedad * empleado.rate) + (extrasMes * empleado.rate / empleado.horasBase);
+			const total = bruto * (1 - jubilacion - obraSocial - ley19032 - sindicato);
+
+			const detalle = [
+				{
+					descripcion: `Sueldo básico ${empleado.role}`,
+					cantidad: 160, 
+					monto: basico
+				},
+				{
+					descripcion: "Antiguedad",
+					cantidad: antiguedad,
+					monto: (antiguedad * empleado.rate)
+				},
+				{
+					descripcion: "Horas extra",
+					cantidad: extrasMes,
+					monto: extrasMes * empleado.rate / empleado.horasBase
+				},
+				{
+					descripcion: "Faltas injustificadas",
+					cantidad: faltasMes,
+					monto: -(faltasMes * empleado.rate / empleado.horasBase)
+				},
+				{
+					descripcion: "Jubilacion",
+					cantidad: 1,
+					monto: -(jubilacion * bruto)
+				},
+				{
+					descripcion: "Obra social",
+					cantidad: 1,
+					monto: -(obraSocial * bruto)
+				},
+				{
+					descripcion: "Ley 19.032 Seg. social",
+					cantidad: 1,
+					monto: -(ley19032 * bruto)
+				},
+				{
+					descripcion: "Cuota sindical",
+					cantidad: 1,
+					monto: -(sindicato * bruto)
+				}
+			];
+
+			const newLiquidacion = {
+                status: 0,
+                periodo: `${year}-${month}-01`,
+                legajo: empleado.id,
+				empleado: empleado.name,
+                total: total,
+                detalle: detalle,
+                pago: {}
+			};
+
+			liquidaciones.create(newLiquidacion)
+				.then(liquidaciones => res.status(200).send(liquidaciones))
+				.catch(error => res.status(400).send(error))
+
+		})
+	},
+
 	/**
 	 * Find all users
 	 * 
@@ -158,5 +249,5 @@ module.exports = {
 			})
 			.then(empleados => res.status(200).send('true'))
 			.catch(error => res.status(400).send(error))
-	}
+	},
 }
