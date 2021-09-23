@@ -106,16 +106,16 @@ const LiquidacionesListResults = (props) => {
 
   const handlePagarSelected = async function () {
     setLoading(true);
-    let res = null;
-
+    const responses = [Promise];
     selectedLiquidacionesIds.map(async (id) => {
-      res = await actualizarEstadoLiquidacion(id, 1);
+      responses.push(actualizarEstado(id, 2));
     });
 
-    if (res) {
+    const values = await Promise.all(responses);
+    if (values) {
       setLoading(false);
       handleUpdate();
-      alert('Se ha actualizado el estado de las ventas seleccionadas');
+      alert('Se ha actualizado el estado de las liquidaciones seleccionadas');
     } else {
       setLoading(false);
       alert('Ha habido un error al actualizar el estado');
@@ -124,16 +124,16 @@ const LiquidacionesListResults = (props) => {
 
   const handleAnularSelected = async function () {
     setLoading(true);
-    let res = {};
-
+    const responses = [Promise];
     selectedLiquidacionesIds.map(async (id) => {
-      res = await actualizarEstadoLiquidacion(id, 2);
+      responses.push(actualizarEstado(id, 2));
     });
 
-    if (res) {
+    const values = await Promise.all(responses);
+    if (values) {
       setLoading(false);
       handleUpdate();
-      alert('Se ha actualizado el estado de las ventas seleccionadas');
+      alert('Se ha actualizado el estado de las liquidaciones seleccionadas');
     } else {
       setLoading(false);
       alert('Ha habido un error al actualizar el estado');
