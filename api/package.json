@@ -1,5 +1,5 @@
 {
-  "name": "tienda-api-backend",
+  "name": "integracion-resto-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pablobhn/tienda-api-backend.git"
+    "url": "git+https://github.com/pablobhn/integracion-resto.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pablobhn/tienda-api-backend/issues"
+    "url": "https://github.com/pablobhn/integracion-resto/issues"
   },
-  "homepage": "https://github.com/pablobhn/tienda-api-backend#readme",
+  "homepage": "https://github.com/pablobhn/integracion-resto#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
