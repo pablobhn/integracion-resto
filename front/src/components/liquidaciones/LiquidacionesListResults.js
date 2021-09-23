@@ -108,7 +108,7 @@ const LiquidacionesListResults = (props) => {
     setLoading(true);
     const responses = [Promise];
     selectedLiquidacionesIds.map(async (id) => {
-      responses.push(actualizarEstado(id, 2));
+      responses.push(actualizarEstadoLiquidacion(id, 2));
     });
 
     const values = await Promise.all(responses);
@@ -126,7 +126,7 @@ const LiquidacionesListResults = (props) => {
     setLoading(true);
     const responses = [Promise];
     selectedLiquidacionesIds.map(async (id) => {
-      responses.push(actualizarEstado(id, 2));
+      responses.push(actualizarEstadoLiquidacion(id, 2));
     });
 
     const values = await Promise.all(responses);
