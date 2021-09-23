@@ -189,7 +189,14 @@ const EmpleadosListResults = (props) => {
                 <Button
                   color="primary"
                   variant="contained"
-                  sx={{ mx: 2 }}
+                  sx={{ mx: 1 }}
+                >
+                  Nuevo empleado
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  sx={{ mx: 1 }}
                 >
                   Liquidar sueldos
                 </Button>

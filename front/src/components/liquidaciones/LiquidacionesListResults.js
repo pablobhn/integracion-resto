@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -6,33 +7,36 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  // Avatar,
   Box,
+  Button,
   Card,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Grid,
   Checkbox,
+  IconButton,
+  InputAdornment,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
-  Button,
-  CardContent,
-  InputAdornment,
-  SvgIcon,
   TextField,
-  IconButton,
+  Tooltip
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
-// import { EditNotifications } from '@material-ui/icons';
-import EditIcon from '@material-ui/icons/Edit';
-// eslint-disable-next-line import/no-unresolved
-// import getInitials from 'src/utils/getInitials';
+import SearchIcon from '@material-ui/icons/Search';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { actualizarEstadoLiquidacion } from '../../controllers/liquidaciones';
 
 // eslint-disable-next-line react/prop-types
-const LiquidacionesListResults = ({ liquidaciones, ...rest }) => {
-  const [selectedLiquidacionesIds, setSelectedLiquidacionesIds] = useState([]);
+const LiquidacionesListResults = (props) => {
+  const { liquidaciones, handleUpdate } = props;
+  const [loading, setLoading] = useState(false);
+  const [selectedLiquidacionesIds, setSelectedLiquidacionesIds] = useState([{}]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -40,7 +44,7 @@ const LiquidacionesListResults = ({ liquidaciones, ...rest }) => {
     let newselectedLiquidacionesIds;
 
     if (event.target.checked) {
-      newselectedLiquidacionesIds = liquidaciones.map((liquidaciones) => liquidaciones.id);
+      newselectedLiquidacionesIds = liquidaciones.map((liquidacion) => liquidacion.id);
     } else {
       newselectedLiquidacionesIds = [];
     }
@@ -65,7 +69,7 @@ const LiquidacionesListResults = ({ liquidaciones, ...rest }) => {
       );
     }
 
-    setselectedLiquidacionesIds(newselectedLiquidacionesIds);
+    setSelectedLiquidacionesIds(newselectedLiquidacionesIds);
   };
 
   const handleLimitChange = (event) => {
@@ -76,16 +80,98 @@ const LiquidacionesListResults = ({ liquidaciones, ...rest }) => {
     setPage(newPage);
   };
 
+  const handlePagar = async function (e, id) {
+    setLoading(true);
+    const res = await actualizarEstadoLiquidacion(id, 1);
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  const handleAnular = async function (e, id) {
+    setLoading(true);
+    const res = await actualizarEstadoLiquidacion(id, 2);
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  const handlePagarSelected = async function () {
+    setLoading(true);
+    let res = null;
+
+    selectedLiquidacionesIds.map(async (id) => {
+      res = await actualizarEstadoLiquidacion(id, 1);
+    });
+
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+      alert('Se ha actualizado el estado de las ventas seleccionadas');
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  const handleAnularSelected = async function () {
+    setLoading(true);
+    let res = {};
+
+    selectedLiquidacionesIds.map(async (id) => {
+      res = await actualizarEstadoLiquidacion(id, 2);
+    });
+
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+      alert('Se ha actualizado el estado de las ventas seleccionadas');
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
   return (
-    <Card {...rest}>
-      <PerfectScrollbar>
+    <>
+      <Box>
+        <Dialog
+          open={loading}
+          PaperProps={{
+            style: {
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            },
+          }}
+        >
+          <DialogContent style={{ overflow: 'hidden' }}>
+            <CircularProgress color="secondary" />
+          </DialogContent>
+        </Dialog>
         <Box sx={{
-          mt: 3, flexDirection: 'column', display: 'flex', justifyContent: 'flex-end'
+          mt: 3, flexDirection: 'column', display: 'flex'
         }}
         >
           <Card>
-            <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Box sx={{ maxWidth: 500 }}>
+            <Grid container>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  direction: 'row',
+                  p: 2
+                }}
+              >
                 <TextField
                   fullWidth
                   InputProps={{
@@ -100,130 +186,170 @@ const LiquidacionesListResults = ({ liquidaciones, ...rest }) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar venta"
+                  placeholder="Buscar liquidacion"
                   variant="outlined"
                 />
-              </Box>
-              <Button
-                color="primary"
-                variant="contained"
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                  direction: 'row',
+                  p: 3
+                }}
               >
-                Anular
-              </Button>
-            </CardContent>
+                <Button
+                  onClick={handleAnularSelected}
+                  sx={{ mx: 2 }}
+                >
+                  Anular
+                </Button>
+                <Button
+                  onClick={handlePagarSelected}
+                  variant="contained"
+                  sx={{ mx: 2 }}
+                >
+                  Pagado
+                </Button>
+              </Grid>
+            </Grid>
           </Card>
         </Box>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedLiquidacionesIds.length === liquidaciones.length}
-                    color="primary"
-                    indeterminate={
-                      selectedLiquidacionesIds.length > 0
-                      && selectedLiquidacionesIds.length < liquidaciones.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>
-                  #ID
-                </TableCell>
-                <TableCell>
-                  Empleado
-                </TableCell>
-                <TableCell>
-                  Importe
-                </TableCell>
-                <TableCell>
-                  Periodo
-                </TableCell>
-                <TableCell>
-                  Medio de pago
-                </TableCell>
-                <TableCell>
-                  Estado
-                </TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {liquidaciones.slice((0 + page * limit), ((0 + page * limit) + limit)).map((liquidaciones) => (
-                <TableRow
-                  hover
-                  key={liquidaciones.id}
-                  selected={selectedLiquidacionesIds.indexOf(liquidaciones.id) !== -1}
-                >
+      </Box>
+      <Card>
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 1050 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedLiquidacionesIds.indexOf(liquidaciones.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, liquidaciones.id)}
-                      value="true"
+                      checked={selectedLiquidacionesIds.length === liquidaciones.length}
+                      color="primary"
+                      indeterminate={selectedLiquidacionesIds.length > 0
+                        && selectedLiquidacionesIds.length < liquidaciones.length}
+                      onChange={handleSelectAll}
+                      disabled="true"
                     />
                   </TableCell>
                   <TableCell>
-                    {liquidaciones.id}
+                    #
                   </TableCell>
                   <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {liquidaciones.mesa}
-                      </Typography>
-                    </Box>
+                    Empleado
                   </TableCell>
                   <TableCell>
-                    {liquidaciones.importe}
+                    Legajo
                   </TableCell>
                   <TableCell>
-                    {moment(liquidaciones.createdAt).format('DD/MM/YYYY')}
+                    Período
                   </TableCell>
                   <TableCell>
-                    Tarjeta de crédito
+                    Importe
                   </TableCell>
                   <TableCell>
-                    {liquidaciones.estado}
+                    Estado
                   </TableCell>
-                  <TableCell>
-                    <IconButton
-                      color="inherit"
-                    >
-                      <EditIcon
-                        color="primary"
-                        variant="dot"
-                      />
-                    </IconButton>
-                  </TableCell>
+                  <TableCell />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={liquidaciones.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+              </TableHead>
+              { (liquidaciones.length > 0) ? (
+                <TableBody>
+                  {liquidaciones.slice((0 + page * limit), ((0 + page * limit) + limit)).map((liquidacion) => (
+                    <TableRow
+                      hover
+                      key={liquidacion.id}
+                      selected={selectedLiquidacionesIds.indexOf(liquidacion.id) !== -1}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedLiquidacionesIds.indexOf(liquidacion.id) !== -1}
+                          onChange={(event) => handleSelectOne(event, liquidacion.id)}
+                          value="true"
+                          disabled={(liquidacion.status !== 0)}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {liquidacion.id}
+                      </TableCell>
+                      <TableCell>
+                        {liquidacion.empleado}
+                      </TableCell>
+                      <TableCell>
+                        {liquidacion.legajo}
+                      </TableCell>
+                      <TableCell>
+                        {`$ ${liquidacion.total},00`}
+                      </TableCell>
+                      <TableCell>
+                        {moment(liquidacion.periodo).format('MM/YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {
+                        {
+                          0: 'Pendiente',
+                          1: 'Pagada',
+                          2: 'Anulada'
+                        }[liquidacion.status]
+                      }
+                      </TableCell>
+                      <TableCell>
+                        {(liquidacion.status === 0) ? (
+                          <>
+                            <Tooltip title="Pagada">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CheckCircleOutlineIcon
+                                  onClick={(e) => handlePagar(e, liquidacion.id)}
+                                  color="primary"
+                                  tooltip="pagada"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Anular">
+                              <IconButton
+                                color="inherit"
+                              >
+                                <CancelIcon
+                                  onClick={(e) => handleAnular(e, liquidacion.id)}
+                                  color="primary"
+                                  tooltip="anular"
+                                  variant="dot"
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (<></>)}
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <TablePagination
+          component="div"
+          count={liquidaciones.length}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+          page={page}
+          rowsPerPage={limit}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </Card>
+    </>
   );
 };
 
 LiquidacionesListResults.propTypes = {
-  Liquidaciones: PropTypes.array.isRequired
+  liquidaciones: PropTypes.array.isRequired
 };
 
 export default LiquidacionesListResults;

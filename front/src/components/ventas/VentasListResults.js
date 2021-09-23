@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -29,7 +30,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CheckIcon from '@material-ui/icons/Check';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { actualizarEstado } from '../../controllers/ventas';
 
 // eslint-disable-next-line react/prop-types
@@ -92,12 +93,55 @@ const VentasListResults = (props) => {
     }
   };
 
-  const handleAnular = async function (e, id) {
+  const handleAnular = async function () {
     setLoading(true);
-    const res = await actualizarEstado(id, 2);
+    const res = [];
+
+    selectedVentasIds.map(async (id) => {
+      const response = await actualizarEstado(id, 2);
+      res.push(response);
+    });
+
     if (res) {
       setLoading(false);
       handleUpdate();
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  const handlePagarSelected = async function () {
+    setLoading(true);
+    const res = [];
+
+    selectedVentasIds.map(async (id) => {
+      const response = await actualizarEstado(id, 1);
+      res.push(response);
+    });
+
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+      alert('Se ha actualizado el estado de las ventas seleccionadas');
+    } else {
+      setLoading(false);
+      alert('Ha habido un error al actualizar el estado');
+    }
+  };
+
+  const handleAnularSelected = async function () {
+    setLoading(true);
+    let res = {};
+
+    selectedVentasIds.map(async (id) => {
+      res = await actualizarEstado(id, 2);
+    });
+
+    if (res) {
+      setLoading(false);
+      handleUpdate();
+      alert('Se ha actualizado el estado de las ventas seleccionadas');
     } else {
       setLoading(false);
       alert('Ha habido un error al actualizar el estado');
@@ -164,11 +208,14 @@ const VentasListResults = (props) => {
                   p: 3
                 }}
               >
-                <Button sx={{ mx: 2 }}>
+                <Button
+                  onClick={handleAnularSelected}
+                  sx={{ mx: 2 }}
+                >
                   Anular
                 </Button>
                 <Button
-                  color="primary"
+                  onClick={handlePagarSelected}
                   variant="contained"
                   sx={{ mx: 2 }}
                 >
@@ -192,10 +239,11 @@ const VentasListResults = (props) => {
                       indeterminate={selectedVentasIds.length > 0
                         && selectedVentasIds.length < ventas.length}
                       onChange={handleSelectAll}
+                      disabled="true"
                     />
                   </TableCell>
                   <TableCell>
-                    #Venta
+                    #
                   </TableCell>
                   <TableCell>
                     Mesa
@@ -231,6 +279,7 @@ const VentasListResults = (props) => {
                           checked={selectedVentasIds.indexOf(venta.id) !== -1}
                           onChange={(event) => handleSelectOne(event, venta.id)}
                           value="true"
+                          disabled={(venta.status !== 0)}
                         />
                       </TableCell>
                       <TableCell>
@@ -261,7 +310,7 @@ const VentasListResults = (props) => {
                         {moment(venta.createdAt).format('hh:mm')}
                       </TableCell>
                       <TableCell>
-                        {(venta.pago.medio === 'tarjeta') ? `Tarjeta ${venta.pago.tipo} ${venta.pago.digitos}` : 'Efectivo'}
+                        {(venta.pago.medio === 'tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : 'Efectivo'}
                       </TableCell>
                       <TableCell>
                         {
@@ -279,7 +328,7 @@ const VentasListResults = (props) => {
                               <IconButton
                                 color="inherit"
                               >
-                                <CheckIcon
+                                <CheckCircleOutlineIcon
                                   onClick={(e) => handlePagar(e, venta.id)}
                                   color="primary"
                                   tooltip="pagada"

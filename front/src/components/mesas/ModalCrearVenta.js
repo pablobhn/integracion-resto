@@ -78,12 +78,16 @@ const ModalCrearVenta = (props) => {
     digitos: yup
       .number('Ingrese los últimos 4 dígitos de la tarjeta')
       .typeError('Debe ser un número válido')
-      .required('Este campo debe contener solo números')
+      .required('Este campo debe contener solo números'),
+    expiracion: yup
+      .date()
+      .min(new Date(), 'La fecha de expiracion debe ser futura')
+      .typeError('Debe ser una fecha válida')
   });
 
   const initialValues = {
     medio: 'tarjeta',
-    tipo: '',
+    tipo: tarjetas[0],
     digitos: '',
     expiracion: ''
   };
@@ -121,7 +125,10 @@ const ModalCrearVenta = (props) => {
         >
           <TabPanel value={value} index={0} dir="lft">
             Tarjeta:
-            <Box>
+            <Box sx={{
+              maxWidth: '500px'
+            }}
+            >
               <Formik
                 validationSchema={validationSchema}
                 initialValues={initialValues}
@@ -224,7 +231,46 @@ const ModalCrearVenta = (props) => {
             </Box>
           </TabPanel>
           <TabPanel value={value} index={1} dir="lft">
-            Efectivo
+            <Box
+              sx={{
+                display: 'flex', flexDirection: 'row', justifyContent: 'left'
+              }}
+            >
+              <Typography
+                sx={{ justifyContent: 'left' }}
+              >
+                Pago en efectivo
+              </Typography>
+            </Box>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'right' }}
+            >
+              <Button
+                disabled={loading}
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={async () => {
+                  setLoading(true);
+                  const efectivo = {
+                    medio: 'Efectivo'
+                  };
+                  const res = await crearVenta(efectivo, mesaId, productos);
+                  if (res) {
+                    setLoading(false);
+                    alert('Venta registrada correctamente');
+                    handleClose();
+                    setMesaOpen(false);
+                    // <Alert severity="success">This is a success alert — check it out!</Alert>
+                  } else {
+                    setLoading(false);
+                    alert('Ha habido un error al crear la venta!');
+                  }
+                }}
+              >
+                {loading ? 'Cargando...' : 'Aceptar'}
+              </Button>
+            </Box>
           </TabPanel>
         </SwipeableViews>
       </div>

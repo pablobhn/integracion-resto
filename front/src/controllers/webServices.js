@@ -8,10 +8,12 @@ const urlWebServices = {
   borrarProducto: `${urlApi}api/productos/delete/id/`,
   crearVenta: `${urlApi}api/ventas/create`,
   listarVentas: `${urlApi}api/ventas/list`,
+  listarLiquidaciones: `${urlApi}api/liquidaciones/list`,
   listarEmpleados: `${urlApi}api/empleados/list`,
   empleadosHorasExtra: `${urlApi}api/empleados/horasExtra`,
   empleadosFaltas: `${urlApi}api/empleados/faltas`,
-  actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`
+  actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`,
+  actualizarEstadoLiquidacion: `${urlApi}api/liquidaciones/updateStatus/id/`
 
 // register: urlApi + "api/usuarios/create",
 // findUser: urlApi + "api/usuarios/find/username/",

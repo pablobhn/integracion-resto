@@ -63,7 +63,7 @@ const Login = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box sx={{
-                  mb: 3, paddingTop: '80px', justifyContent: 'center', display: 'flex'
+                  mb: 2, justifyContent: 'center', display: 'flex'
                 }}
                 >
                   <Typography
@@ -76,8 +76,7 @@ const Login = () => {
                 </Box>
                 <Box
                   sx={{
-                    pb: 1,
-                    pt: 3
+                    pb: 1
                   }}
                 >
                   <Typography
