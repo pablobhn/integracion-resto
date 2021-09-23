@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "unitgztuoktxbd",
-    "password": "53a341ae5c284c3f938ae8db2bb2eaf44c4c466e2a8f631afc1844b3663a1f38",
-    "database": "d768kppicb4i9q",
-    "host": "ec2-54-174-172-218.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "username": "postgres",
+		"password": "123456",
+		"database": "apiresto",
+		"host": "localhost",
+		"dialect": "postgres"
   },
   "test": {
     "username": "root",
@@ -12,6 +12,13 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "stage": {
+    "username": "unitgztuoktxbd",
+    "password": "53a341ae5c284c3f938ae8db2bb2eaf44c4c466e2a8f631afc1844b3663a1f38",
+    "database": "d768kppicb4i9q",
+    "host": "ec2-54-174-172-218.compute-1.amazonaws.com",
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
