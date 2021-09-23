@@ -279,7 +279,7 @@ const VentasListResults = (props) => {
                           checked={selectedVentasIds.indexOf(venta.id) !== -1}
                           onChange={(event) => handleSelectOne(event, venta.id)}
                           value="true"
-                          disabled={(venta.status !== 0)}
+                          disabled={(venta.estado !== 0)}
                         />
                       </TableCell>
                       <TableCell>

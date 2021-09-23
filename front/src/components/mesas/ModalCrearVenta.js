@@ -178,6 +178,7 @@ const ModalCrearVenta = (props) => {
                         </Field>
                       </Grid>
                       <Grid item xs={5.75} sx={{ margin: '2px' }}>
+                        <br />
                         <TextField
                           fullWidth
                           id="digitos"
@@ -195,10 +196,11 @@ const ModalCrearVenta = (props) => {
                         />
                       </Grid>
                       <Grid item xs={5.75} sx={{ margin: '2px' }}>
+                        <h8>Fecha de expiración</h8>
                         <TextField
                           fullWidth
                           id="expiracion"
-                          label="Fecha de expiración"
+                          label=""
                           type="date"
                           value={values.expiracion}
                           error={touched.expiracion && Boolean(errors.expiracion)}

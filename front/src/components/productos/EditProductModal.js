@@ -11,7 +11,9 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  Typography
+  Typography,
+  Card,
+  Grid
 } from '@material-ui/core';
 import { Field, useFormik, FormikProvider } from 'formik';
 import * as yup from 'yup';
@@ -77,7 +79,7 @@ const EditProductModal = (props) => {
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Producto</DialogTitle>
+      <DialogTitle disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Editar Producto</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Complete los campos
@@ -141,20 +143,44 @@ const EditProductModal = (props) => {
                 ))}
               </Field>
             </label>
-            <div>
-              <Field
-                id="sinTac"
-                name="sinTac"
-                type="checkbox"
-              />
-              Libre de TACC
-              <Field
-                id="vegano"
-                name="vegano"
-                type="checkbox"
-              />
-              Apto vegano
-            </div>
+            <Card>
+              <Grid container>
+                <Grid
+                  itm
+                  xs={6}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    direction: 'row',
+                    p: 2
+                  }}
+                >
+                  <Field
+                    id="sinTac"
+                    name="sinTac"
+                    type="checkbox"
+                  />
+                  Libre de TACC
+                </Grid>
+                <Grid
+                  itm
+                  xs={6}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    direction: 'row',
+                    p: 2
+                  }}
+                >
+                  <Field
+                    id="vegano"
+                    name="vegano"
+                    type="checkbox"
+                  />
+                  Apto vegano
+                </Grid>
+              </Grid>
+            </Card>
           </FormikProvider>
           <Box sx={{ p: 2 }}>
             <input
