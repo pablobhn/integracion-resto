@@ -186,7 +186,7 @@ const LiquidacionesListResults = (props) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar liquidacion"
+                  placeholder="Buscar liquidación"
                   variant="outlined"
                 />
               </Grid>

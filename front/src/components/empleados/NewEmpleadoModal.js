@@ -11,46 +11,52 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  Typography,
-  Card,
-  Grid
+  Typography
 } from '@material-ui/core';
 import { Field, useFormik, FormikProvider } from 'formik';
 import * as yup from 'yup';
-import uploadImage from '../../controllers/images';
-import { crearProducto } from '../../controllers/productos';
-import categorias from '../../__mocks__/categorias';
+// import uploadImage from '../../controllers/images';
+import { crearEmpleado } from '../../controllers/empleados';
+import cargos from '../../__mocks__/cargos';
 
-const NewProductModal = (props) => {
+const NewEmpleadoModal = (props) => {
   const {
     open,
     handleClose
   } = props;
   const [loading, setLoading] = React.useState(false);
-  const [imgUrl, setImgUrl] = React.useState('http://wws.com.pa/wp-content/plugins/wordpress-ecommerce/marketpress-includes/images/default-product.png');
+  // const [imgUrl, setImgUrl] = React.useState('http://wws.com.pa/wp-content/plugins/wordpress-ecommerce/marketpress-includes/images/default-product.png');
 
   const validationSchema = yup.object({
     name: yup
-      .string('Ingrese el nombre')
+      .string('Ingrese el nombre completo')
       .max(255, 'El nombre puede contener máximo 255 carácteres')
       .required('El nombre es requerido'),
-    price: yup
-      .number('Ingrese un número')
-      .typeError('Debe ser un número válido')
-      .required('El precio es requerido'),
-    description: yup
-      .string('Ingrese una descripción')
-      .max(255, 'La descripción puede contener máximo 255 carácteres')
-      .required('La descripción es requerida'),
+    address: yup
+      .string('Ingrese el domicilio')
+      .max(255, 'El domicilio puede contener máximo 255 carácteres')
+      .required('El domicilio es requerido'),
+    tel: yup
+      .string('Ingrese un teléfono')
+      .max(20, 'El teléfono puede contener máximo 20 carácteres')
+      .required('El teléfono es requerido'),
+    rate: yup
+      .number('Ingrese el sueldo básico')
+      .required('El sueldo básico es requerido'),
+    horasBase: yup
+      .number('Ingrese las horas base')
+      .required('Las horas bases son requeridas.'),
   });
 
   const initialValues = {
     name: '',
-    price: '',
-    description: '',
-    type: categorias[0],
-    sinTac: false,
-    vegano: false
+    address: '',
+    tel: '',
+    rate: 0,
+    horasBase: 160,
+    fechaNacimiento: new Date(),
+    fechaIngreso: new Date(),
+    role: cargos[0]
   };
 
   const formik = useFormik({
@@ -58,23 +64,23 @@ const NewProductModal = (props) => {
     validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      const res = await crearProducto(values, imgUrl);
+      const res = await crearEmpleado(values);
       if (res) {
         setLoading(false);
-        alert('Producto creado ok');
+        alert('El empleado ha sido dado de alta correctamente');
         formik.resetForm();
         handleClose();
         // <Alert severity="success">This is a success alert — check it out!</Alert>
       } else {
         setLoading(false);
-        alert('Ha habido un error al crear el producto!');
+        alert('Ha habido un error dar de alta el empleado');
       }
     },
   });
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Producto</DialogTitle>
+      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Empleado</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Complete los campos
@@ -91,33 +97,64 @@ const NewProductModal = (props) => {
             helperText={formik.touched.name && formik.errors.name}
             sx={{ margin: '2px' }}
           />
+          <label>
+            <Typography>
+              Fecha de nacimiento
+            </Typography>
+            <TextField
+              fullWidth
+              id="fechaNacimiento"
+              label=""
+              type="date"
+              value={formik.values.fechaNacimiento}
+              error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
+              helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+          </label>
           <TextField
             fullWidth
-            id="price"
-            name="price"
-            label="precio"
-            type="number"
-            value={formik.values.price}
+            id="address"
+            name="address"
+            label="dirección"
+            value={formik.values.address}
             onChange={formik.handleChange}
-            error={formik.touched.price && Boolean(formik.errors.price)}
-            helperText={formik.touched.price && formik.errors.price}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
             sx={{ margin: '2px' }}
           />
           <TextField
             fullWidth
-            id="description"
-            name="description"
-            label="descripción"
-            value={formik.values.description}
+            id="tel"
+            name="tel"
+            label="teléfono"
+            value={formik.values.tel}
             onChange={formik.handleChange}
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            helperText={formik.touched.description && formik.errors.description}
+            error={formik.touched.tel && Boolean(formik.errors.tel)}
+            helperText={formik.touched.tel && formik.errors.tel}
             sx={{ margin: '2px' }}
           />
+          <label>
+            <Typography>
+              Fecha de ingreso
+            </Typography>
+            <TextField
+              fullWidth
+              id="fechaIngreso"
+              label=""
+              type="date"
+              value={formik.values.fechaIngreso}
+              error={formik.touched.fechaIngreso && Boolean(formik.errors.fechaIngreso)}
+              helperText={formik.touched.fechaIngreso && formik.errors.fechaIngreso}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+          </label>
           <FormikProvider value={formik}>
             <label>
               <Typography>
-                Categoría:
+                Cargo:
               </Typography>
               <Field
                 fullWidth
@@ -131,51 +168,37 @@ const NewProductModal = (props) => {
                 }}
                 value={formik.values.type}
               >
-                {categorias.map((categoria) => (
-                  <option value={categoria}>
-                    {categoria}
+                {cargos.map((cargo) => (
+                  <option value={cargo}>
+                    {cargo}
                   </option>
                 ))}
               </Field>
             </label>
-            <Card>
-              <Grid container>
-                <Grid
-                  itm
-                  xs={6}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    direction: 'row',
-                    p: 2
-                  }}
-                >
-                  <Field
-                    id="sinTac"
-                    name="sinTac"
-                    type="checkbox"
-                  />
-                  Libre de TACC
-                </Grid>
-                <Grid
-                  itm
-                  xs={6}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    direction: 'row',
-                    p: 2
-                  }}
-                >
-                  <Field
-                    id="vegano"
-                    name="vegano"
-                    type="checkbox"
-                  />
-                  Apto vegano
-                </Grid>
-              </Grid>
-            </Card>
+            <TextField
+              fullWidth
+              id="rate"
+              name="rate"
+              label="sueldo básico"
+              type="number"
+              value={formik.values.rate}
+              onChange={formik.handleChange}
+              error={formik.touched.rate && Boolean(formik.errors.rate)}
+              helperText={formik.touched.rate && formik.errors.rate}
+              sx={{ margin: '2px' }}
+            />
+            <TextField
+              fullWidth
+              id="horasBase"
+              name="horasBase"
+              label="horas base"
+              type="number"
+              value={formik.values.horasBase}
+              onChange={formik.handleChange}
+              error={formik.touched.horasBase && Boolean(formik.errors.horasBase)}
+              helperText={formik.touched.horasBase && formik.errors.horasBase}
+              sx={{ margin: '2px' }}
+            />
           </FormikProvider>
           <Box sx={{ p: 2 }}>
             <input
@@ -186,7 +209,7 @@ const NewProductModal = (props) => {
               multiple
               type="file"
             />
-            <label htmlFor="contained-button-file">
+            {/* <label htmlFor="contained-button-file">
               <Button
                 id="imgSrc"
                 name="imgSrc"
@@ -210,9 +233,9 @@ const NewProductModal = (props) => {
                     }
                   }}
                 />
-                Subir imagen
+                Subir foto
               </Button>
-            </label>
+            </label> */}
           </Box>
           <Button
             sx={{ margin: '3px', marginLeft: '0px' }}
@@ -238,4 +261,4 @@ const NewProductModal = (props) => {
   );
 };
 
-export default NewProductModal;
+export default NewEmpleadoModal;

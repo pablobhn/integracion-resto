@@ -33,6 +33,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import ModalHoras from './ModalHoras';
+import NewEmpleadoModal from './NewEmpleadoModal';
+import EditEmpleadoModal from './EditEmpleadoModal';
 
 // eslint-disable-next-line react/prop-types
 const EmpleadosListResults = (props) => {
@@ -43,6 +45,18 @@ const EmpleadosListResults = (props) => {
   const [page, setPage] = useState(0);
   const [modalHorasOpen, setModalHorasOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(-1);
+  const [newEmpleadoModalOpen, setNewEmpleadoModalOpen] = useState(false);
+  const [editEmp, setEditEmp] = useState({});
+  const [open, setOpen] = useState(false);
+
+  const handleNewEmpleadoModalOpenClickOpen = () => {
+    setNewEmpleadoModalOpen(true);
+  };
+
+  const handleNewEmpleadoModalOpenClose = () => {
+    setNewEmpleadoModalOpen(false);
+    handleUpdate();
+  };
 
   const handleSelectAll = (event) => {
     let newselectedEmpleadosIds;
@@ -96,6 +110,11 @@ const EmpleadosListResults = (props) => {
     }
   };
 
+  const handleClickOpen = (event, newEmp) => {
+    setEditEmp(newEmp);
+    setOpen(true);
+  };
+
   const handleBorrar = async function (e, id) {
     setLoading(true);
     // onst res = await actualizarEstado(id, 2);
@@ -125,6 +144,11 @@ const EmpleadosListResults = (props) => {
     return ((parseInt(moment(fecha).format('YYYY'), 10) === year) && (parseInt(moment(fecha).format('MM'), 10) === month));
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    handleUpdate();
+  };
+
   return (
     <>
       <Box>
@@ -142,6 +166,7 @@ const EmpleadosListResults = (props) => {
           </DialogContent>
         </Dialog>
         <ModalHoras open={modalHorasOpen} handleClose={handleCloseModalHoras} id={selectedId} handleUpdate={handleUpdate} />
+        <EditEmpleadoModal open={open} handleClose={handleClose} emp={editEmp} />
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -190,6 +215,7 @@ const EmpleadosListResults = (props) => {
                   color="primary"
                   variant="contained"
                   sx={{ mx: 1 }}
+                  onClick={handleNewEmpleadoModalOpenClickOpen}
                 >
                   Nuevo empleado
                 </Button>
@@ -205,6 +231,7 @@ const EmpleadosListResults = (props) => {
           </Card>
         </Box>
       </Box>
+      <NewEmpleadoModal open={newEmpleadoModalOpen} handleClose={handleNewEmpleadoModalOpenClose} />
       <Card>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>
@@ -244,6 +271,8 @@ const EmpleadosListResults = (props) => {
                   <TableCell>
                     Regimen
                   </TableCell>
+                  <TableCell />
+                  <TableCell />
                   <TableCell />
                 </TableRow>
               </TableHead>
@@ -313,7 +342,7 @@ const EmpleadosListResults = (props) => {
                             color="inherit"
                           >
                             <EditIcon
-                              onClick={(e) => handleEditar(e, empleado.id)}
+                              onClick={(e) => handleClickOpen(e, empleado)}
                               color="primary"
                               tooltip="pagada"
                               variant="dot"
@@ -333,6 +362,7 @@ const EmpleadosListResults = (props) => {
                           </IconButton>
                         </Tooltip>
                       </TableCell>
+                      <TableCell />
                     </TableRow>
                   ))}
                 </TableBody>

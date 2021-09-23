@@ -160,7 +160,7 @@ const ModalHoras = (props) => {
                     <TextField
                       fullWidth
                       id="fecha"
-                      label="Fecha de expiración"
+                      label=""
                       type="date"
                       value={values.fecha}
                       error={touched.fecha && Boolean(errors.fecha)}

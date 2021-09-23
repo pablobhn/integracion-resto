@@ -149,7 +149,7 @@ const ProductosListResults = (props) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar venta"
+                  placeholder="Buscar producto"
                   variant="outlined"
                 />
               </Grid>
