@@ -113,14 +113,13 @@ const VentasListResults = (props) => {
 
   const handlePagarSelected = async function () {
     setLoading(true);
-    const res = [];
-
+    const responses = [Promise];
     selectedVentasIds.map(async (id) => {
-      const response = await actualizarEstado(id, 1);
-      res.push(response);
+      responses.push(actualizarEstado(id, 1));
     });
 
-    if (res) {
+    const values = await Promise.all(responses);
+    if (values) {
       setLoading(false);
       handleUpdate();
       alert('Se ha actualizado el estado de las ventas seleccionadas');
@@ -132,13 +131,13 @@ const VentasListResults = (props) => {
 
   const handleAnularSelected = async function () {
     setLoading(true);
-    let res = {};
-
+    const responses = [Promise];
     selectedVentasIds.map(async (id) => {
-      res = await actualizarEstado(id, 2);
+      responses.push(actualizarEstado(id, 2));
     });
 
-    if (res) {
+    const values = await Promise.all(responses);
+    if (values) {
       setLoading(false);
       handleUpdate();
       alert('Se ha actualizado el estado de las ventas seleccionadas');
@@ -279,7 +278,7 @@ const VentasListResults = (props) => {
                           checked={selectedVentasIds.indexOf(venta.id) !== -1}
                           onChange={(event) => handleSelectOne(event, venta.id)}
                           value="true"
-                          disabled={(venta.status !== 0)}
+                          disabled={(venta.estado !== 0)}
                         />
                       </TableCell>
                       <TableCell>
