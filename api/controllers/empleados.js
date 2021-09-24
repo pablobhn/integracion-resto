@@ -129,7 +129,7 @@ module.exports = {
 			const fechaActual = new Date();
 			const antiguedadDif = fechaActual - moment(empleado.fechaIngreso)
 			const antiguedadDate = new Date(antiguedadDif);
-			const antiguedad = (Math.abs(antiguedadDate.getUTCFullYear() - 1970)) * 0.02;
+			const antiguedad = (Math.abs(antiguedadDate.getUTCFullYear() - 1970)) >= 1 ? (Math.abs(antiguedadDate.getUTCFullYear() - 1970)) : 0;
 			const jubilacion = 0.11;
 			const obraSocial = 0.03;
 			const ley19032 = 0.03;
@@ -154,7 +154,7 @@ module.exports = {
 				{
 					descripcion: "Antiguedad",
 					cantidad: antiguedad,
-					monto: (antiguedad * empleado.rate)
+					monto: (antiguedad * empleado.rate * 0.02)
 				},
 				{
 					descripcion: "Horas extra",
