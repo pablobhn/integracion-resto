@@ -249,6 +249,9 @@ const EmpleadosListResults = (props) => {
                     Nombre
                   </TableCell>
                   <TableCell>
+                    Cargo
+                  </TableCell>
+                  <TableCell>
                     Tel
                   </TableCell>
                   <TableCell>
@@ -260,7 +263,7 @@ const EmpleadosListResults = (props) => {
                   <TableCell>
                     Fecha de ingreso
                   </TableCell>
-                  <TableCell sx={{ maxWidth: 160 }}>
+                  <TableCell sx={{ maxWidth: 150 }}>
                     Hs Extra / Faltas (mes en curso)
                   </TableCell>
                   <TableCell>
@@ -291,6 +294,9 @@ const EmpleadosListResults = (props) => {
                       </TableCell>
                       <TableCell>
                         {empleado.name}
+                      </TableCell>
+                      <TableCell>
+                        {empleado.role}
                       </TableCell>
                       <TableCell>
                         {empleado.tel}

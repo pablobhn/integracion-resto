@@ -27,7 +27,8 @@ import categorias from '../../__mocks__/categorias';
 const NewProductModal = (props) => {
   const {
     open,
-    handleClose
+    handleClose,
+    handleCloseAndUpdate
   } = props;
   const [loading, setLoading] = React.useState(false);
   const [imgUrl, setImgUrl] = React.useState('http://wws.com.pa/wp-content/plugins/wordpress-ecommerce/marketpress-includes/images/default-product.png');
@@ -72,7 +73,7 @@ const NewProductModal = (props) => {
             if (res) {
               setLoading(false);
               alert('Producto creado ok');
-              handleClose();
+              handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
@@ -127,7 +128,7 @@ const NewProductModal = (props) => {
                 sx={{ py: 1 }}
               />
               <Typography>
-                Categoría:
+                Categoría
               </Typography>
               <Select
                 fullWidth

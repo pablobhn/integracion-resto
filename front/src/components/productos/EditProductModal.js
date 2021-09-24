@@ -28,6 +28,7 @@ const EditProductModal = (props) => {
   const {
     open,
     handleClose,
+    handleCloseAndUpdate,
     prod
   } = props;
   const [loading, setLoading] = React.useState(false);
@@ -81,7 +82,7 @@ const EditProductModal = (props) => {
             if (res) {
               setLoading(false);
               alert('Producto actualizado exitosamente');
-              handleClose();
+              handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
@@ -136,7 +137,7 @@ const EditProductModal = (props) => {
                 sx={{ py: 1 }}
               />
               <Typography>
-                Categoría:
+                Categoría
               </Typography>
               <Select
                 fullWidth

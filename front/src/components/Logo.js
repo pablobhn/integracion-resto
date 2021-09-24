@@ -1,22 +1,35 @@
-import { Typography } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 
 const Logo = (props) => (
-  <div>
-    <img
-      alt="Logo"
-      src="\static\restaurante.png"
-      width="50"
-      height="50"
-      {...props}
-    />
-    <Typography
-      variant="h2"
-      color="white"
-      style={{ display: 'inline-block' }}
+  <Grid
+    container
+    justifyContent="center"
+    alignItems="center"
+  >
+    <Grid
+      item
     >
-      Restaurante Casa Cavia
-    </Typography>
-  </div>
+      <img
+        alt="Logo"
+        src="\static\restaurante.png"
+        width="50"
+        height="50"
+        {...props}
+      />
+    </Grid>
+    <Grid
+      item
+      display="inline"
+    >
+      <Typography
+        variant="h2"
+        color="white"
+        sx={{ pl: 3 }}
+      >
+        Restaurante Casa Cavia
+      </Typography>
+    </Grid>
+  </Grid>
 );
 
 export default Logo;

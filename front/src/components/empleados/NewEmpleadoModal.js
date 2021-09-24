@@ -15,7 +15,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 // import uploadImage from '../../controllers/images';
 import { crearEmpleado } from '../../controllers/empleados';
@@ -62,165 +62,173 @@ const NewEmpleadoModal = (props) => {
     role: cargos[0]
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: async (values) => {
-      setLoading(true);
-      const res = await crearEmpleado(values);
-      if (res) {
-        setLoading(false);
-        alert('El empleado ha sido dado de alta correctamente');
-        formik.resetForm();
-        handleCloseAndUpdate();
-        // <Alert severity="success">This is a success alert — check it out!</Alert>
-      } else {
-        setLoading(false);
-        alert('Ha habido un error dar de alta el empleado');
-      }
-    },
-  });
-
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Nuevo Empleado</DialogTitle>
+      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empleado</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Complete los campos
         </DialogContentText>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="nombre"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-            sx={{ py: 1 }}
-          />
-          <Typography>
-            Fecha de nacimiento
-          </Typography>
-          <TextField
-            fullWidth
-            id="fechaNacimiento"
-            label=""
-            type="date"
-            value={formik.values.fechaNacimiento}
-            error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
-            helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            sx={{ py: 1 }}
-          />
-          <TextField
-            fullWidth
-            id="address"
-            name="address"
-            label="dirección"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-            error={formik.touched.address && Boolean(formik.errors.address)}
-            helperText={formik.touched.address && formik.errors.address}
-            sx={{ py: 1 }}
-          />
-          <TextField
-            fullWidth
-            id="tel"
-            name="tel"
-            label="teléfono"
-            value={formik.values.tel}
-            onChange={formik.handleChange}
-            error={formik.touched.tel && Boolean(formik.errors.tel)}
-            helperText={formik.touched.tel && formik.errors.tel}
-            sx={{ py: 1 }}
-          />
-          <Typography sx={{ py: 1 }}>
-            Fecha de ingreso
-          </Typography>
-          <TextField
-            fullWidth
-            id="fechaIngreso"
-            label=""
-            type="date"
-            value={formik.values.fechaIngreso}
-            error={formik.touched.fechaIngreso && Boolean(formik.errors.fechaIngreso)}
-            helperText={formik.touched.fechaIngreso && formik.errors.fechaIngreso}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          <Typography>
-            Cargo:
-          </Typography>
-          <Select
-            fullWidth
-            id="type"
-            name="type"
-            component="select"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.role}
-          >
-            {cargos.map((cargo) => (
-              <MenuItem value={cargo}>
-                {cargo}
-              </MenuItem>
-            ))}
-          </Select>
-          <TextField
-            fullWidth
-            id="rate"
-            name="rate"
-            label="sueldo básico"
-            type="number"
-            value={formik.values.rate}
-            onChange={formik.handleChange}
-            error={formik.touched.rate && Boolean(formik.errors.rate)}
-            helperText={formik.touched.rate && formik.errors.rate}
-            sx={{ pt: 3, pb: 1 }}
-          />
-          <TextField
-            fullWidth
-            id="horasBase"
-            name="horasBase"
-            label="horas base"
-            type="number"
-            value={formik.values.horasBase}
-            onChange={formik.handleChange}
-            error={formik.touched.horasBase && Boolean(formik.errors.horasBase)}
-            helperText={formik.touched.horasBase && formik.errors.horasBase}
-            sx={{ py: 1 }}
-          />
-          <Box sx={{ p: 2 }}>
-            <input
-              style={{ display: 'none' }}
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-          </Box>
-          <Button
-            sx={{ py: 1 }}
-            color="primary"
-            variant="contained"
-            fullWidth
-            disabled={loading}
-            type="submit"
-          >
-            {loading ? 'Cargando...' : 'Agregar'}
-          </Button>
-        </form>
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={async (values) => {
+            setLoading(true);
+            const res = await crearEmpleado(values);
+            if (res) {
+              setLoading(false);
+              alert('Empleado creado exitosamente');
+              handleCloseAndUpdate();
+              // <Alert severity="success">This is a success alert — check it out!</Alert>
+            } else {
+              setLoading(false);
+              alert('Ha habido un error al crear el empleado!');
+            }
+          }}
+        >
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            touched,
+            values
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="nombre"
+                value={values.name}
+                onChange={handleChange}
+                error={touched.name && Boolean(errors.name)}
+                helperText={touched.name && errors.name}
+                sx={{ py: 1 }}
+              />
+              <Typography>
+                Fecha de nacimiento
+              </Typography>
+              <TextField
+                fullWidth
+                id="fechaNacimiento"
+                label=""
+                type="date"
+                value={values.fechaNacimiento}
+                error={touched.fechaNacimiento && Boolean(errors.fechaNacimiento)}
+                helperText={touched.fechaNacimiento && errors.fechaNacimiento}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                sx={{ py: 1 }}
+              />
+              <TextField
+                fullWidth
+                id="address"
+                name="address"
+                label="dirección"
+                value={values.address}
+                onChange={handleChange}
+                error={touched.address && Boolean(errors.address)}
+                helperText={touched.address && errors.address}
+                sx={{ py: 1 }}
+              />
+              <TextField
+                fullWidth
+                id="tel"
+                name="tel"
+                label="teléfono"
+                value={values.tel}
+                onChange={handleChange}
+                error={touched.tel && Boolean(errors.tel)}
+                helperText={touched.tel && errors.tel}
+                sx={{ py: 1 }}
+              />
+              <Typography sx={{ py: 1 }}>
+                Fecha de ingreso
+              </Typography>
+              <TextField
+                fullWidth
+                id="fechaIngreso"
+                label=""
+                type="date"
+                value={values.fechaIngreso}
+                error={touched.fechaIngreso && Boolean(errors.fechaIngreso)}
+                helperText={touched.fechaIngreso && errors.fechaIngreso}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
+              <Typography>
+                Cargo:
+              </Typography>
+              <Select
+                fullWidth
+                id="role"
+                name="role"
+                component="select"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.role}
+              >
+                {cargos.map((cargo) => (
+                  <MenuItem value={cargo}>
+                    {cargo}
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                fullWidth
+                id="rate"
+                name="rate"
+                label="sueldo básico"
+                type="number"
+                value={values.rate}
+                onChange={handleChange}
+                error={touched.rate && Boolean(errors.rate)}
+                helperText={touched.rate && errors.rate}
+                sx={{ pt: 3, pb: 1 }}
+              />
+              <TextField
+                fullWidth
+                id="horasBase"
+                name="horasBase"
+                label="horas base"
+                type="number"
+                value={values.horasBase}
+                onChange={handleChange}
+                error={touched.horasBase && Boolean(errors.horasBase)}
+                helperText={touched.horasBase && errors.horasBase}
+                sx={{ py: 1 }}
+              />
+              <Box sx={{ p: 2 }}>
+                <input
+                  style={{ display: 'none' }}
+                  accept="image/*"
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                />
+              </Box>
+              <Button
+                sx={{ py: 1 }}
+                color="primary"
+                variant="contained"
+                fullWidth
+                disabled={loading}
+                type="submit"
+              >
+                {loading ? 'Cargando...' : 'Agregar'}
+              </Button>
+            </form>
+          )}
+        </Formik>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Cancelar
         </Button>
         {/* <Button onClick={handleClose} color="primary">
-            Subscribe
-        </Button> */}
+          Subscribe
+      </Button> */}
       </DialogActions>
     </Dialog>
   );

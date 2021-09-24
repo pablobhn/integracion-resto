@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable space-infix-ops */
 /* eslint-disable react/prop-types */
@@ -9,7 +8,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   Checkbox,
   FormControl,
   Grid,
@@ -44,12 +42,20 @@ const ProductosListResults = (props) => {
   const [open, setOpen] = useState(false);
   const [editProd, setEditProd] = useState({});
   const [newProductModalOpen, setNewProductModalOpen] = useState(false);
+  const [productosFiltrados, setProductosFiltrados] = useState(productos);
+
+  const todasLasCategorias = 'Todas las categorías';
+  const categoriasMasTodas = [...categorias, todasLasCategorias];
 
   const handleNewProductModalOpenClickOpen = () => {
     setNewProductModalOpen(true);
   };
 
   const handleNewProductModalOpenClose = () => {
+    setNewProductModalOpen(false);
+  };
+
+  const handleNewProductModalOpenCloseAndUpdate = () => {
     setNewProductModalOpen(false);
     handleUpdate();
   };
@@ -63,6 +69,11 @@ const ProductosListResults = (props) => {
     setOpen(false);
   };
 
+  const handleCloseAndUpdate = () => {
+    handleUpdate();
+    setOpen(false);
+  };
+
   const handleBorrar = async function (e, id) {
     const res = await borrarProducto(id);
     if (res) {
@@ -71,6 +82,24 @@ const ProductosListResults = (props) => {
       // <Alert severity="success">This is a success alert — check it out!</Alert>
     } else {
       alert('Ha habido un error al borrar el producto!');
+    }
+  };
+
+  const handleFilterCategoria = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === todasLasCategorias) {
+      setProductosFiltrados(productos);
+    } else {
+      setProductosFiltrados(productos.filter((prod) => prod.type === e.target.value));
+    }
+  };
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === '') {
+      setProductosFiltrados(productos);
+    } else {
+      setProductosFiltrados(productos.filter((prod) => prod.title.toLowerCase().match(e.target.value.toLowerCase())));
     }
   };
 
@@ -150,6 +179,7 @@ const ProductosListResults = (props) => {
                   }}
                   placeholder="Buscar producto"
                   variant="outlined"
+                  onChange={(e) => handleSearch(e)}
                 />
               </Grid>
               <Grid
@@ -169,11 +199,10 @@ const ProductosListResults = (props) => {
                     labelId="prueba-select"
                     label="Seleccione una categoría"
                     id="prueba-select-simple"
-                    value={categorias.categoria}
-                    onChange={(event) => handleSelectOne(event, categorias.categoria)}
-                    defaultValue="categoria"
+                    onChange={(event) => handleFilterCategoria(event)}
+                    defaultValue="Todas las categorías"
                   >
-                    {categorias.map((categoria) => (
+                    {categoriasMasTodas.map((categoria) => (
                       <MenuItem value={categoria}>
                         {categoria}
                       </MenuItem>
@@ -204,8 +233,8 @@ const ProductosListResults = (props) => {
           </Card>
         </Box>
       </Box>
-      <EditProductModal open={open} handleClose={handleClose} prod={editProd} />
-      <NewProductModal open={newProductModalOpen} handleClose={handleNewProductModalOpenClose} />
+      <EditProductModal open={open} handleClose={handleClose} prod={editProd} handleCloseAndUpdate={handleCloseAndUpdate} />
+      <NewProductModal open={newProductModalOpen} handleClose={handleNewProductModalOpenClose} handleCloseAndUpdate={handleNewProductModalOpenCloseAndUpdate} />
       <Card>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>
@@ -244,9 +273,9 @@ const ProductosListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              { (productos.length > 0) ? (
+              { (productosFiltrados.length > 0) ? (
                 <TableBody>
-                  {productos.slice((0 + page * limit), ((0 + page * limit) + limit)).map((prod) => (
+                  {productosFiltrados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((prod) => (
                     <TableRow
                       hover
                       key={prod.id}
