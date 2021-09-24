@@ -45,6 +45,16 @@ const LiquidacionesListResults = (props) => {
   const [selectedLiquidacionesIds, setSelectedLiquidacionesIds] = useState([{}]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [liquidacionesFiltrados, setLiquidacionesFiltrados] = useState(liquidaciones);
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === '') {
+      setLiquidacionesFiltrados(liquidaciones);
+    } else {
+      setLiquidacionesFiltrados(liquidaciones.filter((liq) => liq.empleado.toLowerCase().match(e.target.value.toLowerCase())));
+    }
+  };
 
   const handleSelectAll = (event) => {
     let newselectedLiquidacionesIds;
@@ -192,8 +202,9 @@ const LiquidacionesListResults = (props) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar liquidación"
+                  placeholder="Buscar liquidación por empleado"
                   variant="outlined"
+                  onChange={(e) => handleSearch(e)}
                 />
               </Grid>
               <Grid
@@ -261,9 +272,9 @@ const LiquidacionesListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              { (liquidaciones.length > 0) ? (
+              { (liquidacionesFiltrados.length > 0) ? (
                 <TableBody>
-                  {liquidaciones.slice((0 + page * limit), ((0 + page * limit) + limit)).map((liquidacion) => (
+                  {liquidacionesFiltrados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((liquidacion) => (
                     <TableRow
                       hover
                       key={liquidacion.id}

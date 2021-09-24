@@ -10,13 +10,15 @@ import {
   Button,
   Card,
   CircularProgress,
+  Checkbox,
   Dialog,
   DialogContent,
+  FormControl,
   Grid,
-  Checkbox,
+  InputLabel,
   IconButton,
   InputAdornment,
-  SvgIcon,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +26,9 @@ import {
   TablePagination,
   TableRow,
   TextField,
-  Tooltip
+  Tooltip,
+  SvgIcon,
+  Select
 } from '@material-ui/core';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -33,6 +37,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ModalHoras from './ModalHoras';
 import NewEmpleadoModal from './NewEmpleadoModal';
 import EditEmpleadoModal from './EditEmpleadoModal';
+import cargos from '../../__mocks__/cargos';
 import LiquidacionesModal from './LiquidacionesModal';
 
 // eslint-disable-next-line react/prop-types
@@ -48,6 +53,28 @@ const EmpleadosListResults = (props) => {
   const [liquidacionesModalOpen, setLiquidacionesModalOpen] = useState(false);
   const [editEmp, setEditEmp] = useState({});
   const [open, setOpen] = useState(false);
+  const [empleadosFiltrados, setEmpleadosFiltrados] = useState(empleados);
+
+  const todosLosCargos = 'Todos los cargos';
+  const cargosMasTodos = [...cargos, todosLosCargos];
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === '') {
+      setEmpleadosFiltrados(empleados);
+    } else {
+      setEmpleadosFiltrados(empleados.filter((emp) => emp.name.toLowerCase().match(e.target.value.toLowerCase())));
+    }
+  };
+
+  const handleFilterCargo = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === todosLosCargos) {
+      setEmpleadosFiltrados(empleados);
+    } else {
+      setEmpleadosFiltrados(empleados.filter((emp) => emp.role === e.target.value));
+    }
+  };
 
   const handleClickOpen = (event, newEmp) => {
     setEditEmp(newEmp);
@@ -182,7 +209,7 @@ const EmpleadosListResults = (props) => {
             <Grid container>
               <Grid
                 item
-                xs={6}
+                xs={4}
                 sx={{
                   display: 'flex',
                   justifyContent: 'left',
@@ -206,11 +233,40 @@ const EmpleadosListResults = (props) => {
                   }}
                   placeholder="Buscar empleado"
                   variant="outlined"
+                  onChange={(e) => handleSearch(e)}
                 />
               </Grid>
               <Grid
                 item
-                xs={6}
+                xs={4}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'left',
+                  direction: 'row',
+                  p: 2
+                }}
+              >
+                <FormControl>
+                  <InputLabel id="cargo">Cargo</InputLabel>
+                  <Select
+                    sx={{ width: 250 }}
+                    labelId="prueba-select"
+                    label="Seleccione un cargo"
+                    id="prueba-select-simple"
+                    onChange={(event) => handleFilterCargo(event)}
+                    defaultValue="Todos los cargos"
+                  >
+                    {cargosMasTodos.map((cargo) => (
+                      <MenuItem value={cargo}>
+                        {cargo}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid
+                item
+                xs={4}
                 sx={{
                   display: 'flex',
                   justifyContent: 'right',
@@ -286,9 +342,9 @@ const EmpleadosListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              { (empleados.length > 0) ? (
+              { (empleadosFiltrados.length > 0) ? (
                 <TableBody>
-                  {empleados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((empleado) => (
+                  {empleadosFiltrados.slice((0 + page * limit), ((0 + page * limit) + limit)).map((empleado) => (
                     <TableRow
                       hover
                       key={empleado.id}
