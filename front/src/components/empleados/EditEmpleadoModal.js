@@ -10,10 +10,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  MenuItem,
+  Select,
   TextField,
   Typography
 } from '@material-ui/core';
-import { Field, useFormik, FormikProvider } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 // import uploadImage from '../../controllers/images';
 import { editarEmpleado } from '../../controllers/empleados';
@@ -23,6 +25,7 @@ const EditEmpleadoModal = (props) => {
   const {
     open,
     handleClose,
+    handleCloseAndUpdate,
     emp
   } = props;
   const [loading, setLoading] = React.useState(false);
@@ -70,7 +73,7 @@ const EditEmpleadoModal = (props) => {
         setLoading(false);
         alert('Empleado actualizado exitosamente');
         formik.resetForm();
-        handleClose();
+        handleCloseAndUpdate();
         // <Alert severity="success">This is a success alert — check it out!</Alert>
       } else {
         setLoading(false);
@@ -96,24 +99,23 @@ const EditEmpleadoModal = (props) => {
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
-            sx={{ margin: '2px' }}
+            sx={{ py: 1 }}
           />
-          <label>
-            <Typography>
-              Fecha de nacimiento
-            </Typography>
-            <TextField
-              fullWidth
-              id="fechaNacimiento"
-              label=""
-              type="date"
-              value={formik.values.fechaNacimiento}
-              error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
-              helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-            />
-          </label>
+          <Typography>
+            Fecha de nacimiento
+          </Typography>
+          <TextField
+            fullWidth
+            id="fechaNacimiento"
+            label=""
+            type="date"
+            value={formik.values.fechaNacimiento}
+            error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
+            helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            sx={{ py: 1 }}
+          />
           <TextField
             fullWidth
             id="address"
@@ -123,7 +125,7 @@ const EditEmpleadoModal = (props) => {
             onChange={formik.handleChange}
             error={formik.touched.address && Boolean(formik.errors.address)}
             helperText={formik.touched.address && formik.errors.address}
-            sx={{ margin: '2px' }}
+            sx={{ py: 1 }}
           />
           <TextField
             fullWidth
@@ -134,119 +136,82 @@ const EditEmpleadoModal = (props) => {
             onChange={formik.handleChange}
             error={formik.touched.tel && Boolean(formik.errors.tel)}
             helperText={formik.touched.tel && formik.errors.tel}
-            sx={{ margin: '2px' }}
+            sx={{ py: 1 }}
           />
-          <label>
-            <Typography>
-              Fecha de ingreso
-            </Typography>
-            <TextField
-              fullWidth
-              id="fechaIngreso"
-              label=""
-              type="date"
-              value={formik.values.fechaIngreso}
-              error={formik.touched.fechaIngreso && Boolean(formik.errors.fechaIngreso)}
-              helperText={formik.touched.fechaIngreso && formik.errors.fechaIngreso}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-            />
-          </label>
-          <FormikProvider value={formik}>
-            <label>
-              <Typography>
-                Cargo:
-              </Typography>
-              <Field
-                fullWidth
-                id="type"
-                name="type"
-                margin="normal"
-                component="select"
-                onChange={formik.handleChange}
-                style={{
-                  height: 50, width: '100%', padding: '10px', 'margin-bottom': '15px'
-                }}
-                value={formik.values.type}
-              >
-                {cargos.map((cargo) => (
-                  <option value={cargo}>
-                    {cargo}
-                  </option>
-                ))}
-              </Field>
-            </label>
-            <TextField
-              fullWidth
-              id="rate"
-              name="rate"
-              label="sueldo básico"
-              type="number"
-              value={formik.values.rate}
-              onChange={formik.handleChange}
-              error={formik.touched.rate && Boolean(formik.errors.rate)}
-              helperText={formik.touched.rate && formik.errors.rate}
-              sx={{ margin: '2px' }}
-            />
-            <TextField
-              fullWidth
-              id="horasBase"
-              name="horasBase"
-              label="horas base"
-              type="number"
-              value={formik.values.horasBase}
-              onChange={formik.handleChange}
-              error={formik.touched.horasBase && Boolean(formik.errors.horasBase)}
-              helperText={formik.touched.horasBase && formik.errors.horasBase}
-              sx={{ margin: '2px' }}
-            />
-          </FormikProvider>
+          <Typography sx={{ py: 1 }}>
+            Fecha de ingreso
+          </Typography>
+          <TextField
+            fullWidth
+            id="fechaIngreso"
+            label=""
+            type="date"
+            value={formik.values.fechaIngreso}
+            error={formik.touched.fechaIngreso && Boolean(formik.errors.fechaIngreso)}
+            helperText={formik.touched.fechaIngreso && formik.errors.fechaIngreso}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <Typography>
+            Cargo:
+          </Typography>
+          <Select
+            fullWidth
+            id="role"
+            name="role"
+            component="select"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.role}
+          >
+            {cargos.map((cargo) => (
+              <MenuItem value={cargo}>
+                {cargo}
+              </MenuItem>
+            ))}
+          </Select>
+          <TextField
+            fullWidth
+            id="rate"
+            name="rate"
+            label="sueldo básico"
+            type="number"
+            value={formik.values.rate}
+            onChange={formik.handleChange}
+            error={formik.touched.rate && Boolean(formik.errors.rate)}
+            helperText={formik.touched.rate && formik.errors.rate}
+            sx={{ pt: 3, pb: 1 }}
+          />
+          <TextField
+            fullWidth
+            id="horasBase"
+            name="horasBase"
+            label="horas base"
+            type="number"
+            value={formik.values.horasBase}
+            onChange={formik.handleChange}
+            error={formik.touched.horasBase && Boolean(formik.errors.horasBase)}
+            helperText={formik.touched.horasBase && formik.errors.horasBase}
+            sx={{ py: 1 }}
+          />
           <Box sx={{ p: 2 }}>
             <input
               style={{ display: 'none' }}
               accept="image/*"
-            // className={classes.input}
               id="contained-button-file"
               multiple
               type="file"
             />
-            {/* <label htmlFor="contained-button-file">
-            <Button
-              id="imgSrc"
-              name="imgSrc"
-              color="primary"
-              component="label"
-              sx={{ margin: '3px', marginLeft: '0px' }}
-              fullWidth
-            >
-              <input
-                accept="image/*"
-                multiple
-                type="file"
-                hidden
-                onChange={async (e) => {
-                  setLoading(true);
-                  const res = await uploadImage(e.target.files[0]);
-                  if (res) {
-                    console.log(res.url);
-                    setImgUrl(res.url);
-                    setLoading(false);
-                  }
-                }}
-              />
-              Subir foto
-            </Button>
-          </label> */}
           </Box>
           <Button
-            sx={{ margin: '3px', marginLeft: '0px' }}
+            sx={{ py: 1 }}
             color="primary"
             variant="contained"
             fullWidth
             disabled={loading}
             type="submit"
           >
-            {loading ? 'Cargando...' : 'Agregar'}
+            {loading ? 'Cargando...' : 'Actualizar'}
           </Button>
         </form>
       </DialogContent>

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
@@ -25,8 +24,7 @@ import {
   TablePagination,
   TableRow,
   TextField,
-  Tooltip,
-  Typography
+  Tooltip
 } from '@material-ui/core';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -49,11 +47,29 @@ const EmpleadosListResults = (props) => {
   const [editEmp, setEditEmp] = useState({});
   const [open, setOpen] = useState(false);
 
+  const handleClickOpen = (event, newEmp) => {
+    setEditEmp(newEmp);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseAndUpdate = () => {
+    setOpen(false);
+    handleUpdate();
+  };
+
   const handleNewEmpleadoModalOpenClickOpen = () => {
     setNewEmpleadoModalOpen(true);
   };
 
   const handleNewEmpleadoModalOpenClose = () => {
+    setNewEmpleadoModalOpen(false);
+  };
+
+  const handleNewEmpleadoModalOpenCloseAndUpdate = () => {
     setNewEmpleadoModalOpen(false);
     handleUpdate();
   };
@@ -98,26 +114,10 @@ const EmpleadosListResults = (props) => {
     setPage(newPage);
   };
 
-  const handleEditar = async function (e, id) {
-    setLoading(true);
-    // const res = await actualizarEstado(id, 1);
-    if (res) {
-      setLoading(false);
-      handleUpdate();
-    } else {
-      setLoading(false);
-      alert('Ha habido un error al actualizar el estado');
-    }
-  };
-
-  const handleClickOpen = (event, newEmp) => {
-    setEditEmp(newEmp);
-    setOpen(true);
-  };
-
   const handleBorrar = async function (e, id) {
     setLoading(true);
     // onst res = await actualizarEstado(id, 2);
+    console.log(e, id); // TODO borrar empleado
     if (res) {
       setLoading(false);
       handleUpdate();
@@ -144,11 +144,6 @@ const EmpleadosListResults = (props) => {
     return ((parseInt(moment(fecha).format('YYYY'), 10) === year) && (parseInt(moment(fecha).format('MM'), 10) === month));
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    handleUpdate();
-  };
-
   return (
     <>
       <Box>
@@ -166,7 +161,8 @@ const EmpleadosListResults = (props) => {
           </DialogContent>
         </Dialog>
         <ModalHoras open={modalHorasOpen} handleClose={handleCloseModalHoras} id={selectedId} handleUpdate={handleUpdate} />
-        <EditEmpleadoModal open={open} handleClose={handleClose} emp={editEmp} />
+        <EditEmpleadoModal open={open} handleClose={handleClose} handleCloseAndUpdate={handleCloseAndUpdate} emp={editEmp} />
+        <NewEmpleadoModal open={newEmpleadoModalOpen} handleClose={handleNewEmpleadoModalOpenClose} handleCloseAndUpdate={handleNewEmpleadoModalOpenCloseAndUpdate} />
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -231,7 +227,6 @@ const EmpleadosListResults = (props) => {
           </Card>
         </Box>
       </Box>
-      <NewEmpleadoModal open={newEmpleadoModalOpen} handleClose={handleNewEmpleadoModalOpenClose} />
       <Card>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 1050 }}>

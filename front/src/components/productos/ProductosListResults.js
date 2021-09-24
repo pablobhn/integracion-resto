@@ -61,7 +61,6 @@ const ProductosListResults = (props) => {
 
   const handleClose = () => {
     setOpen(false);
-    handleUpdate();
   };
 
   const handleBorrar = async function (e, id) {

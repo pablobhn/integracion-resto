@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -10,12 +10,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   TextField,
   Typography,
-  Card,
-  Grid
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  Select
 } from '@material-ui/core';
-import { Field, useFormik, FormikProvider } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import uploadImage from '../../controllers/images';
 import { editarProducto } from '../../controllers/productos';
@@ -29,6 +32,14 @@ const EditProductModal = (props) => {
   } = props;
   const [loading, setLoading] = React.useState(false);
   const [imgUrl, setImgUrl] = React.useState('');
+
+  useEffect(() => {
+    async function componentDidMount() {
+      setImgUrl(prod.imgUrl);
+    }
+
+    componentDidMount();
+  }, true);
 
   const validationSchema = yup.object({
     name: yup
@@ -54,182 +65,189 @@ const EditProductModal = (props) => {
     vegano: prod.vegano
   };
 
-  const formik = useFormik({
-    initialValues: prodValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      setLoading(true);
-      if (imgUrl === '') {
-        setImgUrl(prod.imageSrc);
-      }
-      const res = await editarProducto(values, imgUrl, prod.id);
-      if (res) {
-        setLoading(false);
-        alert('Producto actualizado exitosamente');
-        formik.resetForm();
-        handleClose();
-        // <Alert severity="success">This is a success alert — check it out!</Alert>
-      } else {
-        setLoading(false);
-        alert('Ha habido un error al crear el producto!');
-      }
-    },
-  });
-
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <DialogTitle disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Editar Producto</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <DialogContentText sx={{ py: 1 }}>
           Complete los campos
         </DialogContentText>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="nombre"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-            sx={{ margin: '2px' }}
-          />
-          <TextField
-            fullWidth
-            id="price"
-            name="price"
-            label="precio"
-            type="number"
-            value={formik.values.price}
-            onChange={formik.handleChange}
-            error={formik.touched.price && Boolean(formik.errors.price)}
-            helperText={formik.touched.price && formik.errors.price}
-            sx={{ margin: '2px' }}
-          />
-          <TextField
-            fullWidth
-            id="description"
-            name="description"
-            label="descripción"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            helperText={formik.touched.description && formik.errors.description}
-            sx={{ margin: '2px' }}
-          />
-          <FormikProvider value={formik}>
-            <label>
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={prodValues}
+          onSubmit={async (values) => {
+            setLoading(true);
+            const res = await editarProducto(values, imgUrl, prod.id);
+            if (res) {
+              setLoading(false);
+              alert('Producto actualizado exitosamente');
+              handleClose();
+              // <Alert severity="success">This is a success alert — check it out!</Alert>
+            } else {
+              setLoading(false);
+              alert('Ha habido un error al actualizar el producto!');
+            }
+          }}
+        >
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            touched,
+            values
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="nombre"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.name && Boolean(errors.name)}
+                helperText={touched.name && errors.name}
+                sx={{ py: 1 }}
+              />
+              <TextField
+                fullWidth
+                id="price"
+                name="price"
+                label="precio"
+                type="number"
+                value={values.price}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.price && Boolean(errors.price)}
+                helperText={touched.price && errors.price}
+                sx={{ py: 1 }}
+              />
+              <TextField
+                fullWidth
+                id="description"
+                name="description"
+                label="descripción"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.description && Boolean(errors.description)}
+                helperText={touched.description && errors.description}
+                sx={{ py: 1 }}
+              />
               <Typography>
                 Categoría:
               </Typography>
-              <Field
+              <Select
                 fullWidth
                 id="type"
                 name="type"
-                margin="normal"
                 component="select"
-                onChange={formik.handleChange}
-                style={{
-                  height: 50, width: '100%', padding: '10px', 'margin-bottom': '15px'
-                }}
-                value={formik.values.type}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.type}
               >
                 {categorias.map((categoria) => (
-                  <option value={categoria}>
+                  <MenuItem value={categoria}>
                     {categoria}
-                  </option>
+                  </MenuItem>
                 ))}
-              </Field>
-            </label>
-            <Card>
-              <Grid container>
+              </Select>
+              <Grid container sx={{ py: 2, justifyContent: 'center' }}>
                 <Grid
                   itm
-                  xs={6}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    direction: 'row',
-                    p: 2
-                  }}
+                  xs={4}
                 >
-                  <Field
+                  <FormControlLabel
                     id="sinTac"
                     name="sinTac"
-                    type="checkbox"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    control={(
+                      <Checkbox
+                        checked={values.sinTac}
+                        value={values.sinTac}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    )}
+                    value={values.sinTac}
+                    label="Libre de TAAC"
+                    labelPlacement="end"
                   />
-                  Libre de TACC
                 </Grid>
                 <Grid
                   itm
-                  xs={6}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    direction: 'row',
-                    p: 2
-                  }}
+                  xs={4}
                 >
-                  <Field
+                  <FormControlLabel
                     id="vegano"
                     name="vegano"
-                    type="checkbox"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    control={(
+                      <Checkbox
+                        checked={values.vegano}
+                        value={values.vegano}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                  )}
+                    value={values.vegano}
+                    label="Apto vegano"
+                    labelPlacement="end"
                   />
-                  Apto vegano
                 </Grid>
               </Grid>
-            </Card>
-          </FormikProvider>
-          <Box sx={{ p: 2 }}>
-            <input
-              style={{ display: 'none' }}
-              accept="image/*"
-              // className={classes.input}
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-            <label htmlFor="contained-button-file">
-              <Button
-                id="imgSrc"
-                name="imgSrc"
-                color="primary"
-                component="label"
-                sx={{ margin: '3px', marginLeft: '0px' }}
-                fullWidth
-              >
+              <Box sx={{ p: 2 }}>
                 <input
+                  style={{ display: 'none' }}
                   accept="image/*"
+                  id="contained-button-file"
                   multiple
                   type="file"
-                  hidden
-                  onChange={async (e) => {
-                    setLoading(true);
-                    const res = await uploadImage(e.target.files[0]);
-                    if (res) {
-                      console.log(res.url);
-                      setImgUrl(res.url);
-                      setLoading(false);
-                    }
-                  }}
                 />
-                Subir imagen
+                <label htmlFor="contained-button-file">
+                  <Button
+                    id="imgSrc"
+                    name="imgSrc"
+                    color="primary"
+                    component="label"
+                    sx={{ margin: '3px', marginLeft: '0px' }}
+                    fullWidth
+                  >
+                    <input
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      hidden
+                      onChange={async (e) => {
+                        setLoading(true);
+                        const res = await uploadImage(e.target.files[0]);
+                        if (res) {
+                          console.log(res.url);
+                          setImgUrl(res.url);
+                          setLoading(false);
+                        }
+                      }}
+                    />
+                    Subir imagen
+                  </Button>
+                </label>
+              </Box>
+              <Button
+                sx={{ margin: '3px', marginLeft: '0px' }}
+                color="primary"
+                variant="contained"
+                fullWidth
+                disabled={loading}
+                type="submit"
+              >
+                {loading ? 'Cargando...' : 'Actualizar'}
               </Button>
-            </label>
-          </Box>
-          <Button
-            sx={{ margin: '3px', marginLeft: '0px' }}
-            color="primary"
-            variant="contained"
-            fullWidth
-            disabled={loading}
-            type="submit"
-          >
-            {loading ? 'Cargando...' : 'Guardar cambios'}
-          </Button>
-        </form>
+            </form>
+          )}
+        </Formik>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
