@@ -38,6 +38,7 @@ import ModalHoras from './ModalHoras';
 import NewEmpleadoModal from './NewEmpleadoModal';
 import EditEmpleadoModal from './EditEmpleadoModal';
 import cargos from '../../__mocks__/cargos';
+import LiquidacionesModal from './LiquidacionesModal';
 
 // eslint-disable-next-line react/prop-types
 const EmpleadosListResults = (props) => {
@@ -49,6 +50,7 @@ const EmpleadosListResults = (props) => {
   const [modalHorasOpen, setModalHorasOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(-1);
   const [newEmpleadoModalOpen, setNewEmpleadoModalOpen] = useState(false);
+  const [liquidacionesModalOpen, setLiquidacionesModalOpen] = useState(false);
   const [editEmp, setEditEmp] = useState({});
   const [open, setOpen] = useState(false);
   const [empleadosFiltrados, setEmpleadosFiltrados] = useState(empleados);
@@ -86,6 +88,14 @@ const EmpleadosListResults = (props) => {
   const handleCloseAndUpdate = () => {
     setOpen(false);
     handleUpdate();
+  };
+
+  const handleLiquidacionesModalOpen = () => {
+    setLiquidacionesModalOpen(true);
+  };
+
+  const handleLiquidacionesModalClose = () => {
+    setLiquidacionesModalOpen(false);
   };
 
   const handleNewEmpleadoModalOpenClickOpen = () => {
@@ -190,6 +200,7 @@ const EmpleadosListResults = (props) => {
         <ModalHoras open={modalHorasOpen} handleClose={handleCloseModalHoras} id={selectedId} handleUpdate={handleUpdate} />
         <EditEmpleadoModal open={open} handleClose={handleClose} handleCloseAndUpdate={handleCloseAndUpdate} emp={editEmp} />
         <NewEmpleadoModal open={newEmpleadoModalOpen} handleClose={handleNewEmpleadoModalOpenClose} handleCloseAndUpdate={handleNewEmpleadoModalOpenCloseAndUpdate} />
+        <LiquidacionesModal open={liquidacionesModalOpen} handleClose={handleLiquidacionesModalClose} selectedEmpleadosIds={selectedEmpleadosIds} />
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -275,6 +286,7 @@ const EmpleadosListResults = (props) => {
                   color="secondary"
                   variant="contained"
                   sx={{ mx: 1 }}
+                  onClick={handleLiquidacionesModalOpen}
                 >
                   Liquidar sueldos
                 </Button>

@@ -7,12 +7,16 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Card,
   CircularProgress,
   Dialog,
   DialogContent,
+  Divider,
   Grid,
   Checkbox,
   IconButton,
@@ -25,10 +29,12 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Typography,
   Tooltip
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { actualizarEstadoLiquidacion } from '../../controllers/liquidaciones';
 
@@ -258,10 +264,10 @@ const LiquidacionesListResults = (props) => {
                     Período
                   </TableCell>
                   <TableCell>
-                    Importe
+                    Estado
                   </TableCell>
                   <TableCell>
-                    Estado
+                    Detalle
                   </TableCell>
                   <TableCell />
                 </TableRow>
@@ -292,9 +298,6 @@ const LiquidacionesListResults = (props) => {
                         {liquidacion.legajo}
                       </TableCell>
                       <TableCell>
-                        {`$ ${liquidacion.total},00`}
-                      </TableCell>
-                      <TableCell>
                         {moment(liquidacion.periodo).format('MM/YYYY')}
                       </TableCell>
                       <TableCell>
@@ -306,12 +309,44 @@ const LiquidacionesListResults = (props) => {
                         }[liquidacion.status]
                       }
                       </TableCell>
+                      <TableCell sx={{ maxWidth: 250 }}>
+                        <Accordion elevation={0}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                          >
+                            <Typography>{`Total $ ${parseFloat(liquidacion.total).toFixed(2)}`}</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Divider />
+                            {liquidacion.detalle.map((item) => (
+                              <Grid container sx={{ pt: 1 }}>
+                                <Grid item xs={7}>
+                                  <Typography value={item}>
+                                    {item.descripcion}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={2}>
+                                  <Typography value={item}>
+                                    {`x ${item.cantidad}`}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={3}>
+                                  <Typography value={item}>
+                                    {`$ ${parseFloat(item.monto).toFixed(2)}`}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            ))}
+                          </AccordionDetails>
+                        </Accordion>
+                      </TableCell>
                       <TableCell>
                         {(liquidacion.status === 0) ? (
                           <>
                             <Tooltip title="Pagada">
                               <IconButton
                                 color="inherit"
+                                sx={{ my: 0, px: 1, py: 0 }}
                               >
                                 <CheckCircleOutlineIcon
                                   onClick={(e) => handlePagar(e, liquidacion.id)}
@@ -324,6 +359,7 @@ const LiquidacionesListResults = (props) => {
                             <Tooltip title="Anular">
                               <IconButton
                                 color="inherit"
+                                sx={{ my: 0, px: 1, py: 0 }}
                               >
                                 <CancelIcon
                                   onClick={(e) => handleAnular(e, liquidacion.id)}
