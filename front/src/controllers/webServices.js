@@ -15,7 +15,8 @@ const urlWebServices = {
   actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`,
   actualizarEstadoLiquidacion: `${urlApi}api/liquidaciones/updateStatus/id/`,
   crearEmpleado: `${urlApi}api/empleados/create`,
-  editarEmpleado: `${urlApi}api/empleados/edit/id/`
+  editarEmpleado: `${urlApi}api/empleados/edit/id/`,
+  liquidarSueldo: `${urlApi}api/empleados/liquidarSueldo/id/`,
 
 // register: urlApi + "api/usuarios/create",
 // findUser: urlApi + "api/usuarios/find/username/",

@@ -160,4 +160,32 @@ export const registrarHoras = async function (id, value, values) {
   }
 };
 
-export default crearEmpleado;
+export const liquidarSueldo = async function (id, anio, mes) {
+  const url = `${urlWebServices.liquidarSueldo}${id}/${anio}/${mes}`;
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Accept', 'application/json');
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: myHeaders
+    });
+
+    const data = await response.json();
+
+    if (data) {
+      return {
+        error: false,
+        data
+      };
+    }
+  } catch (error) {
+    return {
+      error: true
+    };
+  }
+};
