@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
   AppBar,
@@ -9,12 +10,14 @@ import {
   Button,
   Dialog,
   Grid,
+  MenuItem,
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  Select
 } from '@material-ui/core';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import SwipeableViews from 'react-swipeable-views';
 import { crearVenta } from '../../controllers/ventas';
@@ -29,7 +32,7 @@ const ModalCrearVenta = (props) => {
   } = props;
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
-  const tarjetas = ['VISA', 'Mastercard', 'AMEX', 'Otra'];
+  const tarjetas = ['VISA', 'MASTERCARD', 'AMEX', 'OTRA'];
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -79,17 +82,24 @@ const ModalCrearVenta = (props) => {
       .number('Ingrese los últimos 4 dígitos de la tarjeta')
       .typeError('Debe ser un número válido')
       .required('Este campo debe contener solo números'),
-    expiracion: yup
-      .date()
-      .min(new Date(), 'La fecha de expiracion debe ser futura')
-      .typeError('Debe ser una fecha válida')
+    mes: yup
+      .number('Ingrese el mes')
+      .min(1, 'Debe ser un mes válido')
+      .max(12, 'Debe ser un mes válido')
+      .required('El mes es requerido'),
+    anio: yup
+      .number('Ingrese el año')
+      .min(parseInt(moment(new Date()).format('YYYY'), 10), 'Debe ser un año válido')
+      .max((parseInt(moment(new Date()).format('YYYY'), 10) + 20), 'Debe ser un año válido')
+      .required('El año es requerido'),
   });
 
   const initialValues = {
     medio: 'tarjeta',
     tipo: tarjetas[0],
     digitos: '',
-    expiracion: ''
+    anio: '',
+    mes: ''
   };
 
   return (
@@ -158,7 +168,7 @@ const ModalCrearVenta = (props) => {
                   <form onSubmit={handleSubmit}>
                     <Grid container xs={12}>
                       <Grid item xs={12}>
-                        <Field
+                        <Select
                           fullWidth
                           id="tipo"
                           name="tipo"
@@ -171,13 +181,13 @@ const ModalCrearVenta = (props) => {
                           onChange={handleChange}
                         >
                           {tarjetas.map((tarjeta) => (
-                            <option value={tarjeta}>
+                            <MenuItem value={tarjeta}>
                               {tarjeta}
-                            </option>
+                            </MenuItem>
                           ))}
-                        </Field>
+                        </Select>
                       </Grid>
-                      <Grid item xs={5.75} sx={{ margin: '2px' }}>
+                      <Grid item xs={5.5} sx={{ p: 1 }}>
                         <br />
                         <TextField
                           fullWidth
@@ -195,18 +205,42 @@ const ModalCrearVenta = (props) => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={5.75} sx={{ margin: '2px' }}>
-                        <h8>Fecha de expiración</h8>
+                      <Grid item xs={3} sx={{ p: 1 }}>
+                        <Typography>
+                          Mes
+                        </Typography>
                         <TextField
                           fullWidth
-                          id="expiracion"
+                          id="mes"
                           label=""
-                          type="date"
-                          value={values.expiracion}
-                          error={touched.expiracion && Boolean(errors.expiracion)}
-                          helperText={touched.expiracion && errors.expiracion}
+                          type="number"
+                          value={values.mes}
+                          error={touched.mes && Boolean(errors.mes)}
+                          helperText={touched.mes && errors.mes}
                           onBlur={handleBlur}
                           onChange={handleChange}
+                          onInput={(e) => {
+                            e.target.value = Math.max(0, parseInt(e.target.value, 10)).toString().slice(0, 2);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={3} sx={{ p: 1 }}>
+                        <Typography>
+                          Año
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          id="anio"
+                          label=""
+                          type="number"
+                          value={values.anio}
+                          error={touched.anio && Boolean(errors.anio)}
+                          helperText={touched.anio && errors.anio}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          onInput={(e) => {
+                            e.target.value = Math.max(0, parseInt(e.target.value, 10)).toString().slice(0, 4);
+                          }}
                         />
                       </Grid>
                     </Grid>

@@ -11,24 +11,24 @@ import {
   Button,
   Card,
   CircularProgress,
+  Checkbox,
   Dialog,
   DialogContent,
+  FormControl,
   Grid,
-  Checkbox,
   IconButton,
-  InputAdornment,
-  SvgIcon,
+  InputLabel,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Tooltip,
-  Typography
+  Typography,
+  Select
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { actualizarEstado } from '../../controllers/ventas';
@@ -40,6 +40,16 @@ const VentasListResults = (props) => {
   const [selectedVentasIds, setSelectedVentasIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [ventasFiltradas, setVentasFiltradas] = useState(ventas);
+
+  const handleFilterEstado = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === 3) {
+      setVentasFiltradas(ventas);
+    } else {
+      setVentasFiltradas(ventas.filter((ventas) => ventas.estado === e.target.value));
+    }
+  };
 
   const handleSelectAll = (event) => {
     let newselectedVentasIds;
@@ -171,7 +181,7 @@ const VentasListResults = (props) => {
             <Grid container>
               <Grid
                 item
-                xs={6}
+                xs={4}
                 sx={{
                   display: 'flex',
                   justifyContent: 'left',
@@ -179,27 +189,34 @@ const VentasListResults = (props) => {
                   p: 2
                 }}
               >
-                <TextField
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SvgIcon
-                          fontSize="small"
-                          color="action"
-                        >
-                          <SearchIcon />
-                        </SvgIcon>
-                      </InputAdornment>
-                    )
-                  }}
-                  placeholder="Buscar venta"
-                  variant="outlined"
-                />
+                <FormControl>
+                  <InputLabel id="estado">Estado</InputLabel>
+                  <Select
+                    sx={{ width: 250 }}
+                    labelId="prueba-select"
+                    label="Seleccione un estado"
+                    id="prueba-select-simple"
+                    onChange={(event) => handleFilterEstado(event)}
+                    defaultValue="Todos los estados"
+                  >
+                    <MenuItem value={0}>
+                      Pendiente
+                    </MenuItem>
+                    <MenuItem value={1}>
+                      Pagada
+                    </MenuItem>
+                    <MenuItem value={2}>
+                      Anulada
+                    </MenuItem>
+                    <MenuItem value={3}>
+                      Todos los estados
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid
                 item
-                xs={6}
+                xs={8}
                 sx={{
                   display: 'flex',
                   justifyContent: 'right',
@@ -265,9 +282,9 @@ const VentasListResults = (props) => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              { (ventas.length > 0) ? (
+              { (ventasFiltradas.length > 0) ? (
                 <TableBody>
-                  {ventas.slice((0 + page * limit), ((0 + page * limit) + limit)).map((venta) => (
+                  {ventasFiltradas.slice((0 + page * limit), ((0 + page * limit) + limit)).map((venta) => (
                     <TableRow
                       hover
                       key={venta.id}
