@@ -122,7 +122,6 @@ const MesaCard = ({ mesa, ...rest }) => {
           >
             {mesa.title}
           </Typography>
-          <Divider />
         </CardContent>
         <Box sx={{ flexGrow: 1 }} />
         <Divider sx={{ p: 0.5 }} />

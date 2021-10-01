@@ -41,7 +41,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           <IconButton color="inherit">
             <InputIcon
               onClick={async () => {
-                localStorage.clear();
+                localStorage.removeItem('auth');
                 navigate('/', { replace: true });
               }}
             />

@@ -17,10 +17,14 @@ import {
   Dialog,
   DialogContent,
   Divider,
+  FormControl,
   Grid,
   Checkbox,
   IconButton,
   InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
   SvgIcon,
   Table,
   TableBody,
@@ -53,6 +57,15 @@ const LiquidacionesListResults = (props) => {
       setLiquidacionesFiltrados(liquidaciones);
     } else {
       setLiquidacionesFiltrados(liquidaciones.filter((liq) => liq.empleado.toLowerCase().match(e.target.value.toLowerCase())));
+    }
+  };
+
+  const handleFilterEstado = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === 3) {
+      setLiquidacionesFiltrados(liquidaciones);
+    } else {
+      setLiquidacionesFiltrados(liquidaciones.filter((liq) => liq.status === e.target.value));
     }
   };
 
@@ -180,7 +193,7 @@ const LiquidacionesListResults = (props) => {
             <Grid container>
               <Grid
                 item
-                xs={6}
+                xs={5}
                 sx={{
                   display: 'flex',
                   justifyContent: 'left',
@@ -190,6 +203,9 @@ const LiquidacionesListResults = (props) => {
               >
                 <TextField
                   fullWidth
+                  sx={{
+                    p: 1
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -202,14 +218,42 @@ const LiquidacionesListResults = (props) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar liquidación por empleado"
+                  placeholder="Buscar producto"
                   variant="outlined"
                   onChange={(e) => handleSearch(e)}
                 />
+                <FormControl
+                  sx={{
+                    p: 1,
+                    width: 250
+                  }}
+                >
+                  <InputLabel id="estado">Estado</InputLabel>
+                  <Select
+                    labelId="prueba-select"
+                    label="Seleccione un estado"
+                    id="prueba-select-simple"
+                    onChange={(event) => handleFilterEstado(event)}
+                    defaultValue="Todos los estados"
+                  >
+                    <MenuItem value={0}>
+                      Pendiente
+                    </MenuItem>
+                    <MenuItem value={1}>
+                      Pagada
+                    </MenuItem>
+                    <MenuItem value={2}>
+                      Anulada
+                    </MenuItem>
+                    <MenuItem value={3}>
+                      Todos los estados
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid
                 item
-                xs={6}
+                xs={7}
                 sx={{
                   display: 'flex',
                   justifyContent: 'right',
@@ -309,7 +353,7 @@ const LiquidacionesListResults = (props) => {
                         }[liquidacion.status]
                       }
                       </TableCell>
-                      <TableCell sx={{ maxWidth: 250 }}>
+                      <TableCell>
                         <Accordion elevation={0}>
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -317,26 +361,66 @@ const LiquidacionesListResults = (props) => {
                             <Typography>{`Total $ ${parseFloat(liquidacion.total).toFixed(2)}`}</Typography>
                           </AccordionSummary>
                           <AccordionDetails>
-                            <Divider />
+                            <Grid container>
+                              <Grid item xs={6}>
+                                <Typography>
+                                  Concepto
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography align="center">
+                                  Cantidad
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography align="center">
+                                  Haberes
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography align="center">
+                                  Retenciones
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            <Divider sx={{ pt: 1 }} />
                             {liquidacion.detalle.map((item) => (
                               <Grid container sx={{ pt: 1 }}>
-                                <Grid item xs={7}>
-                                  <Typography value={item}>
+                                <Grid item xs={6}>
+                                  <Typography>
                                     {item.descripcion}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={2}>
-                                  <Typography value={item}>
+                                  <Typography align="center">
                                     {`x ${item.cantidad}`}
                                   </Typography>
                                 </Grid>
-                                <Grid item xs={3}>
-                                  <Typography value={item}>
-                                    {`$ ${parseFloat(item.monto).toFixed(2)}`}
+                                <Grid item xs={2}>
+                                  <Typography align="center">
+                                    {(parseFloat(item.monto).toFixed(2) > 0) ? `$ ${parseFloat(item.monto).toFixed(2)}` : ''}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={2}>
+                                  <Typography align="center" color="#DE2A04">
+                                    {(parseFloat(item.monto).toFixed(2) < 0) ? `$ ${parseFloat(item.monto).toFixed(2)}` : ''}
                                   </Typography>
                                 </Grid>
                               </Grid>
                             ))}
+                            <Divider sx={{ pt: 1 }} />
+                            <Grid container sx={{ pt: 1 }}>
+                              <Grid item xs={6}>
+                                <Typography variant="h5">
+                                  Total
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography align="right" variant="h5">
+                                  {`$ ${parseFloat(liquidacion.total).toFixed(2)}`}
+                                </Typography>
+                              </Grid>
+                            </Grid>
                           </AccordionDetails>
                         </Accordion>
                       </TableCell>

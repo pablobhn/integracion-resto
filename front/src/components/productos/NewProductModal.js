@@ -235,7 +235,7 @@ const NewProductModal = (props) => {
                 disabled={loading}
                 type="submit"
               >
-                {loading ? 'Cargando...' : 'Actualizar'}
+                {loading ? 'Cargando...' : 'Agregar'}
               </Button>
             </form>
           )}
