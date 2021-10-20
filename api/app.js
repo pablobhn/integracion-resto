@@ -3,13 +3,23 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const Sequelize = require('sequelize');
+const dotenv = require('dotenv');
 const path = require('path');
-
-
 const http = require('http');
 
 // Setting express
+dotenv.config();
 const app = express();
+
+// iniciarlizar sequelize
+sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 
 //aplico cors
 app.use(cors());

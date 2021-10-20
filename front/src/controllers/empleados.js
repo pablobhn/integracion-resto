@@ -8,7 +8,7 @@ export const crearEmpleado = async function (values) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
@@ -54,7 +54,7 @@ export const editarEmpleado = async function (values, empId) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
@@ -99,7 +99,7 @@ export const listarEmpleados = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   try {
@@ -129,7 +129,7 @@ export const registrarHoras = async function (id, value, values) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   const raw = JSON.stringify({
@@ -165,7 +165,7 @@ export const liquidarSueldo = async function (id, anio, mes) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   try {

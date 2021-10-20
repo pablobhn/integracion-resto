@@ -7,7 +7,7 @@ export const listarLiquidaciones = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   try {
@@ -37,7 +37,7 @@ export const actualizarEstadoLiquidacion = async function (id, n) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   const raw = JSON.stringify({

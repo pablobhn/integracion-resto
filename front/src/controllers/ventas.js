@@ -8,7 +8,7 @@ export const crearVenta = async function (pago, mesaId, productos) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
@@ -48,7 +48,7 @@ export const listarVentas = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   try {
@@ -78,7 +78,7 @@ export const actualizarEstado = async function (id, n) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
   myHeaders.append('Accept', 'application/json');
 
   const raw = JSON.stringify({
