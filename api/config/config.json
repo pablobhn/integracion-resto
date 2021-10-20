@@ -7,11 +7,11 @@
 		"dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "yjnsuckmfahhcw",
+    "password": "f106ff371def345f4fa4a5f9a30aca3c5b732c5c377247bdcfaf2e4d4752b76c",
+    "database": "d7mrj1sd2gi17b",
+    "host": "ec2-54-92-230-7.compute-1.amazonaws.com",
+    "dialect": "postgres"
   },
   "stage": {
     "username": "unitgztuoktxbd",
