@@ -12,15 +12,6 @@ const http = require('http');
 dotenv.config();
 const app = express();
 
-// iniciarlizar sequelize
-sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-        ssl: true
-    }
-});
-
 //aplico cors
 app.use(cors());
 app.use(cookieParser());
