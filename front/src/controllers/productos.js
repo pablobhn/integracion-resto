@@ -7,7 +7,7 @@ export const crearProducto = async function (values, imgSrc) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
@@ -52,7 +52,7 @@ export const editarProducto = async function (values, imgSrc, prodId) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
@@ -97,7 +97,7 @@ export const listarProductos = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   try {
@@ -127,7 +127,7 @@ export const borrarProducto = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   const response = await fetch(url, {

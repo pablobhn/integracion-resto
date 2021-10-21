@@ -27,6 +27,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Setting up the welcome message
 require('./routes')(app);
 
+app.options('*', (req, res) => {
+	res.set('Access-Control-Allow-Origin', '*');
+	res.send('ok');
+});
+  
+app.use((req, res) => {
+	res.set('Access-Control-Allow-Origin', '*');
+});
+
 app.get('*', (req, res) => res.status(200).send({
 	message: 'api is up and running',
 }));
