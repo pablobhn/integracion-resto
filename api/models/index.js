@@ -8,6 +8,10 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
+config.ssl = {
+  rejectUnauthorized: false
+}
+
 let sequelize;
 if (config.use_env_variable) {
   console.log(process.env[config.use_env_variable])
