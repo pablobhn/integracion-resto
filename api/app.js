@@ -1,7 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv');
@@ -12,8 +11,6 @@ const http = require('http');
 dotenv.config();
 const app = express();
 
-//aplico cors
-app.use(cors());
 app.use(cookieParser());
 
 app.use(logger('dev'));
