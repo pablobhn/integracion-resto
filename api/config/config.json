@@ -1,24 +1,11 @@
 {
   "development": {
-    "username": "postgres",
-		"password": "123456",
-		"database": "apiresto",
-		"host": "localhost",
-		"dialect": "postgres"
-  },
-  "test": {
-    "username": "yjnsuckmfahhcw",
-    "password": "f106ff371def345f4fa4a5f9a30aca3c5b732c5c377247bdcfaf2e4d4752b76c",
-    "database": "d7mrj1sd2gi17b",
-    "host": "ec2-54-92-230-7.compute-1.amazonaws.com",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   },
   "stage": {
-    "username": "unitgztuoktxbd",
-    "password": "53a341ae5c284c3f938ae8db2bb2eaf44c4c466e2a8f631afc1844b3663a1f38",
-    "database": "d768kppicb4i9q",
-    "host": "ec2-54-174-172-218.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+		"use_env_variable" : "DATABASE_URL"
   },
   "production": {
     "username": "root",
