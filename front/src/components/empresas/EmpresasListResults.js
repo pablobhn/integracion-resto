@@ -13,12 +13,9 @@ import {
   Checkbox,
   Dialog,
   DialogContent,
-  FormControl,
   Grid,
-  InputLabel,
   IconButton,
   InputAdornment,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -28,7 +25,6 @@ import {
   TextField,
   Tooltip,
   SvgIcon,
-  Select
 } from '@material-ui/core';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -36,7 +32,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import NewEmpresaModal from './NewEmpresaModal';
 import EditEmpresaModal from './EditEmpresaModal';
-import cargos from '../../__mocks__/cargos';
 
 // eslint-disable-next-line react/prop-types
 const EmpresasListResults = (props) => {
@@ -50,24 +45,12 @@ const EmpresasListResults = (props) => {
   const [open, setOpen] = useState(false);
   const [empresasFiltrados, setEmpresasFiltrados] = useState(empresas);
 
-  const todosLosCargos = 'Todos los cargos';
-  const cargosMasTodos = [...cargos, todosLosCargos];
-
   const handleSearch = (e) => {
     console.log(e.target.value);
     if (e.target.value === '') {
       setEmpresasFiltrados(empresas);
     } else {
       setEmpresasFiltrados(empresas.filter((emp) => emp.name.toLowerCase().match(e.target.value.toLowerCase())));
-    }
-  };
-
-  const handleFilterCargo = (e) => {
-    console.log(e.target.value);
-    if (e.target.value === todosLosCargos) {
-      setEmpresasFiltrados(empresas);
-    } else {
-      setEmpresasFiltrados(empresas.filter((emp) => emp.role === e.target.value));
     }
   };
 
@@ -217,34 +200,6 @@ const EmpresasListResults = (props) => {
                 xs={4}
                 sx={{
                   display: 'flex',
-                  justifyContent: 'left',
-                  direction: 'row',
-                  p: 2
-                }}
-              >
-                <FormControl>
-                  <InputLabel id="cargo">Cargo</InputLabel>
-                  <Select
-                    sx={{ width: 250 }}
-                    labelId="prueba-select"
-                    label="Seleccione un cargo"
-                    id="prueba-select-simple"
-                    onChange={(event) => handleFilterCargo(event)}
-                    defaultValue="Todos los cargos"
-                  >
-                    {cargosMasTodos.map((cargo) => (
-                      <MenuItem value={cargo}>
-                        {cargo}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={4}
-                sx={{
-                  display: 'flex',
                   justifyContent: 'right',
                   direction: 'row',
                   p: 3
@@ -279,31 +234,25 @@ const EmpresasListResults = (props) => {
                     />
                   </TableCell>
                   <TableCell>
-                    Legajo
+                    ID
                   </TableCell>
                   <TableCell>
-                    Nombre
+                    Razón Social
                   </TableCell>
                   <TableCell>
-                    Cargo
+                    CUIT
                   </TableCell>
                   <TableCell>
-                    Tel
+                    Condición impositiva
                   </TableCell>
                   <TableCell>
-                    Dirección
+                    Concepto impositivo
                   </TableCell>
                   <TableCell>
-                    Fecha de nacimiento
+                    Teléfono
                   </TableCell>
                   <TableCell>
                     Fecha de ingreso
-                  </TableCell>
-                  <TableCell sx={{ maxWidth: 150 }}>
-                    Hs Extra / Faltas (mes en curso)
-                  </TableCell>
-                  <TableCell>
-                    Regimen
                   </TableCell>
                   <TableCell />
                   <TableCell />

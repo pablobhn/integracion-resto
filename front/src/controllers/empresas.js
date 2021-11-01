@@ -15,15 +15,13 @@ export const crearEmpresa = async function (values) {
   const raw = JSON.stringify({
     name: values.name,
     address: values.address,
+    cuit: values.cuit,
+    situacionIva: values.situacionIva,
+    imp: values.imp,
     tel: values.tel,
-    rate: values.rate,
-    horasBase: values.horasBase,
-    fechaNacimiento: values.fechaNacimiento,
     fechaIngreso: values.fechaIngreso,
     // fechaNacimiento: moment(values.fechaNacimiento).format('YYYY-MM-DD'),
     // fechaIngreso: moment(values.fechaIngreso).format('YYYY-MM-DD'),
-    role: values.role,
-    status: 0
   });
 
   try {
@@ -61,15 +59,13 @@ export const editarEmpresa = async function (values, empId) {
   const raw = JSON.stringify({
     name: values.name,
     address: values.address,
+    cuit: values.cuit,
+    situacionIva: values.situacionIva,
+    imp: values.imp,
     tel: values.tel,
-    rate: values.rate,
-    horasBase: values.horasBase,
-    fechaNacimiento: values.fechaNacimiento,
     fechaIngreso: values.fechaIngreso,
     // fechaNacimiento: moment(values.fechaNacimiento).format('YYYY-MM-DD'),
     // fechaIngreso: moment(values.fechaIngreso).format('YYYY-MM-DD'),
-    role: values.role,
-    status: 0
   });
   try {
     const response = await fetch(url, {

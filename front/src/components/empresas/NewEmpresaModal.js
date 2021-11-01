@@ -18,10 +18,9 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 // import uploadImage from '../../controllers/images';
-import { crearEmpleado } from '../../controllers/empleados';
-import cargos from '../../__mocks__/cargos';
+import { crearEmpresa } from '../../controllers/empresas';
 
-const NewEmpleadoModal = (props) => {
+const NewEmpresaModal = (props) => {
   const {
     open,
     handleClose,
@@ -32,39 +31,42 @@ const NewEmpleadoModal = (props) => {
 
   const validationSchema = yup.object({
     name: yup
-      .string('Ingrese el nombre completo')
-      .max(255, 'El nombre puede contener máximo 255 carácteres')
-      .required('El nombre es requerido'),
+      .string('Ingrese el nombre/razón social completo')
+      .max(255, 'El nombre/razón social puede contener máximo 255 carácteres')
+      .required('El nombre/razón social es requerido'),
     address: yup
       .string('Ingrese el domicilio')
       .max(255, 'El domicilio puede contener máximo 255 carácteres')
       .required('El domicilio es requerido'),
+    cuit: yup
+      .number('Ingrese el cuit')
+      .min(12, 'El cuit tiene que tener como mínimo 12 carácteres')
+      .required('El cuit es requerido'),
+    situacionIva: yup
+      .string('Ingrese la situación de IVA')
+      .required('La situación es requerida'),
+    imp: yup
+      .number('Ingrese el concepto impositivo')
+      .required('El concepto impositivo es requerido'),
     tel: yup
       .string('Ingrese un teléfono')
       .max(20, 'El teléfono puede contener máximo 20 carácteres')
       .required('El teléfono es requerido'),
-    rate: yup
-      .number('Ingrese el sueldo básico')
-      .required('El sueldo básico es requerido'),
-    horasBase: yup
-      .number('Ingrese las horas base')
-      .required('Las horas bases son requeridas.'),
   });
 
   const initialValues = {
     name: '',
     address: '',
+    cuit: 0,
+    situacionIva: '',
+    imp: 0,
     tel: '',
-    rate: 0,
-    horasBase: 160,
-    fechaNacimiento: new Date(),
     fechaIngreso: new Date(),
-    role: cargos[0]
   };
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empleado</DialogTitle>
+      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empresa</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Complete los campos
@@ -74,15 +76,15 @@ const NewEmpleadoModal = (props) => {
           initialValues={initialValues}
           onSubmit={async (values) => {
             setLoading(true);
-            const res = await crearEmpleado(values);
+            const res = await crearEmpresa(values);
             if (res) {
               setLoading(false);
-              alert('Empleado creado exitosamente');
+              alert('Empresa creada exitosamente');
               handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
-              alert('Ha habido un error al crear el empleado!');
+              alert('Ha habido un error al crear la empresa!');
             }
           }}
         >
@@ -234,4 +236,4 @@ const NewEmpleadoModal = (props) => {
   );
 };
 
-export default NewEmpleadoModal;
+export default NewEmpresaModal;
