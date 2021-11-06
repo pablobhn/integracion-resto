@@ -56,6 +56,16 @@ const items = [
     title: 'Liquidaciones'
   },
   {
+    href: '/app/empresas',
+    icon: ListIcon,
+    title: 'Empresas'
+  },
+  {
+    href: '/app/cuentacorriente',
+    icon: ListIcon,
+    title: 'Cuenta Corriente'
+  },
+  {
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Configuracion'

@@ -13,6 +13,8 @@ import Settings from 'src/pages/Settings';
 import VentasList from 'src/pages/VentasList';
 import LiquidacionesList from 'src/pages/LiquidacionesList';
 import Registracion from 'src/pages/Registracion';
+import EmpresasList from './pages/EmpresasList';
+import CuentaCorriente from './pages/CuentaCorriente';
 
 export const routes = [
   {
@@ -27,7 +29,9 @@ export const routes = [
       { path: '*', element: <Navigate to="/404" /> },
       { path: 'ventas', element: <VentasList /> },
       { path: 'liquidaciones', element: <LiquidacionesList /> },
-      { path: 'registracion', element: <Registracion /> }
+      { path: 'registracion', element: <Registracion /> },
+      { path: 'empresas', element: <EmpresasList /> },
+      { path: 'cuentacorriente', element: <CuentaCorriente /> },
     ]
   },
   {

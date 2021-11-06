@@ -10,8 +10,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  MenuItem,
-  Select,
   TextField,
   Typography
 } from '@material-ui/core';
@@ -159,24 +157,6 @@ const NewEmpresaModal = (props) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <Typography>
-                Cargo:
-              </Typography>
-              <Select
-                fullWidth
-                id="role"
-                name="role"
-                component="select"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.role}
-              >
-                {cargos.map((cargo) => (
-                  <MenuItem value={cargo}>
-                    {cargo}
-                  </MenuItem>
-                ))}
-              </Select>
               <TextField
                 fullWidth
                 id="rate"
