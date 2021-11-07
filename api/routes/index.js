@@ -49,7 +49,10 @@ module.exports = (app) => {
 	app.post('/api/empleados/liquidarSueldo/id/:id/:year/:month', empleadosController.liquidarSueldo);
 
 	// Empresas
-	app.post('/api/empresas/crear', empresasController.create);
+	app.post('/api/empresas/create', empresasController.create);
 	app.get('/api/empresas/list', empresasController.list);
+	app.post('/api/empresas/delete/:id', empresasController.delete);
+	app.post('/api/empresas/agregarEmpleado/:documento', empresasController.agregarEmpleado);
+	app.post('/api/empresas/quitarEmpleado/:documento', empresasController.quitarEmpleado);
 
 };

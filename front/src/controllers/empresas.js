@@ -15,13 +15,12 @@ export const crearEmpresa = async function (values) {
   const raw = JSON.stringify({
     name: values.name,
     address: values.address,
+    password: values.password,
     cuit: values.cuit,
     situacionIva: values.situacionIva,
     imp: values.imp,
+    descuento: values.descuento,
     tel: values.tel,
-    fechaIngreso: values.fechaIngreso,
-    // fechaNacimiento: moment(values.fechaNacimiento).format('YYYY-MM-DD'),
-    // fechaIngreso: moment(values.fechaIngreso).format('YYYY-MM-DD'),
   });
 
   try {

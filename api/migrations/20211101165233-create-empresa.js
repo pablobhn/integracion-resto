@@ -22,25 +22,32 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      password: {
+        type: Sequelize.STRING
+      },
       cuit: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       situacionIva: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
+      },
+      email: {
+        type: Sequelize.STRING
       },
       imp: {
-        type: Sequelize.INTEGER
+        type: Sequelize.REAL
+      },
+      descuento: {
+        type: Sequelize.REAL
       },
       tel: {
         type: Sequelize.STRING
       },
-      fechaIngreso: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
+      cuentaCorriente: {
+        type: Sequelize.ARRAY(Sequelize.JSON)
       },
-      fechaNacimiento: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
+      empleados: {
+        type: Sequelize.ARRAY(Sequelize.BIGINT)
       },
       createdAt: {
         allowNull: false,

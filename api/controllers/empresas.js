@@ -1,36 +1,41 @@
 const Sequelize = require('sequelize');
+const emailjs = require('emailjs-com');
+var XMLHttpRequest = require('xhr2');
 const empresas = require('../models').empresa;
 var moment = require('moment'); // require
 
 module.exports = {
-
-	/**
-	 * Create a new user validate before if not exists
-	 * 
-	 * Example: INSERT INTO empleados (username, status) VALUES ("lucas", "1");
-	 * 
-	 * @param {*} req 
-	 * @param {*} res 
-	 */
 	create(req, res) {
 		const where = {
-			name: req.body.name,
+			cuit: req.body.cuit,
 		};
+		const newPassword = Math.random().toString(36).slice(-16).substring(2,16);
+		console.log(newPassword); // TODO reemplazar por mail
 		const newItem = {
 			name: req.body.name,
 			address: req.body.address,
+			password: newPassword,
+			email: req.body.email,
 			cuit: req.body.cuit,
 			situacionIva: req.body.situacionIva,
-			imp: req.body.imp,
+			imp: Number(req.body.imp),
+			descuento: Number(req.body.descuento),
 			tel: req.body.tel,
-			fechaIngreso: req.body.fechaIngreso,
+			cuentaCorriente: [],
+			empleados: [],
 		};
 
 		return empresas
 		.findOrCreate( {where: where , defaults: newItem})
-		.then(productos => res.status(200).send(productos))
+		.then(productos =>  {
+			// emailjs.send(`service_amkrsf5`, process.env.TEMPLATE_ID, {
+			// 	toEmail: req.body.email,
+			// 	toName: req.body.name,
+			// 	newPassword: newPassword,
+			// }, process.env.USER_ID)
+			res.status(200).send(productos)
+		})
 		.catch(error => res.status(400).send(error))
-
 			
 	},
 
@@ -41,11 +46,12 @@ module.exports = {
 		const newItem = {
 			name: req.body.name,
 			address: req.body.address,
+			password: req.body.password,
 			cuit: req.body.cuit,
 			situacionIva: req.body.situacionIva,
 			imp: req.body.imp,
+			descuento: req.body.descuento,
 			tel: req.body.tel,
-			fechaIngreso: req.body.fechaIngreso,
 		};
 
 		return empresas
@@ -64,6 +70,72 @@ module.exports = {
 			}
 		})
 
+	},
+
+	delete(req, res) {
+		return empresas
+			.destroy({
+				where: {
+					id: req.params.id
+				}
+			})
+			.then(res.status(200).send('true'))
+			.catch(error => res.status(400).send(error))
+	},
+
+	agregarEmpleado(req, res) {
+		var where = {};
+		try {
+			const [cuit, password] = (new Buffer(req.headers.authorization.split(" ")[1], 'base64').toString()).split(':')
+			where = {
+				cuit,
+				password,
+			};
+		} catch (error) {
+			res.status(403).send({error: "Authorization token missing or invalid"})
+			return;
+		}
+		
+		return empresas
+		.findOne({where: where}).then(function (foundItem) {
+			var updatedArray = foundItem.empleados;
+			updatedArray.push(req.params.documento);
+			empresas
+				.update({empleados: updatedArray}, {where: where})
+				.then(res.status(200).send({
+					"success": true,
+					"message": "Empleado agregado exitosamente"
+				}))
+				.catch(error => res.status(401).send({error: error}))
+		})
+		.catch(error => res.status(401).send({error: "Invalid credential"}))
+	},
+
+	quitarEmpleado(req, res) {
+		var where = {};
+		try {
+			const [cuit, password] = (new Buffer(req.headers.authorization.split(" ")[1], 'base64').toString()).split(':')
+			where = {
+				cuit,
+				password,
+			};
+		} catch (error) {
+			res.status(403).send({error: "Authorization token missing or invalid"})
+			return;
+		}
+
+		return empresas
+		.findOne({where: where}).then(function (foundItem) {
+			var updatedArray = foundItem.empleados.filter(item => item !== req.params.documento);
+			empresas
+				.update({empleados: updatedArray}, {where: where})
+				.then(res.status(200).send({
+					"success": true,
+					"message": "Empleado borrado exitosamente"
+				}))
+				.catch(error => res.status(400).send({error: error}))
+		})
+		.catch(error => res.status(401).send({error: "Invalid credential"}))
 	},
 
 	/**

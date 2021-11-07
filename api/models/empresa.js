@@ -15,12 +15,16 @@ module.exports = (sequelize, DataTypes) => {
   };
   empresa.init({
     name: DataTypes.STRING,
+    password: DataTypes.STRING,
     address: DataTypes.STRING,
-    cuit: DataTypes.STRING,
+    cuit: DataTypes.BIGINT,
+    email: DataTypes.STRING,
     situacionIva: DataTypes.STRING,
-    imp: DataTypes.INTEGER,
+    imp: DataTypes.REAL,
+    descuento: DataTypes.REAL,
     tel: DataTypes.STRING,
-    fechaIngreso: DataTypes.DATEONLY, 
+    empleados: DataTypes.ARRAY(DataTypes.BIGINT),
+    cuentaCorriente: DataTypes.ARRAY(DataTypes.JSON),
   }, {
     sequelize,
     modelName: 'empresa',
