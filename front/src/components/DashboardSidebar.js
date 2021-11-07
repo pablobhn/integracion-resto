@@ -21,6 +21,8 @@ import {
   UserPlus as UserPlusIcon,
   DollarSign as DollarSignIcon,
   List as ListIcon,
+  Briefcase as BriefcaseIcon,
+  Book as BookIcon,
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -54,6 +56,16 @@ const items = [
     href: '/app/liquidaciones',
     icon: ListIcon,
     title: 'Liquidaciones'
+  },
+  {
+    href: '/app/empresas',
+    icon: BriefcaseIcon,
+    title: 'Empresas'
+  },
+  {
+    href: '/app/cuentacorriente',
+    icon: BookIcon,
+    title: 'Cuenta Corriente'
   },
   {
     href: '/app/settings',

@@ -4,6 +4,7 @@ const productosController = require('../controllers/productos');
 const empleadosController = require('../controllers/empleados');
 const ventasController = require('../controllers/ventas');
 const liquidacionesController = require('../controllers/liquidaciones');
+const empresasController = require('../controllers/empresas');
 
 module.exports = (app) => {
 
@@ -46,5 +47,12 @@ module.exports = (app) => {
 	app.post('/api/empleados/horasExtra/id/:id', empleadosController.horasExtra);
 	app.post('/api/empleados/faltas/id/:id', empleadosController.faltas);
 	app.post('/api/empleados/liquidarSueldo/id/:id/:year/:month', empleadosController.liquidarSueldo);
+
+	// Empresas
+	app.post('/api/empresas/create', empresasController.create);
+	app.get('/api/empresas/list', empresasController.list);
+	app.post('/api/empresas/delete/:id', empresasController.delete);
+	app.post('/api/empresas/agregarEmpleado/:documento', empresasController.agregarEmpleado);
+	app.post('/api/empresas/quitarEmpleado/:documento', empresasController.quitarEmpleado);
 
 };
