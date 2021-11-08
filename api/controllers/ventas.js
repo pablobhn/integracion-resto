@@ -37,6 +37,19 @@ module.exports = {
 			.catch(error => res.status(400).send(error))
 	},
 
+	actualizarPago(req,res){
+		return ventas
+			.update(
+				{
+					pago: req.body.pago,
+					estado: 1,
+				},
+				{ where: { id: req.params.id} }
+			)
+			.then(ventas => res.status(200).send(ventas))
+			.catch(error => res.status(400).send(error))
+	},
+
 	/**
 	 * List of ventass
 	 * 

@@ -4,6 +4,7 @@ var XMLHttpRequest = require('xhr2');
 const empresas = require('../models').empresa;
 var moment = require('moment'); // require
 
+
 module.exports = {
 	create(req, res) {
 		const where = {
@@ -72,15 +73,21 @@ module.exports = {
 
 	},
 
-	delete(req, res) {
+	getDescuento(req, res) {
+		const dni = req.params.dni;
+
+		const where = {
+			empleados: { [Sequelize.Op.contains]: [dni] }
+		};
+
 		return empresas
-			.destroy({
-				where: {
-					id: req.params.id
-				}
-			})
-			.then(res.status(200).send('true'))
-			.catch(error => res.status(400).send(error))
+		.findOne({where: where})
+		.then(empresas => res.status(200).send({
+			idEmpresa: empresas.id,
+			descuento: empresas.descuento,
+		}))
+		.catch(error => res.status(400).send(error))
+
 	},
 
 	agregarEmpleado(req, res) {

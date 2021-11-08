@@ -70,6 +70,7 @@ const NewEmpleadoModal = (props) => {
           Complete los campos
         </DialogContentText>
         <Formik
+          validationOnChange
           validationSchema={validationSchema}
           initialValues={initialValues}
           onSubmit={async (values) => {
