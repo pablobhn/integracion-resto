@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
@@ -32,6 +33,7 @@ import {
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { actualizarEstado } from '../../controllers/ventas';
+import ModalPagar from './ModalPagar';
 
 // eslint-disable-next-line react/prop-types
 const VentasListResults = (props) => {
@@ -41,6 +43,8 @@ const VentasListResults = (props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [ventasFiltradas, setVentasFiltradas] = useState(ventas);
+  const [openModalPagar, setOpenModalPagar] = useState(false);
+  const [venta, setVenta] = useState();
 
   const handleFilterEstado = (e) => {
     console.log(e.target.value);
@@ -91,16 +95,25 @@ const VentasListResults = (props) => {
     setPage(newPage);
   };
 
-  const handlePagar = async function (e, id) {
-    setLoading(true);
-    const res = await actualizarEstado(id, 1);
-    if (res) {
-      setLoading(false);
-      handleUpdate();
-    } else {
-      setLoading(false);
-      alert('Ha habido un error al actualizar el estado');
-    }
+  // const handlePagar = async function (e, id) {
+  //   setLoading(true);
+  //   const res = await actualizarEstado(id, 1);
+  //   if (res) {
+  //     setLoading(false);
+  //     handleUpdate();
+  //   } else {
+  //     setLoading(false);
+  //     alert('Ha habido un error al actualizar el estado');
+  //   }
+  // };
+
+  const handleOpenModalPagar = (e, venta) => {
+    setVenta(venta);
+    setOpenModalPagar(true);
+  };
+
+  const handleCloseModalPagar = () => {
+    setOpenModalPagar(false);
   };
 
   const handleAnular = async function () {
@@ -159,6 +172,13 @@ const VentasListResults = (props) => {
 
   return (
     <>
+      <Dialog
+        open={openModalPagar}
+        onClose={handleCloseModalPagar}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <ModalPagar handleClose={handleCloseModalPagar} venta={venta} />
+      </Dialog>
       <Box>
         <Dialog
           open={loading}
@@ -326,7 +346,7 @@ const VentasListResults = (props) => {
                         {moment(venta.createdAt).format('hh:mm')}
                       </TableCell>
                       <TableCell>
-                        {(venta.pago.medio === 'tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : 'Efectivo'}
+                        {(venta.pago.medio === 'tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : venta.pago.medio}
                       </TableCell>
                       <TableCell>
                         {
@@ -345,7 +365,7 @@ const VentasListResults = (props) => {
                                 color="inherit"
                               >
                                 <CheckCircleOutlineIcon
-                                  onClick={(e) => handlePagar(e, venta.id)}
+                                  onClick={(e) => handleOpenModalPagar(e, venta)}
                                   color="primary"
                                   tooltip="pagada"
                                   variant="dot"

@@ -74,6 +74,7 @@ const EditProductModal = (props) => {
           Complete los campos
         </DialogContentText>
         <Formik
+          validationOnChange
           validationSchema={validationSchema}
           initialValues={prodValues}
           onSubmit={async (values) => {

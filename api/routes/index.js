@@ -32,6 +32,7 @@ module.exports = (app) => {
 	// Ventas
 	app.post('/api/ventas/create', ventasController.create);
 	app.post('/api/ventas/updateStatus/id/:id', ventasController.updateStatus);
+	app.post('/api/ventas/actualizarPago/id/:id', ventasController.actualizarPago);
 	app.get('/api/ventas/list', ventasController.list);
 
 	// Liquidaciones
@@ -50,8 +51,10 @@ module.exports = (app) => {
 
 	// Empresas
 	app.post('/api/empresas/create', empresasController.create);
+	app.post('/api/empresas/edit/id/:id', empresasController.edit);
 	app.get('/api/empresas/list', empresasController.list);
-	app.post('/api/empresas/delete/:id', empresasController.delete);
+	app.get('/api/empresas/getDescuento/:dni', empresasController.getDescuento);
+	app.post('/api/empresas/delete/id/:id', empresasController.delete);
 	app.post('/api/empresas/agregarEmpleado/:documento', empresasController.agregarEmpleado);
 	app.post('/api/empresas/quitarEmpleado/:documento', empresasController.quitarEmpleado);
 

@@ -3,7 +3,6 @@
 /* eslint-disable no-shadow */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -26,7 +25,6 @@ import {
   Tooltip,
   SvgIcon,
 } from '@material-ui/core';
-import AlarmIcon from '@material-ui/icons/Alarm';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
@@ -134,14 +132,6 @@ const EmpresasListResults = (props) => {
     }
   };
 
-  const isCurrentMonth = (fecha) => {
-    const currentdate = new Date();
-    const month = currentdate.getMonth() + 1;
-    const year = currentdate.getFullYear();
-
-    return ((parseInt(moment(fecha).format('YYYY'), 10) === year) && (parseInt(moment(fecha).format('MM'), 10) === month));
-  };
-
   return (
     <>
       <Box>
@@ -197,7 +187,7 @@ const EmpresasListResults = (props) => {
               </Grid>
               <Grid
                 item
-                xs={4}
+                xs={8}
                 sx={{
                   display: 'flex',
                   justifyContent: 'right',
@@ -237,25 +227,20 @@ const EmpresasListResults = (props) => {
                     ID
                   </TableCell>
                   <TableCell>
-                    Razón Social
-                  </TableCell>
-                  <TableCell>
                     CUIT
                   </TableCell>
                   <TableCell>
-                    Condición impositiva
+                    Razón Social
                   </TableCell>
                   <TableCell>
-                    Concepto impositivo
+                    Situación IVA
                   </TableCell>
                   <TableCell>
-                    Teléfono
+                    Telefono
                   </TableCell>
                   <TableCell>
-                    Fecha de ingreso
+                    Cuenta corriente
                   </TableCell>
-                  <TableCell />
-                  <TableCell />
                   <TableCell />
                 </TableRow>
               </TableHead>
@@ -278,51 +263,21 @@ const EmpresasListResults = (props) => {
                         {empresa.id}
                       </TableCell>
                       <TableCell>
+                        {empresa.cuit}
+                      </TableCell>
+                      <TableCell>
                         {empresa.name}
                       </TableCell>
                       <TableCell>
-                        {empresa.role}
+                        {empresa.situacionIva}
                       </TableCell>
                       <TableCell>
                         {empresa.tel}
                       </TableCell>
                       <TableCell>
-                        {empresa.address}
-                      </TableCell>
-                      <TableCell>
-                        {moment(empresa.fechaNacimiento).format('DD/MM/YYYY')}
-                      </TableCell>
-                      <TableCell>
-                        {moment(empresa.fechaIngreso).format('DD/MM/YYYY')}
-                      </TableCell>
-                      <TableCell>
-                        {`${empresa.horasExtra.reduce((a, c) => a + (isCurrentMonth(c.fecha) ? c.horas : 0), 0)} / ${empresa.faltas.reduce((a, c) => a + (isCurrentMonth(c.fecha) ? c.horas : 0), 0)}`}
-                      </TableCell>
-                      <TableCell>
-                        {(empresa.horasBase === 160) ? 'Fulltime' : `${empresa.horasBase} hs`}
-                      </TableCell>
-                      <TableCell>
-                        {
-                          {
-                            0: 'Pendiente',
-                            1: 'Pagada',
-                            2: 'Anulada'
-                          }[empresa.estado]
-                        }
+                        Total $ 1000 (ver detalle)
                       </TableCell>
                       <TableCell sx={{ minWidth: 155 }}>
-                        <Tooltip title="Registrar faltas/hs extra">
-                          <IconButton
-                            color="inherit"
-                          >
-                            <AlarmIcon
-                              onClick={(e) => handleOpenModalHoras(e, empresa.id)}
-                              color="primary"
-                              tooltip="pagada"
-                              variant="dot"
-                            />
-                          </IconButton>
-                        </Tooltip>
                         <Tooltip title="Editar">
                           <IconButton
                             color="inherit"
@@ -348,7 +303,6 @@ const EmpresasListResults = (props) => {
                           </IconButton>
                         </Tooltip>
                       </TableCell>
-                      <TableCell />
                     </TableRow>
                   ))}
                 </TableBody>
