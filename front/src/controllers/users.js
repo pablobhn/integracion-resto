@@ -20,7 +20,7 @@ export const login = async function (values) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos

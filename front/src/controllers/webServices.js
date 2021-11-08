@@ -1,4 +1,4 @@
-const urlApi = 'http://localhost:8000/';
+const urlApi = process.env.REACT_APP_API_URL;
 
 const urlWebServices = {
   login: `${urlApi}api/usuarios/login`,
@@ -13,10 +13,15 @@ const urlWebServices = {
   empleadosHorasExtra: `${urlApi}api/empleados/horasExtra`,
   empleadosFaltas: `${urlApi}api/empleados/faltas`,
   actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`,
+  actualizarPagoVenta: `${urlApi}api/ventas/actualizarPago/id/`,
   actualizarEstadoLiquidacion: `${urlApi}api/liquidaciones/updateStatus/id/`,
   crearEmpleado: `${urlApi}api/empleados/create`,
   editarEmpleado: `${urlApi}api/empleados/edit/id/`,
   liquidarSueldo: `${urlApi}api/empleados/liquidarSueldo/id/`,
+  crearEmpresa: `${urlApi}api/empresas/create`,
+  editarEmpresa: `${urlApi}api/empresas/edit/id/`,
+  getDescuento: `${urlApi}api/empresas/getDescuento/`,
+  listarEmpresas: `${urlApi}api/empresas/list`,
 
 // register: urlApi + "api/usuarios/create",
 // findUser: urlApi + "api/usuarios/find/username/",

@@ -3,7 +3,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import * as React from 'react';
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -13,15 +12,14 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 // import uploadImage from '../../controllers/images';
-import { crearEmpleado } from '../../controllers/empleados';
-import cargos from '../../__mocks__/cargos';
+import { crearEmpresa } from '../../controllers/empresas';
 
-const NewEmpleadoModal = (props) => {
+const NewEmpresaModal = (props) => {
   const {
     open,
     handleClose,
@@ -32,58 +30,79 @@ const NewEmpleadoModal = (props) => {
 
   const validationSchema = yup.object({
     name: yup
-      .string('Ingrese el nombre completo')
-      .max(255, 'El nombre puede contener máximo 255 carácteres')
-      .required('El nombre es requerido'),
+      .string('Ingrese el nombre/razón social completo')
+      .max(255, 'El nombre/razón social puede contener máximo 255 carácteres')
+      .required('El nombre/razón social es requerido'),
     address: yup
       .string('Ingrese el domicilio')
       .max(255, 'El domicilio puede contener máximo 255 carácteres')
       .required('El domicilio es requerido'),
+    cuit: yup
+      .number('Ingrese el cuit')
+      .min(12, 'El cuit tiene que tener como mínimo 12 carácteres')
+      .required('El cuit es requerido'),
+    email: yup
+      .string().email('Ingrese un email válido')
+      .required('El email es requerido'),
+    situacionIva: yup
+      .string('Ingrese la situación de IVA')
+      .required('La situación es requerida'),
+    imp: yup
+      .number('Ingrese el concepto impositivo')
+      .min(0, 'El porcentaje de impuesto no puede ser menor a 0%')
+      .max(100, 'El porcentaje de impuesto no puede ser mayor a 100%')
+      .required('El concepto impositivo es requerido'),
+    descuento: yup
+      .number('Ingrese el porcentaje de descuento')
+      .min(0, 'El porcentaje de impuesto no puede ser menor a 0%')
+      .max(100, 'El porcentaje de impuesto no puede ser mayor a 100%')
+      .required('El concepto impositivo es requerido'),
     tel: yup
       .string('Ingrese un teléfono')
       .max(20, 'El teléfono puede contener máximo 20 carácteres')
       .required('El teléfono es requerido'),
-    rate: yup
-      .number('Ingrese el sueldo básico')
-      .required('El sueldo básico es requerido'),
-    horasBase: yup
-      .number('Ingrese las horas base')
-      .required('Las horas bases son requeridas.'),
   });
 
   const initialValues = {
     name: '',
     address: '',
+    cuit: 0,
+    email: '',
+    situacionIva: '',
+    imp: 0,
+    descuento: 0,
     tel: '',
-    rate: 0,
-    horasBase: 160,
-    fechaNacimiento: new Date(),
-    fechaIngreso: new Date(),
-    role: cargos[0]
   };
+
+  const categoriasIVA = [
+    'Responsable Inscripto',
+    'Monotributo',
+    'Exento',
+  ];
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empleado</DialogTitle>
+      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empresa</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Complete los campos
         </DialogContentText>
         <Formik
-          validationOnChange
+          validateOnChange
+          validateOnBlur
           validationSchema={validationSchema}
           initialValues={initialValues}
           onSubmit={async (values) => {
             setLoading(true);
-            const res = await crearEmpleado(values);
+            const res = await crearEmpresa(values);
             if (res) {
               setLoading(false);
-              alert('Empleado creado exitosamente');
+              alert('Empresa creada exitosamente');
               handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
-              alert('Ha habido un error al crear el empleado!');
+              alert('Ha habido un error al crear la empresa!');
             }
           }}
         >
@@ -100,26 +119,52 @@ const NewEmpleadoModal = (props) => {
                 fullWidth
                 id="name"
                 name="name"
-                label="nombre"
+                label="razón social"
                 value={values.name}
                 onChange={handleChange}
                 error={touched.name && Boolean(errors.name)}
                 helperText={touched.name && errors.name}
                 sx={{ py: 1 }}
               />
-              <Typography>
-                Fecha de nacimiento
-              </Typography>
               <TextField
                 fullWidth
-                id="fechaNacimiento"
-                label=""
-                type="date"
-                value={values.fechaNacimiento}
-                error={touched.fechaNacimiento && Boolean(errors.fechaNacimiento)}
-                helperText={touched.fechaNacimiento && errors.fechaNacimiento}
+                id="cuit"
+                name="cuit"
+                label="cuit"
+                value={values.cuit}
+                onChange={handleChange}
+                error={touched.cuit && Boolean(errors.cuit)}
+                helperText={touched.cuit && errors.cuit}
+                sx={{ py: 1 }}
+              />
+              <Typography>
+                Situación IVA:
+              </Typography>
+              <Select
+                fullWidth
+                id="situacionIva"
+                name="situacionIva"
+                component="select"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                value={values.situacionIva}
+              >
+                {categoriasIVA.map((cat) => (
+                  <MenuItem value={cat}>
+                    {cat}
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                fullWidth
+                id="imp"
+                name="imp"
+                label="percepcion de IVA (%)"
+                type="number"
+                value={values.imp}
+                onChange={handleChange}
+                error={touched.imp && Boolean(errors.imp)}
+                helperText={touched.imp && errors.imp}
                 sx={{ py: 1 }}
               />
               <TextField
@@ -135,6 +180,17 @@ const NewEmpleadoModal = (props) => {
               />
               <TextField
                 fullWidth
+                id="email"
+                name="email"
+                label="email"
+                value={values.email}
+                onChange={handleChange}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+                sx={{ py: 1 }}
+              />
+              <TextField
+                fullWidth
                 id="tel"
                 name="tel"
                 label="teléfono"
@@ -144,71 +200,18 @@ const NewEmpleadoModal = (props) => {
                 helperText={touched.tel && errors.tel}
                 sx={{ py: 1 }}
               />
-              <Typography sx={{ py: 1 }}>
-                Fecha de ingreso
-              </Typography>
               <TextField
                 fullWidth
-                id="fechaIngreso"
-                label=""
-                type="date"
-                value={values.fechaIngreso}
-                error={touched.fechaIngreso && Boolean(errors.fechaIngreso)}
-                helperText={touched.fechaIngreso && errors.fechaIngreso}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              <Typography>
-                Cargo:
-              </Typography>
-              <Select
-                fullWidth
-                id="role"
-                name="role"
-                component="select"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.role}
-              >
-                {cargos.map((cargo) => (
-                  <MenuItem value={cargo}>
-                    {cargo}
-                  </MenuItem>
-                ))}
-              </Select>
-              <TextField
-                fullWidth
-                id="rate"
-                name="rate"
-                label="sueldo básico"
+                id="descuento"
+                name="descuento"
+                label="descuento a aplicar (%)"
                 type="number"
-                value={values.rate}
+                value={values.descuento}
                 onChange={handleChange}
-                error={touched.rate && Boolean(errors.rate)}
-                helperText={touched.rate && errors.rate}
+                error={touched.descuento && Boolean(errors.descuento)}
+                helperText={touched.descuento && errors.descuento}
                 sx={{ pt: 3, pb: 1 }}
               />
-              <TextField
-                fullWidth
-                id="horasBase"
-                name="horasBase"
-                label="horas base"
-                type="number"
-                value={values.horasBase}
-                onChange={handleChange}
-                error={touched.horasBase && Boolean(errors.horasBase)}
-                helperText={touched.horasBase && errors.horasBase}
-                sx={{ py: 1 }}
-              />
-              <Box sx={{ p: 2 }}>
-                <input
-                  style={{ display: 'none' }}
-                  accept="image/*"
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                />
-              </Box>
               <Button
                 sx={{ py: 1 }}
                 color="primary"
@@ -235,4 +238,4 @@ const NewEmpleadoModal = (props) => {
   );
 };
 
-export default NewEmpleadoModal;
+export default NewEmpresaModal;

@@ -2,20 +2,20 @@
 /* eslint-disable consistent-return */
 import urlWebServices from './webServices';
 
-export const crearVenta = async function (pago, mesaId, productos) {
+export const crearVenta = async function (mesaId, productos) {
   const url = urlWebServices.crearVenta;
   const itemsPrice = productos.reduce((a, c) => a + c.qty * c.price, 0);
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   // armo json con datos
   const raw = JSON.stringify({
     mesa: mesaId,
     total: itemsPrice,
-    pago,
+    pago: {},
     detalle: productos
 
   });
@@ -48,7 +48,7 @@ export const listarVentas = async function (id) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   try {
@@ -78,11 +78,46 @@ export const actualizarEstado = async function (id, n) {
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Origin', process.env.REACT_APP_API_URL);
+  myHeaders.append('Origin', 'http://localhost:3000');
   myHeaders.append('Accept', 'application/json');
 
   const raw = JSON.stringify({
     nuevoEstado: n
+  });
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: myHeaders,
+      body: raw
+    });
+
+    const data = await response.json();
+
+    if (data) {
+      return {
+        error: false,
+        data
+      };
+    }
+  } catch (error) {
+    return {
+      error: true
+    };
+  }
+};
+
+export const actualizarPago = async function (id, pago) {
+  const url = `${urlWebServices.actualizarEstadoVenta}${id}`;
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Accept', 'application/json');
+
+  const raw = JSON.stringify({
+    pago,
   });
 
   try {
