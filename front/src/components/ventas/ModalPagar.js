@@ -18,17 +18,17 @@ import {
   Typography,
   Select
 } from '@material-ui/core';
-import { Formik } from 'formik';
+import { Formik, validateYupSchema } from 'formik';
 import * as yup from 'yup';
 import SwipeableViews from 'react-swipeable-views';
-import { actualizarPago } from '../../controllers/ventas';
-import { getDescuento } from '../../controllers/empresas';
+import { actualizarPago, pagoTarjeta } from '../../controllers/ventas';
+import { agregarCuentaCorriente, getDescuento } from '../../controllers/empresas';
 
 const ModalPagar = (props) => {
   const {
     open,
     handleClose,
-    setMesaOpen,
+    handleUpdate,
     venta,
   } = props;
   const [loading, setLoading] = useState(false);
@@ -36,14 +36,16 @@ const ModalPagar = (props) => {
   const tarjetas = ['VISA', 'MASTERCARD', 'AMEX', 'OTRA'];
   const [step, setStep] = useState(0);
   const [total, setTotal] = useState(0);
-  const [descuento, setDescuento] = useState(0);
+  const [descuento, setDescuento] = useState({
+    porcentaje: 0,
+  });
 
   useEffect(() => {
     setStep(0);
   }, [open]);
 
   useEffect(() => {
-    setTotal((venta.detalle.reduce((a, c) => a + c.qty * c.price, 0) - descuento).toFixed(2));
+    setTotal((venta.detalle.reduce((a, c) => a + c.qty * c.price, 0) - descuento.porcentaje * venta.total).toFixed(2));
   }, [venta, descuento]);
 
   const handleChange = (event, newValue) => {
@@ -55,11 +57,25 @@ const ModalPagar = (props) => {
   };
 
   const handleDescuentoChange = async (dni) => {
+    if (dni === '') { return true; }
+    setLoading(true);
     const response = await getDescuento(dni);
 
-    if (response) {
-      setDescuento(response.data.descuento * venta.total);
+    if (response.data.descuento) {
+      setDescuento({
+        idEmpresa: response.data.idEmpresa,
+        porcentaje: response.data.descuento,
+        montoDescuento: (venta.total * response.data.descuento),
+        fechaVenta: venta.createdAt,
+        dni,
+      });
+    } else {
+      setDescuento({
+        porcentaje: 0,
+      });
     }
+    setLoading(false);
+    return true;
   };
 
   function TabPanel(props) {
@@ -98,10 +114,20 @@ const ModalPagar = (props) => {
   }
 
   const validationSchema = yup.object({
-    digitos: yup
-      .number('Ingrese los últimos 4 dígitos de la tarjeta')
+    numeroTarjeta: yup
+      .number('Ingrese el código de seguridad de la tarjeta')
       .typeError('Debe ser un número válido')
-      .required('Este campo debe contener solo números'),
+      .required('Este campo es requerido')
+      .test('len', 'El número de la tarjeta debe ser exactamente 16 caracteres', (val) => val && val.toString().length === 16),
+    dnicuilUsuario: yup
+      .number('Ingrese el dni del usuario')
+      .typeError('Debe ser un DNI válido')
+      .required('Este campo es requerido'),
+    codigoSeguridad: yup
+      .number('Ingrese el código de seguridad de la tarjeta')
+      .typeError('Debe ser un número válido')
+      .required('Este campo es requerido')
+      .test('len', 'El número de la tarjeta debe ser de al menos 3 caracteres', (val) => val && val.toString().length >= 3),
     mes: yup
       .number('Ingrese el mes')
       .min(1, 'Debe ser un mes válido')
@@ -115,8 +141,10 @@ const ModalPagar = (props) => {
   });
 
   const initialValues = {
-    medio: 'tarjeta',
     tipo: tarjetas[0],
+    codigoSeguridad: '',
+    numeroTarjeta: '',
+    dnicuilUsuario: '',
     digitos: '',
     anio: '',
     mes: ''
@@ -173,7 +201,7 @@ const ModalPagar = (props) => {
               </Grid>
               <Grid item xs={4}>
                 <Typography align="right">
-                  {`Descuento: ${(descuento === 0 ? 'No hay descuentos aplicables' : (`$${descuento.toFixed(2)}`))}`}
+                  {`Descuento: ${(descuento.porcentaje === 0 ? 'No hay descuentos aplicables' : (`$${(descuento.porcentaje * venta.total).toFixed(2)}`))}`}
                 </Typography>
               </Grid>
               {venta.detalle.length !== 0 && (
@@ -257,17 +285,38 @@ const ModalPagar = (props) => {
                 initialValues={initialValues}
                 onSubmit={async (values) => {
                   setLoading(true);
-                  const res = await actualizarPago(values, venta.detalle);
-                  if (res) {
-                    setLoading(false);
-                    alert('Venta registrada correctamente');
-                    handleClose();
-                    setMesaOpen(false);
-                    // <Alert severity="success">This is a success alert — check it out!</Alert>
-                  } else {
-                    setLoading(false);
-                    alert('Ha habido un error al crear la venta!');
-                  }
+                  pagoTarjeta(venta.total, values)
+                    .then((resTarjeta) => {
+                      if (resTarjeta.status === 201) {
+                        const pago = {
+                          medio: 'Tarjeta',
+                          descuento: descuento.porcentaje,
+                          digitos: values.numeroTarjeta.toString().substring(11, 16),
+                          autorizacion: resTarjeta.data.data,
+                          tipo: values.tipo
+                        };
+                        agregarCuentaCorriente(descuento);
+                        actualizarPago(venta.id, pago)
+                          .then((res) => {
+                            alert('Venta registrada correctamente');
+                            setLoading(false);
+                            handleClose();
+                            handleUpdate();
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                            alert('Ha habido un error al crear la venta!');
+                            setLoading(false);
+                          });
+                      } else {
+                        alert('Ha habido un error al procesar el pago', resTarjeta.message); // TODO no muestra el msj
+                        setLoading(false);
+                      }
+                    })
+                    .catch((error) => {
+                      alert('Ha habido un error al procesar el pago', error);
+                      setLoading(false);
+                    });
                 }}
               >
                 {({
@@ -300,17 +349,34 @@ const ModalPagar = (props) => {
                           ))}
                         </Select>
                       </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          id="numeroTarjeta"
+                          name="numeroTarjeta"
+                          label="Ingrese los 16 números de la tarjeta"
+                          type="number"
+                          value={values.numeroTarjeta}
+                          error={touched.numeroTarjeta && Boolean(errors.numeroTarjeta)}
+                          helperText={touched.numeroTarjeta && errors.numeroTarjeta}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          onInput={(e) => {
+                            e.target.value = Math.max(0, parseInt(e.target.value, 10)).toString().slice(0, 16);
+                          }}
+                        />
+                      </Grid>
                       <Grid item xs={5.5} sx={{ p: 1 }}>
                         <br />
                         <TextField
                           fullWidth
-                          id="digitos"
-                          name="digitos"
-                          label="Ultimos 4 dígitos"
+                          id="codigoSeguridad"
+                          name="codigoSeguridad"
+                          label="Ingrese el código de seguridad de la tarjeta"
                           type="number"
-                          value={values.digitos}
-                          error={touched.digitos && Boolean(errors.digitos)}
-                          helperText={touched.digitos && errors.digitos}
+                          value={values.codigoSeguridad}
+                          error={touched.codigoSeguridad && Boolean(errors.codigoSeguridad)}
+                          helperText={touched.codigoSeguridad && errors.codigoSeguridad}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           onInput={(e) => {
@@ -353,6 +419,22 @@ const ModalPagar = (props) => {
                           onChange={handleChange}
                           onInput={(e) => {
                             e.target.value = Math.max(0, parseInt(e.target.value, 10)).toString().slice(0, 4);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sx={{ p: 1 }}>
+                        <TextField
+                          fullWidth
+                          id="dnicuilUsuario"
+                          label="Ingrese el DNI del titular de la tarjeta"
+                          type="number"
+                          value={values.dnicuilUsuario}
+                          error={touched.dnicuilUsuario && Boolean(errors.dnicuilUsuario)}
+                          helperText={touched.dnicuilUsuario && errors.dnicuilUsuario}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          onInput={(e) => {
+                            e.target.value = Math.max(0, parseInt(e.target.value, 10)).toString().slice(0, 12);
                           }}
                         />
                       </Grid>
@@ -402,14 +484,16 @@ const ModalPagar = (props) => {
                 onClick={async () => {
                   setLoading(true);
                   const efectivo = {
-                    medio: 'Efectivo'
+                    medio: 'Efectivo',
+                    descuento: descuento.porcentaje,
                   };
-                  const res = await actualizarPago(efectivo);
+                  const res = await actualizarPago(venta.id, efectivo);
+                  agregarCuentaCorriente(descuento);
                   if (res) {
                     setLoading(false);
                     alert('Venta registrada correctamente');
                     handleClose();
-                    setMesaOpen(false);
+                    handleUpdate();
                     // <Alert severity="success">This is a success alert — check it out!</Alert>
                   } else {
                     setLoading(false);

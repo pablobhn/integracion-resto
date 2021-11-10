@@ -17,8 +17,8 @@ export const crearEmpresa = async function (values) {
     address: values.address,
     cuit: values.cuit,
     situacionIva: values.situacionIva,
-    imp: `0.${values.imp}`,
-    descuento: `0.${values.descuento}`,
+    imp: (values.imp / 100),
+    descuento: (values.descuento / 100),
     tel: values.tel,
     email: values.email,
   });
@@ -46,8 +46,8 @@ export const crearEmpresa = async function (values) {
   }
 };
 
-export const editarEmpresa = async function (values, empId) {
-  const url = urlWebServices.editarEmpleado + empId;
+export const editarEmpresa = async function (empId, values) {
+  const url = urlWebServices.editarEmpresa + empId;
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
@@ -60,8 +60,8 @@ export const editarEmpresa = async function (values, empId) {
     address: values.address,
     cuit: values.cuit,
     situacionIva: values.situacionIva,
-    imp: `0.${values.imp}`,
-    descuento: `0.${values.descuento}`,
+    imp: (values.imp / 100),
+    descuento: (values.descuento / 100),
     tel: values.tel,
     email: values.email,
     // fechaNacimiento: moment(values.fechaNacimiento).format('YYYY-MM-DD'),
@@ -133,6 +133,48 @@ export const listarEmpresas = async function (id) {
       method: 'GET',
       mode: 'cors',
       headers: myHeaders
+    });
+
+    const data = await response.json();
+
+    if (data) {
+      return {
+        error: false,
+        data
+      };
+    }
+  } catch (error) {
+    return {
+      error: true
+    };
+  }
+};
+
+export const agregarCuentaCorriente = async function (descuento) {
+  if (descuento.porcentaje === 0) {
+    return true;
+  }
+
+  const url = urlWebServices.agregarCuentaCorriente + descuento.idEmpresa;
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Accept', 'application/json');
+
+  // armo json con datos
+  const raw = JSON.stringify({
+    porcentaje: descuento.porcentaje,
+    montoDescuento: descuento.montoDescuento,
+    dni: descuento.dni,
+    fecha: descuento.fechaVenta,
+  });
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: myHeaders,
+      body: raw
     });
 
     const data = await response.json();

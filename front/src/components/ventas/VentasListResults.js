@@ -177,7 +177,7 @@ const VentasListResults = (props) => {
         onClose={handleCloseModalPagar}
         aria-labelledby="responsive-dialog-title"
       >
-        <ModalPagar handleClose={handleCloseModalPagar} venta={venta} />
+        <ModalPagar handleClose={handleCloseModalPagar} handleUpdate={handleUpdate} venta={venta} />
       </Dialog>
       <Box>
         <Dialog
@@ -294,6 +294,9 @@ const VentasListResults = (props) => {
                     Hora
                   </TableCell>
                   <TableCell>
+                    Bonificación empresa
+                  </TableCell>
+                  <TableCell>
                     Medio de pago
                   </TableCell>
                   <TableCell>
@@ -346,7 +349,10 @@ const VentasListResults = (props) => {
                         {moment(venta.createdAt).format('hh:mm')}
                       </TableCell>
                       <TableCell>
-                        {(venta.pago.medio === 'tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : venta.pago.medio}
+                        {venta.pago.descuento ? (`${venta.pago.descuento * 100}%`) : '-'}
+                      </TableCell>
+                      <TableCell>
+                        {(venta.pago.medio === 'Tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : venta.pago.medio}
                       </TableCell>
                       <TableCell>
                         {
