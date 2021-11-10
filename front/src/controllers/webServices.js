@@ -13,7 +13,7 @@ const urlWebServices = {
   empleadosHorasExtra: `${urlApi}api/empleados/horasExtra`,
   empleadosFaltas: `${urlApi}api/empleados/faltas`,
   actualizarEstadoVenta: `${urlApi}api/ventas/updateStatus/id/`,
-  actualizarPagoVenta: `${urlApi}api/ventas/actualizarPago/id/`,
+  actualizarPago: `${urlApi}api/ventas/actualizarPago/id/`,
   actualizarEstadoLiquidacion: `${urlApi}api/liquidaciones/updateStatus/id/`,
   crearEmpleado: `${urlApi}api/empleados/create`,
   editarEmpleado: `${urlApi}api/empleados/edit/id/`,
@@ -22,6 +22,8 @@ const urlWebServices = {
   editarEmpresa: `${urlApi}api/empresas/edit/id/`,
   getDescuento: `${urlApi}api/empresas/getDescuento/`,
   listarEmpresas: `${urlApi}api/empresas/list`,
+  agregarCuentaCorriente: `${urlApi}api/empresas/agregarCuentaCorriente/id/`,
+  pagoTarjeta: 'https://ia-grupo4-backend.herokuapp.com/api/users/agregarMovimiento'
 
 // register: urlApi + "api/usuarios/create",
 // findUser: urlApi + "api/usuarios/find/username/",

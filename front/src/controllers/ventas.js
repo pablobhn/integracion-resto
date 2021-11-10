@@ -109,7 +109,7 @@ export const actualizarEstado = async function (id, n) {
 };
 
 export const actualizarPago = async function (id, pago) {
-  const url = `${urlWebServices.actualizarEstadoVenta}${id}`;
+  const url = `${urlWebServices.actualizarPago}${id}`;
 
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
@@ -118,6 +118,46 @@ export const actualizarPago = async function (id, pago) {
 
   const raw = JSON.stringify({
     pago,
+  });
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: myHeaders,
+      body: raw
+    });
+
+    const data = await response.json();
+
+    if (data) {
+      return {
+        error: false,
+        data
+      };
+    }
+  } catch (error) {
+    return {
+      error: true
+    };
+  }
+};
+
+export const pagoTarjeta = async function (monto, values) {
+  const url = urlWebServices.pagoTarjeta;
+  const cuit = '30711048579';
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Origin', 'http://localhost:3000');
+  myHeaders.append('Accept', 'application/json');
+
+  const raw = JSON.stringify({
+    dnicuilUsuario: values.dnicuilUsuario,
+    cuitNegocio: cuit,
+    numerotarjeta: values.numeroTarjeta,
+    monto,
+    codigoseguridad: Number(values.codigoSeguridad),
   });
 
   try {

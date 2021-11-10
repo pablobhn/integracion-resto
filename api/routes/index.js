@@ -55,6 +55,7 @@ module.exports = (app) => {
 	app.get('/api/empresas/list', empresasController.list);
 	app.get('/api/empresas/getDescuento/:dni', empresasController.getDescuento);
 	app.post('/api/empresas/delete/id/:id', empresasController.delete);
+	app.post('/api/empresas/agregarCuentaCorriente/id/:id', empresasController.agregarCuentaCorriente);
 	app.post('/api/empresas/agregarEmpleado/:documento', empresasController.agregarEmpleado);
 	app.post('/api/empresas/quitarEmpleado/:documento', empresasController.quitarEmpleado);
 

@@ -69,8 +69,8 @@ const EditEmpleadoModal = (props) => {
     cuit: emp.cuit,
     email: emp.email,
     situacionIva: emp.situacionIva,
-    imp: emp.imp,
-    descuento: emp.descuento,
+    imp: emp.imp * 100,
+    descuento: emp.descuento * 100,
     tel: emp.tel,
   };
 
@@ -94,7 +94,7 @@ const EditEmpleadoModal = (props) => {
           initialValues={initialValues}
           onSubmit={async (values) => {
             setLoading(true);
-            const res = await editarEmpresa(values);
+            const res = await editarEmpresa(emp.id, values);
             if (res) {
               setLoading(false);
               alert('Empresa editada exitosamente');

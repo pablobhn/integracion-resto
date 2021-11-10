@@ -145,6 +145,26 @@ module.exports = {
 		.catch(error => res.status(401).send({error: "Invalid credential"}))
 	},
 
+	agregarCuentaCorriente(req, res) {
+		const where = {
+				id: req.params.id,
+			};
+		
+		return empresas
+		.findOne({where: where}).then(function (foundItem) {
+			var updatedArray = foundItem.cuentaCorriente;
+			updatedArray.push(req.body);
+			empresas
+				.update({cuentaCorriente: updatedArray}, {where: where})
+				.then(res.status(200).send({
+					"success": true,
+					"message": "Cuenta corriente agregada exitosamente"
+				}))
+				.catch(error => res.status(401).send({error: error}))
+		})
+		.catch(error => res.status(401).send({error: "No existe la empresa"}))
+	},
+
 	/**
 	 * Find all users
 	 * 

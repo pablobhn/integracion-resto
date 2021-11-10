@@ -30,6 +30,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import NewEmpresaModal from './NewEmpresaModal';
 import EditEmpresaModal from './EditEmpresaModal';
+import CuentaCorrienteModal from './CuentaCorrienteModal';
 
 // eslint-disable-next-line react/prop-types
 const EmpresasListResults = (props) => {
@@ -39,9 +40,11 @@ const EmpresasListResults = (props) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [newEmpresaModalOpen, setNewEmpresaModalOpen] = useState(false);
+  const [cuentaCorrienteModalOpen, setCuentaCorrienteModalOpen] = useState(false);
   const [editEmp, setEditEmp] = useState({});
   const [open, setOpen] = useState(false);
   const [empresasFiltrados, setEmpresasFiltrados] = useState(empresas);
+  const [empresaSeleccionada, setEmpresaSeleccionada] = useState();
 
   const handleSearch = (e) => {
     console.log(e.target.value);
@@ -121,7 +124,7 @@ const EmpresasListResults = (props) => {
 
   const handleBorrar = async function (e, id) {
     setLoading(true);
-    // onst res = await actualizarEstado(id, 2);
+    const res = await actualizarEstado(id, 2);
     console.log(e, id); // TODO borrar empleado
     if (res) {
       setLoading(false);
@@ -130,6 +133,15 @@ const EmpresasListResults = (props) => {
       setLoading(false);
       alert('Ha habido un error al actualizar el estado');
     }
+  };
+
+  const handleCuentaCorrienteModalOpen = (empresa) => {
+    setEmpresaSeleccionada(empresa);
+    setCuentaCorrienteModalOpen(true);
+  };
+
+  const handleCuentaCorrienteModalClose = () => {
+    setCuentaCorrienteModalOpen(false);
   };
 
   return (
@@ -150,6 +162,7 @@ const EmpresasListResults = (props) => {
         </Dialog>
         <EditEmpresaModal open={open} handleClose={handleClose} handleCloseAndUpdate={handleCloseAndUpdate} emp={editEmp} />
         <NewEmpresaModal open={newEmpresaModalOpen} handleClose={handleNewEmpresaModalOpenClose} handleCloseAndUpdate={handleNewEmpresaModalOpenCloseAndUpdate} />
+        <CuentaCorrienteModal open={cuentaCorrienteModalOpen} handleClose={handleCuentaCorrienteModalClose} empresa={empresaSeleccionada} />
         <Box sx={{
           mt: 3, flexDirection: 'column', display: 'flex'
         }}
@@ -239,6 +252,12 @@ const EmpresasListResults = (props) => {
                     Telefono
                   </TableCell>
                   <TableCell>
+                    Cant empleados
+                  </TableCell>
+                  <TableCell>
+                    % de bonificación
+                  </TableCell>
+                  <TableCell>
                     Cuenta corriente
                   </TableCell>
                   <TableCell />
@@ -275,7 +294,16 @@ const EmpresasListResults = (props) => {
                         {empresa.tel}
                       </TableCell>
                       <TableCell>
-                        Total $ 1000 (ver detalle)
+                        {empresa.empleados.length}
+                      </TableCell>
+                      <TableCell>
+                        {empresa.descuento * 100}
+                        %
+                      </TableCell>
+                      <TableCell
+                        onClick={() => handleCuentaCorrienteModalOpen(empresa)}
+                      >
+                        <a href="#">{`Total $${empresa.cuentaCorriente.reduce((a, c) => a + c.montoDescuento, 0)} (ver detalle)`}</a>
                       </TableCell>
                       <TableCell sx={{ minWidth: 155 }}>
                         <Tooltip title="Editar">
