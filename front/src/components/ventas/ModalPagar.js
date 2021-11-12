@@ -287,7 +287,7 @@ const ModalPagar = (props) => {
                   setLoading(true);
                   pagoTarjeta(venta.total, values)
                     .then((resTarjeta) => {
-                      if (resTarjeta.status === 201) {
+                      if (resTarjeta.data.status === 201) {
                         const pago = {
                           medio: 'Tarjeta',
                           descuento: descuento.porcentaje,
