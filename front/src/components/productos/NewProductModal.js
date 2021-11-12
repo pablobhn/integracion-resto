@@ -16,7 +16,7 @@ import {
   Checkbox,
   FormControlLabel,
   MenuItem,
-  Select
+  Select,
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as yup from 'yup';

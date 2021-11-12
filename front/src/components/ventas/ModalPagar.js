@@ -287,7 +287,8 @@ const ModalPagar = (props) => {
                   setLoading(true);
                   pagoTarjeta(venta.total, values)
                     .then((resTarjeta) => {
-                      if (resTarjeta.status === 201) {
+                      console.log(resTarjeta.data.status); // VER ERROR
+                      if (resTarjeta.data.status === 201) {
                         const pago = {
                           medio: 'Tarjeta',
                           descuento: descuento.porcentaje,
@@ -309,11 +310,13 @@ const ModalPagar = (props) => {
                             setLoading(false);
                           });
                       } else {
+                        console.log(resTarjeta.error);
                         alert('Ha habido un error al procesar el pago', resTarjeta.message); // TODO no muestra el msj
                         setLoading(false);
                       }
                     })
                     .catch((error) => {
+                      console.log(error);
                       alert('Ha habido un error al procesar el pago', error);
                       setLoading(false);
                     });

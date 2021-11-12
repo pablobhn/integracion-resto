@@ -1,3 +1,5 @@
+/* eslint-disable semi */
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -16,13 +18,14 @@ import {
   Checkbox,
   FormControlLabel,
   MenuItem,
-  Select
+  Select,
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import uploadImage from '../../controllers/images';
 import { editarProducto } from '../../controllers/productos';
 import categorias from '../../__mocks__/categorias';
+import { showSuccess } from '../Alerts';
 
 const EditProductModal = (props) => {
   const {
@@ -82,8 +85,9 @@ const EditProductModal = (props) => {
             const res = await editarProducto(values, imgUrl, prod.id);
             if (res) {
               setLoading(false);
-              alert('Producto actualizado exitosamente');
+              showSuccess('Producto actualizado exitosamente');
               handleCloseAndUpdate();
+              // handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
