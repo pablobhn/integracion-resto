@@ -303,8 +303,10 @@ const ModalPagar = (props) => {
                           .then((res) => {
                             setSuccessAlertOpen(true);
                             // eslint-disable-next-line no-new
-                            new Promise((r) => setTimeout(r, 2000));
+                            return (new Promise((r) => setTimeout(r, 2000)));
                             // alert('Venta registrada correctamente');
+                          })
+                          .then(() => {
                             setLoading(false);
                             handleClose();
                             handleUpdate();

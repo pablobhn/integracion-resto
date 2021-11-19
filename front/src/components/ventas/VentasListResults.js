@@ -305,6 +305,9 @@ const VentasListResults = (props) => {
                     Medio de pago
                   </TableCell>
                   <TableCell>
+                    Cod. Autorización
+                  </TableCell>
+                  <TableCell>
                     Estado
                   </TableCell>
                   <TableCell />
@@ -357,7 +360,10 @@ const VentasListResults = (props) => {
                         {venta.pago.descuento ? (`${venta.pago.descuento * 100}%`) : '-'}
                       </TableCell>
                       <TableCell>
-                        {(venta.pago.medio === 'Tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos}` : venta.pago.medio}
+                        {(venta.pago.medio === 'Tarjeta') ? `TC - ${venta.pago.tipo} - ${venta.pago.digitos.substring(1, 5)}` : venta.pago.medio}
+                      </TableCell>
+                      <TableCell>
+                        {venta.pago.autorizacion ? String(venta.pago.autorizacion).substring(17, 23) : '-'}
                       </TableCell>
                       <TableCell>
                         {
