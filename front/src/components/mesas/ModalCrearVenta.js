@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { crearVenta } from '../../controllers/ventas';
+import { SuccessAlert, ErrorAlert } from '../Alerts';
 
 const ModalCrearVenta = (props) => {
   const {
@@ -21,19 +22,24 @@ const ModalCrearVenta = (props) => {
 
   const [loading, setLoading] = useState(false);
   const itemsPrice = productos.reduce((a, c) => a + c.qty * c.price, 0);
+  const [successAlertOpen, setSuccessAlertOpen] = React.useState(false);
+  const [errorAlertOpen, setErrorAlertOpen] = React.useState(false);
 
   const onSubmit = async () => {
     setLoading(true);
     const res = await crearVenta(mesaId, productos);
     if (res) {
       setLoading(false);
-      alert('Venta registrada correctamente');
+      setSuccessAlertOpen(true);
+      await new Promise((r) => setTimeout(r, 2000));
+      // alert('Venta registrada correctamente');
       handleClose();
       setMesaOpen(false);
       // <Alert severity="success">This is a success alert — check it out!</Alert>
     } else {
       setLoading(false);
-      alert('Ha habido un error al crear la venta!');
+      setErrorAlertOpen(true);
+      // alert('Ha habido un error al crear la venta!');
     }
   };
 
@@ -43,6 +49,8 @@ const ModalCrearVenta = (props) => {
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
+      <SuccessAlert open={successAlertOpen} setOpen={setSuccessAlertOpen} alertMessage="Venta registrada correctamente" />
+      <ErrorAlert open={errorAlertOpen} setOpen={setErrorAlertOpen} alertMessage="Ha habido un error al crear la venta" />
       <div>
         <Typography
           sx={{

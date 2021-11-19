@@ -218,7 +218,7 @@ const LiquidacionesListResults = (props) => {
                       </InputAdornment>
                     )
                   }}
-                  placeholder="Buscar producto"
+                  placeholder="Buscar liquidación"
                   variant="outlined"
                   onChange={(e) => handleSearch(e)}
                 />

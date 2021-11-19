@@ -16,13 +16,14 @@ import {
   Checkbox,
   FormControlLabel,
   MenuItem,
-  Select
+  Select,
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import uploadImage from '../../controllers/images';
 import { crearProducto } from '../../controllers/productos';
 import categorias from '../../__mocks__/categorias';
+import { SuccessAlert, ErrorAlert } from '../Alerts';
 
 const NewProductModal = (props) => {
   const {
@@ -32,6 +33,8 @@ const NewProductModal = (props) => {
   } = props;
   const [loading, setLoading] = React.useState(false);
   const [imgUrl, setImgUrl] = React.useState('http://wws.com.pa/wp-content/plugins/wordpress-ecommerce/marketpress-includes/images/default-product.png');
+  const [successAlertOpen, setSuccessAlertOpen] = React.useState(false);
+  const [errorAlertOpen, setErrorAlertOpen] = React.useState(false);
 
   const validationSchema = yup.object({
     name: yup
@@ -64,6 +67,8 @@ const NewProductModal = (props) => {
         <DialogContentText>
           Complete los campos
         </DialogContentText>
+        <SuccessAlert open={successAlertOpen} setOpen={setSuccessAlertOpen} alertMessage="El producto se ha creado correctamente" />
+        <ErrorAlert open={errorAlertOpen} setOpen={setErrorAlertOpen} alertMessage="Ha habido un error al crear el producto" />
         <Formik
           validationOnChange
           validationSchema={validationSchema}
@@ -73,12 +78,15 @@ const NewProductModal = (props) => {
             const res = await crearProducto(values, imgUrl);
             if (res) {
               setLoading(false);
-              alert('Producto creado ok');
+              setSuccessAlertOpen(true);
+              await new Promise((r) => setTimeout(r, 2000));
+              // alert('Producto creado ok');
               handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
-              alert('Ha habido un error al crear el producto!');
+              setErrorAlertOpen(true);
+              // alert('Ha habido un error al crear el producto!');
             }
           }}
         >
