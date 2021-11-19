@@ -128,7 +128,7 @@ const CuentaCorrienteModal = (props) => {
               ) : (<></>)}
             </Table>
             <Typography variant="h4" align="right" style={{ margin: 15, marginRight: 50 }}>
-              {`Total $${operaciones ? operaciones.reduce((a, c) => a + c.montoDescuento, 0) : 0} -`}
+              {`Total $${operaciones ? (operaciones.reduce((a, c) => a + c.montoDescuento, 0)).toFixed(2) : 0} -`}
             </Typography>
           </DialogContent>
           <DialogActions>
