@@ -303,7 +303,7 @@ const EmpresasListResults = (props) => {
                       <TableCell
                         onClick={() => handleCuentaCorrienteModalOpen(empresa)}
                       >
-                        <a href="#">{`Total $${empresa.cuentaCorriente.reduce((a, c) => a + c.montoDescuento, 0)} (ver detalle)`}</a>
+                        <a href="#">{`Total $${empresa.cuentaCorriente.reduce((a, c) => a + c.montoDescuento, 0).toFixed(2)} (ver detalle)`}</a>
                       </TableCell>
                       <TableCell sx={{ minWidth: 155 }}>
                         <Tooltip title="Editar">
