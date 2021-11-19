@@ -34,6 +34,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { actualizarEstado } from '../../controllers/ventas';
 import ModalPagar from './ModalPagar';
+import { SuccessAlert, ErrorAlert } from '../Alerts';
 
 // eslint-disable-next-line react/prop-types
 const VentasListResults = (props) => {
@@ -45,6 +46,8 @@ const VentasListResults = (props) => {
   const [ventasFiltradas, setVentasFiltradas] = useState(ventas);
   const [openModalPagar, setOpenModalPagar] = useState(false);
   const [venta, setVenta] = useState();
+  const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  const [errorAlertOpen, setErrorAlertOpen] = useState(false);
 
   const handleFilterEstado = (e) => {
     console.log(e.target.value);
@@ -177,7 +180,9 @@ const VentasListResults = (props) => {
         onClose={handleCloseModalPagar}
         aria-labelledby="responsive-dialog-title"
       >
-        <ModalPagar handleClose={handleCloseModalPagar} handleUpdate={handleUpdate} venta={venta} />
+        <SuccessAlert open={successAlertOpen} setOpen={setSuccessAlertOpen} alertMessage="El pago se ha registrado correctamente" />
+        <ErrorAlert open={errorAlertOpen} setOpen={setErrorAlertOpen} alertMessage="Ha habido un error al registrar el pago" />
+        <ModalPagar setErrorAlertOpen={setErrorAlertOpen} setSuccessAlertOpen={setSuccessAlertOpen} handleClose={handleCloseModalPagar} handleUpdate={handleUpdate} venta={venta} />
       </Dialog>
       <Box>
         <Dialog

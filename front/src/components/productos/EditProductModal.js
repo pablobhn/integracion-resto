@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable import/no-named-as-default */
@@ -25,7 +26,7 @@ import * as yup from 'yup';
 import uploadImage from '../../controllers/images';
 import { editarProducto } from '../../controllers/productos';
 import categorias from '../../__mocks__/categorias';
-import { showSuccess } from '../Alerts';
+import { SuccessAlert, ErrorAlert } from '../Alerts';
 
 const EditProductModal = (props) => {
   const {
@@ -36,6 +37,8 @@ const EditProductModal = (props) => {
   } = props;
   const [loading, setLoading] = React.useState(false);
   const [imgUrl, setImgUrl] = React.useState('');
+  const [successAlertOpen, setSuccessAlertOpen] = React.useState(false);
+  const [errorAlertOpen, setErrorAlertOpen] = React.useState(false);
 
   useEffect(() => {
     async function componentDidMount() {
@@ -76,6 +79,8 @@ const EditProductModal = (props) => {
         <DialogContentText sx={{ py: 1 }}>
           Complete los campos
         </DialogContentText>
+        <SuccessAlert open={successAlertOpen} setOpen={setSuccessAlertOpen} alertMessage="El producto se modificó correctamente" />
+        <ErrorAlert open={errorAlertOpen} setOpen={setErrorAlertOpen} alertMessage="Ha habido un error al actualizar el producto" />
         <Formik
           validationOnChange
           validationSchema={validationSchema}
@@ -85,12 +90,14 @@ const EditProductModal = (props) => {
             const res = await editarProducto(values, imgUrl, prod.id);
             if (res) {
               setLoading(false);
-              showSuccess('Producto actualizado exitosamente');
+              setSuccessAlertOpen(true);
+              await new Promise((r) => setTimeout(r, 2000));
               handleCloseAndUpdate();
               // handleCloseAndUpdate();
               // <Alert severity="success">This is a success alert — check it out!</Alert>
             } else {
               setLoading(false);
+              setErrorAlertOpen(true);
               alert('Ha habido un error al actualizar el producto!');
             }
           }}

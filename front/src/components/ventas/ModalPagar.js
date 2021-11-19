@@ -30,6 +30,8 @@ const ModalPagar = (props) => {
     handleClose,
     handleUpdate,
     venta,
+    setSuccessAlertOpen,
+    setErrorAlertOpen,
   } = props;
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
@@ -299,25 +301,31 @@ const ModalPagar = (props) => {
                         agregarCuentaCorriente(descuento);
                         actualizarPago(venta.id, pago)
                           .then((res) => {
-                            alert('Venta registrada correctamente');
+                            setSuccessAlertOpen(true);
+                            // eslint-disable-next-line no-new
+                            new Promise((r) => setTimeout(r, 2000));
+                            // alert('Venta registrada correctamente');
                             setLoading(false);
                             handleClose();
                             handleUpdate();
                           })
                           .catch((error) => {
                             console.log(error);
-                            alert('Ha habido un error al crear la venta!');
+                            setErrorAlertOpen(true);
+                            // alert('Ha habido un error al crear la venta!');
                             setLoading(false);
                           });
                       } else {
                         console.log(resTarjeta.error);
-                        alert('Ha habido un error al procesar el pago', resTarjeta.message); // TODO no muestra el msj
+                        setErrorAlertOpen(true);
+                        // alert('Ha habido un error al procesar el pago', resTarjeta.message); // TODO no muestra el msj
                         setLoading(false);
                       }
                     })
                     .catch((error) => {
                       console.log(error);
-                      alert('Ha habido un error al procesar el pago', error);
+                      setErrorAlertOpen(true);
+                      // alert('Ha habido un error al procesar el pago', error);
                       setLoading(false);
                     });
                 }}
@@ -494,7 +502,9 @@ const ModalPagar = (props) => {
                   agregarCuentaCorriente(descuento);
                   if (res) {
                     setLoading(false);
-                    alert('Venta registrada correctamente');
+                    setSuccessAlertOpen(true);
+                    await new Promise((r) => setTimeout(r, 2000));
+                    // alert('Venta registrada correctamente');
                     handleClose();
                     handleUpdate();
                     // <Alert severity="success">This is a success alert — check it out!</Alert>
