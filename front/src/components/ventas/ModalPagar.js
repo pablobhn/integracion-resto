@@ -289,7 +289,6 @@ const ModalPagar = (props) => {
                   setLoading(true);
                   pagoTarjeta(venta.total, values)
                     .then((resTarjeta) => {
-                      console.log(resTarjeta.data.status); // VER ERROR
                       if (resTarjeta.data.status === 201) {
                         const pago = {
                           medio: 'Tarjeta',
