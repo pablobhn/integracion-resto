@@ -377,14 +377,14 @@ const VentasListResults = (props) => {
                       <TableCell>
                         {(venta.estado === 0) ? (
                           <>
-                            <Tooltip title="Pagada">
+                            <Tooltip title="Pagar">
                               <IconButton
                                 color="inherit"
                               >
                                 <CheckCircleOutlineIcon
                                   onClick={(e) => handleOpenModalPagar(e, venta)}
                                   color="primary"
-                                  tooltip="pagada"
+                                  tooltip="pagar"
                                   variant="dot"
                                 />
                               </IconButton>
