@@ -255,13 +255,13 @@ const VentasListResults = (props) => {
                 >
                   Anular
                 </Button>
-                <Button
+                {/* <Button
                   onClick={handlePagarSelected}
                   variant="contained"
                   sx={{ mx: 2 }}
                 >
                   Pagado
-                </Button>
+                </Button> */}
               </Grid>
             </Grid>
           </Card>
