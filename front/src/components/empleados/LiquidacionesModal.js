@@ -46,7 +46,7 @@ const LiquidacionesModal = (props) => {
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Crear Empleado</DialogTitle>
+      <DialogTitle id="form-dialog-title" disableTypography="true" style={{ fontSize: '30px', fontFamily: 'sans-serif' }}> Liquidar Sueldos</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Ingrese el periodo a liquidar
